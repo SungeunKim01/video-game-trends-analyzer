@@ -13,17 +13,25 @@ Video game sales are compared to the most common Google search terms of the same
 
 ## Views
 
-**View 1: Bar Chart**
+### View 1: Bar Chart
 - Above the fold: bar chart of video games displayed and list of most searched terms on Google. Data here are all global and not pertain to a specific region/country.
 - Hidden: popup windows displaying details on each video game (bar on the chart).
 
-**View 2: Map**
+<img height="300" src="view1_sketch.png"/>
+<img height="300" src="view1_mobile_sketch.png"/>
+
+### View 2: Map
 - Above the fold: display map of the world. Only certain regions are clickable.
 - After clicking on a region: more windows will pop up with a 'Top Video Games' chart and a filter to find which search terms are trending in a specific country.
 
-**View 3: Game Genre Trends**
+<img height="300" src="view2_sketch.png"/>
+<img height="300" src="view2_mobile_sketch.png"/>
+
+### View 3: Game Genre Trends
 - Above the fold: line chart displaying sales of a game genre over time.
 - Hover over a specific point in the line graph to see more details.
+
+<img height="300" src="view3_sketch.png"/>
 
 ## Functionality
 - Filters? ex, region, years
