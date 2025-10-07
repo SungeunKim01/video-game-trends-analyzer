@@ -3,6 +3,7 @@
 ## Data
 
 **Choose Data issue:** [issue:1](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/issues/1)
+
 **Summary:** We will explore the relationship between public online interest and real world sales of video games by combining two open Kaggle datasets:
 
 - Video Game Sales : a dataset of games with over 100,000 copies sold, including title, genre, platform, publisher, year, and regional/global sales.
