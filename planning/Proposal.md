@@ -69,7 +69,7 @@ Video game sales are compared to the most common Google search terms of the same
 
 ## Features and Priorities
 
-**P0:**
+**Top Priority: (P0)**
 - Display top global video games sales as a bar chart in view 1
 - Display top search terms of a certain year (in all views)
 - Display top global video games sales of a certain region (NA, EU, JP, Other) in view 2
@@ -78,11 +78,11 @@ Video game sales are compared to the most common Google search terms of the same
 - Navigation bar on bottom of app to switch between views
 - Adaptive mobile layout for each view
 
-**P1:**
+**Middle Priority: (P1)**
 - World Map visualization of sales data per region in view 2
 - Dropdown menu to filter each country's top search results by category in view 2
 
-**P2:** 
+**Least Priority: (P2)** 
 - Hover popup that displays game details on bar graph screen in view 1
 - Clickable popup on world map screen in view 2, windows display permanently on the side to choose region/country
 - Hover popup on line graph screen in view 3, windows display permanently on the side that shows most sold games of that genre/platform of that point (year)
