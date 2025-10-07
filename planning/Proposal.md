@@ -70,11 +70,24 @@ Video game sales are compared to the most common Google search terms of the same
 ## Features and Priorities
 
 **P0:**
-
-- **P1:**
-- **P2:**
--
+- Display top global video games sales as a bar chart in view 1
+- Display top search terms of a certain year (in all views)
+- Display top global video games sales of a certain region (NA, EU, JP, Other) in view 2
+- Dropdown menu to select country based on selected region in view 2, which will display the top search terms of that country
+- Display global sales of a specific genre or platform over time as a line chart in view 3
+- Navigation bar on bottom of app to switch between views
+- Adaptive mobile layout for each view
+**P1:**
+- World Map visualization of sales data per region in view 2
+- Dropdown menu to filter each country's top search results by category in view 2
+**P2:** 
+- Hover popup that displays game details on bar graph screen in view 1
+- Clickable popup on world map screen in view 2, windows display permanently on the side to choose region/country
+- Hover popup on line graph screen in view 3, windows display permanently on the side that shows most sold games of that genre/platform of that point (year)
 
 ## Dependencies
+- We will use Chart.js to display visualizations of data, as it was recommended in the project overview, and it seems easy and intuitive to use. 
+- We will use a bar chart: https://www.chartjs.org/docs/latest/charts/bar.html 
+- and also a line chart: https://www.chartjs.org/docs/latest/charts/line.html 
 
--
+- We will also use amCharts to display the visualization of the world map, since it seems very comprehensive and there are good examples on the website that fit our needs, including hoverable popups for each country, as well as a toggle between a flat 2d map and a 3d globe: https://www.amcharts.com/demos/trumps-reciprocal-tariffs-map/
