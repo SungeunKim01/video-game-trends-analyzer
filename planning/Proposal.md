@@ -77,9 +77,11 @@ Video game sales are compared to the most common Google search terms of the same
 - Display global sales of a specific genre or platform over time as a line chart in view 3
 - Navigation bar on bottom of app to switch between views
 - Adaptive mobile layout for each view
+
 **P1:**
 - World Map visualization of sales data per region in view 2
 - Dropdown menu to filter each country's top search results by category in view 2
+
 **P2:** 
 - Hover popup that displays game details on bar graph screen in view 1
 - Clickable popup on world map screen in view 2, windows display permanently on the side to choose region/country
