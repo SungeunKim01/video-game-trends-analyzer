@@ -65,7 +65,12 @@ Video game sales are compared to the most common Google search terms of the same
 
 ## Functionality
 
-- Filters? ex, region, years
+- Every view has a filter users can interact with to display different results:
+   - View 1 filters game sales & Google qureies based on the year.
+   - View 2 filters sale & queries based on the region & query category.
+   - View 3 displays sales based on game genres or platform (ex: Xbox, Switch, PC, etc.)
+- Before using the filter, users must interact with the map by clicking on a specific region.
+- Navigate between Views using the mini Navigation bar.
 
 ## Features and Priorities
 
