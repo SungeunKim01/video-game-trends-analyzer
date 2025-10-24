@@ -1,0 +1,15 @@
+{
+  "name": "video_game_trends_analyzer_project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && node bin/www",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Sungeun Kim",
+  "contributors": ["Jennifer Huangs", "Yan Chi Ng"],
+  "license": "ISC",
+  "description": ""
+}
