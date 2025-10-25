@@ -8,4 +8,4 @@ markdown_tools/
 .ssh
 .bash_history
 deploy.zip
-.Ds_Store
+.DS_Store
