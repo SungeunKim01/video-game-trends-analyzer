@@ -16,12 +16,12 @@ try {
   const trendsData = JSON.parse(rawGoogTrends);
   
   // Insert in Video Game collection
-  await db.setCollection('video_game_sales');
+  await db.setCollection(process.env.PROD_VG_COLLECTION);
   const vgSalesNum = await db.createMany(vgsalesData);
   console.log(`Inserted ${vgSalesNum} video games sales entries.`);
   
   // Insert in Google Trends collection
-  await db.setCollection('google_trends_queries');
+  await db.setCollection(process.env.PROD_TRENDS_COLLECTION);
   const trendsNum = await db.createMany(trendsData);
   console.log(`Inserted ${trendsNum} Google query data.`);
  
