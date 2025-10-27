@@ -5,7 +5,6 @@ process.loadEnvFile();
 const vgFilepath = '../data/vgsales.json';
 const trendsFilepath = '../data/trends.json';
 
-
 try {
   await db.connect(process.env.PROD_DB);
   

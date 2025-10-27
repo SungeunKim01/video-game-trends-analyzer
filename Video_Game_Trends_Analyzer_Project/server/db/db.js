@@ -34,10 +34,18 @@ class DB {
     await instance.mongoClient.db(dbName).command({ ping: 1 });
     console.log('Successfully connected to MongoDB database ' + dbName);
   }
+  
   //set the collection desired
   async setCollection(collectionName) {
     instance.collection = await instance.db.collection(collectionName);
   }
+
+  // Create Many
+  async createMany(docs) {
+    const result = await this.collection.insertMany(docs);
+    return result.insertedCount;
+  }
+
   //close the connection when gracefully shutting down
   async close() {
     await instance.mongoClient.close();
