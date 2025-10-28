@@ -9,12 +9,12 @@ app.use(express.json());
 //static files-cp from Yan Chi's code in app.js
 app.use(express.static('../client/dist'));
 
+// api routes
+app.use("/sales", salesRouter);
+
 //default 404 page -cp from Yan Chi's code in app.js
 app.use((req, res) =>{
   res.status(404).send('Page not found');
 });
-
-// api routes
-app.use("/sales", salesRouter);
 
 export default app;
