@@ -2,7 +2,7 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import process from 'node:process';
 process.loadEnvFile();
-const dbUrl = process.env.ATLAS_URI;
+const dbUrl = process.env.DEV_ATLAS_URI;
 
 let instance = null;
 

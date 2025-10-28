@@ -1,6 +1,6 @@
 import {db} from '../db/db.js';
 import fs from 'node:fs/promises';
-import path from "node:path"
+import path from 'node:path';
 
 process.loadEnvFile(path.resolve('.env'));
 
