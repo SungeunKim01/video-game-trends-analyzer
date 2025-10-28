@@ -1,6 +1,6 @@
 import express from "express";
 import { db } from "../db/db.js";
-const router = express.Router();
+export const router = express.Router();
 
 /**
  * stub for countries
@@ -72,6 +72,3 @@ router.get("/region/:region/:year/:category", (req, res) => {
     error: "Not implemented yet"
   });
 });
-
-export default router;
-

@@ -62,4 +62,18 @@ describe("GET /sales/region/:region/:year", () => {
     expect(data[1].NA).to.equal(11.4);
   });
 
+
+  //if year is not a number, the route should return tttp 400 and error msg
+  it("400- invalid year returns error & not touch db hleper", async () => {
+    // spy to ensure it is not called
+    const spy = sinon.spy(db, "findTopGamesByRegionYear");
+    stubs.push(spy);
+
+    // call the route with invalid year string, not num
+    const res = await request(app).get("/sales/region/EU/yearstr");
+
+    //status and error
+    expect(res.status).to.equal(400);
+    expect("error" in res.body).to.equal(true);
+  });
 });
