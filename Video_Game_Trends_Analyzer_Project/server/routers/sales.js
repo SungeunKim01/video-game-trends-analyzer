@@ -13,6 +13,47 @@ const COUNTRIES_BY_REGION = {
   OTHER: ["Australia", "Brazil", "South Korea"]
 };
 
+// GET /region/:region/:year
+router.get("/region/:region/:year", async (req, res) => {
+  try {
+    const regionParam = req.params.region;
+    //normalize to "NA" | "EU" | "JP" | "OTHER"
+    const regionKey = String(regionParam).toUpperCase();
+    //ex) "2010" to 2010 (number)
+    const year = Number(req.params.year);
+
+    //validation - region must be present and year must be a number,
+    //so 400 - client sent invalid inpupt
+    if (!regionParam || Number.isNaN(year)) {
+      return res.status(400).json({ error: "Invalid region or year" });
+    }
+
+    // fetch top 5 games from db.js - findTopGamesByRegionYear
+    // this map  regionKey to the correct sales column,
+    //filter by Year,
+    // sum duplicate titles across platform,
+    //sort descending by total sales.
+    // an returns [{ name, sales }]
+    const top = await db.findTopGamesByRegionYear(regionKey, year, 5);
+
+    //remap { name, sales } to { name, [REGION]: sales }
+    // and format to 2 decimals
+    const data = top.map(g => ({
+      name: g.name,
+      [regionKey]: Number(g.sales.toFixed(2))
+    }));
+
+    //stub countries since vgsales.json has no country
+    //if regionKey is not found, fall back to OTHER list
+    const countries = COUNTRIES_BY_REGION[regionKey] ?? COUNTRIES_BY_REGION.OTHER;
+
+    return res.json({ region: regionKey, year, countries, data });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
 
 export default  router;
 
