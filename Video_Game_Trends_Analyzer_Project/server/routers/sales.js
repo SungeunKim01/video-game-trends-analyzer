@@ -55,5 +55,5 @@ router.get("/region/:region/:year", async (req, res) => {
   }
 });
 
-export default  router;
+export default router;
 
