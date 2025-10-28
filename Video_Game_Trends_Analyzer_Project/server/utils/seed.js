@@ -1,12 +1,14 @@
 import {db} from '../db/db.js';
 import fs from 'node:fs/promises';
+import path from "node:path"
 
-process.loadEnvFile();
-const vgFilepath = '../data/vgsales.json';
-const trendsFilepath = '../data/trends.json';
+process.loadEnvFile(path.resolve('.env'));
+
+const vgFilepath = path.resolve('data', 'vgsales.json');
+const trendsFilepath = path.resolve('data', 'trends.json');
 
 try {
-  await db.connect(process.env.PROD_DB);
+  await db.connect(process.env.DEV_DB);
   
   // Load the 2 json files
   const rawVGSales = await fs.readFile(vgFilepath, 'utf8');
@@ -15,12 +17,12 @@ try {
   const trendsData = JSON.parse(rawGoogTrends);
   
   // Insert in Video Game collection
-  await db.setCollection(process.env.PROD_VG_COLLECTION);
+  await db.setCollection(process.env.DEV_VG_COLLECTION);
   const vgSalesNum = await db.createMany(vgsalesData);
   console.log(`Inserted ${vgSalesNum} video games sales entries.`);
   
   // Insert in Google Trends collection
-  await db.setCollection(process.env.PROD_TRENDS_COLLECTION);
+  await db.setCollection(process.env.DEV_TRENDS_COLLECTION);
   const trendsNum = await db.createMany(trendsData);
   console.log(`Inserted ${trendsNum} Google query data.`);
  
