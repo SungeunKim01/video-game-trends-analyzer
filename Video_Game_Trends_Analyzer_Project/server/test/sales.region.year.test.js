@@ -73,7 +73,9 @@ describe("GET /sales/region/:region/:year", () => {
     const res = await request(app).get("/sales/region/EU/yearstr");
 
     //status and error
-    expect(res.status).to.equal(400);
+    expect(spy.callCount).to.equal(0);
     expect("error" in res.body).to.equal(true);
+    //her, db helper should not be called on validation failure
+    expect(spy.callCount).to.equal(0);
   });
 });
