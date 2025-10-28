@@ -3,6 +3,8 @@ import app from "../app.js"
 import { db } from '../db/db.js';
 import process from 'node:process';
 
+const port = process.env.PORT || 3000;
+
 // await db.connect("Video_Game_Trends_Analyzer_Production");
 await db.connect(process.env.PROD_DB);
 

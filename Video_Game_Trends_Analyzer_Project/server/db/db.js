@@ -52,7 +52,22 @@ class DB {
     this.db = null;
     this.collection = null;
   }
-  //your additional queries here
+
+  /**
+   * sungeun
+   * this translate region code to column name in vg_sales data
+   * vg_sales has field - NA_Sales, EU_Sales, JP_Sales, Other_Sales
+   */
+  regionField(region) {
+    const key = String(region).toUpperCase();
+    switch (key) {
+      case "NA": return "NA_Sales";
+      case "EU": return "EU_Sales";
+      case "JP": return "JP_Sales";
+      case "OTHER": return "Other_Sales";
+      default: throw new Error(`E: region - ${region}`);
+    }
+  }
 }
 
 export const db = new DB();
