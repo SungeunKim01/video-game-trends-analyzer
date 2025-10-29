@@ -53,6 +53,62 @@ class DB {
     this.collection = null;
   }
   //your additional queries here
+
+  /**
+   * sungeun
+   * this translate region code to column name in vg_sales data
+   * vg_sales has field - NA_Sales, EU_Sales, JP_Sales, Other_Sales
+   */
+  regionField(region) {
+    const key = String(region).toUpperCase();
+    switch (key) {
+      case "NA": return "NA_Sales";
+      case "EU": return "EU_Sales";
+      case "JP": return "JP_Sales";
+      case "OTHER": return "Other_Sales";
+      default: throw new Error(`E: region - ${region}`);
+    }
+  }
+
+  /**
+   * sungeun
+   * Return the top selling game titles by region and year, collapsing duplicates across platforms
+   * Otherwie, will get duplicates of the same game title
+   * so thi summing by Name collapses all platform rows into a single total per game
+   *region: NA, EU, JP, Other
+   * limit: top 5
+   * Return: [{ name, sales }]
+   */
+  async findTopGamesByRegionYear(region, year, limit = 5) {
+
+    const regionField = this.regionField(region);
+    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
+
+    //get documents for given year where region sales more than 0
+    const cursor = await collection.find({
+      Year: Number(year),
+      [regionField]: { $gt: 0}
+    }).project({ Name: 1, [regionField]: 1, _id: 0 });
+
+    const docs = await cursor.toArray();
+    // sum sales per game name to collapse cross platform duplicates
+    // here, key: Name, value: summed sales
+    const totals = new Map();
+    for (const doc of docs) {
+      const name = doc.Name;
+      //against undefined or null
+      const sales = doc[regionField] || 0;
+      totals.set(name, (totals.get(name) || 0) + sales);
+    }
+
+    //convert to array and sort descending by sales
+    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales }))
+      .sort((a, b) => b.sales - a.sales)
+      .slice(0, limit);
+
+    //[{ name, sales }]
+    return sorted;
+  }
 }
 
 export const db = new DB();
