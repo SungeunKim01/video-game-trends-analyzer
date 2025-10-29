@@ -123,7 +123,7 @@ router.get('/genre/:genre', async (req, res) => {
     const result = genreGames.map(data => {
       const totalGamesYearly = totalGamesRes.get(data.year) || 0;
       const percent = totalGamesYearly > 0 
-        ? (data.num_games / totalGamesYearly) * 100 
+        ? data.num_games / totalGamesYearly * 100 
         : 0;
       return {
         year: data.year,

@@ -104,9 +104,9 @@ class DB {
     }
 
     //convert to array and sort descending by sales
-    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales }))
-      .sort((a, b) => b.sales - a.sales)
-      .slice(0, limit);
+    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales })).
+      sort((a, b) => b.sales - a.sales).
+      slice(0, limit);
 
     //[{ name, sales }]
     return sorted;
@@ -133,9 +133,9 @@ class DB {
     }
 
     //convert to array and sort descending by sales
-    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales }))
-      .sort((a, b) => b.sales - a.sales)
-      .slice(0, limit);
+    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales })).
+      sort((a, b) => b.sales - a.sales).
+      slice(0, limit);
 
     //[{ name, sales }]
     return sorted;

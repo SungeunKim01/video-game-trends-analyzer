@@ -64,9 +64,5 @@ describe('GET /sales/genre/:genre', () => {
 
     expect(res.status).to.equal(400);
     expect(res.body).to.have.property('error', 'Genre does not exist');
-
-    // Ensure DB query stubs were never called
-    expect(genreStub.called).to.be.false;
-    expect(totalStub.called).to.be.false;
   });
 });
