@@ -100,6 +100,7 @@ router.get('/region/:region/:year/:category', (req, res) => {
 });
 
 
+// ================= VIEW 3 =================
 // GET /sales/genre/:genre
 router.get('/genre/:genre', async (req, res) => {
   try {
@@ -118,15 +119,16 @@ router.get('/genre/:genre', async (req, res) => {
       data.year, data.total_games
     ]));
 
+    // Iterate through both arrays and calculate percentage 
     const result = genreGames.map(data => {
-      const total_games = totalGamesRes.get(data.year) || 0;
-      const percent = total_games > 0 
-        ? (data.num_games / total_games) * 100 
+      const totalGamesYearly = totalGamesRes.get(data.year) || 0;
+      const percent = totalGamesYearly > 0 
+        ? (data.num_games / totalGamesYearly) * 100 
         : 0;
       return {
         year: data.year,
         num_games: data.num_games,
-        total_games,
+        total_games: totalGamesYearly,
         percent: Number(percent.toFixed(2))
       };
     });
