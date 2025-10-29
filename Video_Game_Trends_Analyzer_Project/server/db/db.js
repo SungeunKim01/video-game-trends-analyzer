@@ -140,6 +140,43 @@ class DB {
     //[{ name, sales }]
     return sorted;
   }
+
+  /**
+   * Gets all distinct video game genres.
+   * @author Jennifer
+   * @returns Array of all video game genres.
+   */
+  async getDistinctGenres() {
+    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
+    const genres = await collection.distinct('Genre');
+    return genres;
+  }
+
+  // Reference: https://www.mongodb.com/docs/manual/aggregation/
+  /**
+   * Gets all games of that genre. Grouped by year.
+   * @author Jennifer
+   * @param {string} genre 
+   * @returns Array of number of games grouped by years. 
+   */
+  async getYearlyGameCountByGenre(genre) {
+    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
+    const cursor = await collection.aggregate([
+      { $match: { Genre: genre } },
+      { $group: { _id: '$Year', num_games: { $sum: 1 } }},
+      { $sort: { _id: 1 }}
+    ]);
+    const result = [];
+    const docs = await cursor.toArray();
+    for (const doc of docs) {
+      result.push({ year: doc._id, num_games: doc.num_games });
+    }
+    return result;
+  }
+
+  
+
+
 }
 
 export const db = new DB();
