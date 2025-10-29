@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 export default function GlobalSales(){
   const [data, setData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [year, setYear] = useState(2006);
 
   //load top 10 global sales for video games published in 2006 on initial load
