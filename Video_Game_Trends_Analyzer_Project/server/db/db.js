@@ -1,7 +1,15 @@
 /* eslint-disable camelcase */
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import fs from 'node:fs';
+import path from 'node:path';
 import process from 'node:process';
-process.loadEnvFile();
+
+const envPath = path.resolve('.env');
+if (fs.existsSync(envPath)) {
+  // only load .env if it exists
+  process.loadEnvFile(envPath); 
+}
+
 const dbUrl = process.env.DEV_ATLAS_URI;
 
 let instance = null;
