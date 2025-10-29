@@ -64,6 +64,11 @@ router.get('/global/:year', async (req, res) => {
     if (Number.isNaN(year)) {
       return res.status(400).json({ error: 'Year must be a number' });
     }
+    // fetch top 10 games from db.js - findTopGamesByYear
+    //filter by Year,
+    // sum duplicate titles across platform,
+    //sort descending by total sales.
+    // an returns [{ name, global_sales }]
     const results = await db.findTopGamesByYear(year, 10);
 
     //map data for formatting

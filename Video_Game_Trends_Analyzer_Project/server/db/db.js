@@ -112,6 +112,14 @@ class DB {
     return sorted;
   }
 
+  /**
+   * Yan Chi
+   * Return the top selling game titles by a certain year, collapsing duplicates
+   * Summing by Name = single row per game
+   * limit: top 10
+   * Return: [{ name, global_sales }]
+   */
+
   async findTopGamesByYear(year, limit = 10){
     const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
 
@@ -137,7 +145,7 @@ class DB {
       sort((a, b) => b.sales - a.sales).
       slice(0, limit);
 
-    //[{ name, sales }]
+    //[{ name, global_sales }]
     return sorted;
   }
 
