@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import './App.css'
-import GlobalSales from './components/GlobalSales'
+//import { useState } from 'react'
+import './App.css';
+import GlobalSales from './components/GlobalSales';
 
 function App() {
 
@@ -12,4 +12,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
