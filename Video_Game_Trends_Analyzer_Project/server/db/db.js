@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import process from 'node:process';
 process.loadEnvFile();
@@ -62,11 +63,11 @@ class DB {
   regionField(region) {
     const key = String(region).toUpperCase();
     switch (key) {
-      case "NA": return "NA_Sales";
-      case "EU": return "EU_Sales";
-      case "JP": return "JP_Sales";
-      case "OTHER": return "Other_Sales";
-      default: throw new Error(`E: region - ${region}`);
+    case 'NA': return 'NA_Sales';
+    case 'EU': return 'EU_Sales';
+    case 'JP': return 'JP_Sales';
+    case 'OTHER': return 'Other_Sales';
+    default: throw new Error(`E: region - ${region}`);
     }
   }
 
@@ -98,6 +99,35 @@ class DB {
       const name = doc.Name;
       //against undefined or null
       const sales = doc[regionField] || 0;
+      totals.set(name, (totals.get(name) || 0) + sales);
+    }
+
+    //convert to array and sort descending by sales
+    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales }))
+      .sort((a, b) => b.sales - a.sales)
+      .slice(0, limit);
+
+    //[{ name, sales }]
+    return sorted;
+  }
+
+  async findTopGamesByYear(year, limit = 10){
+    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
+
+    //get documents for given year where global sales more than 0
+    const cursor = await collection.find({
+      Year: Number(year),
+      Global_Sales: { $gt: 0}
+    }).project({ Name: 1, Global_Sales: 1, _id: 0 });
+
+    const docs = await cursor.toArray();
+    // sum sales per game name to collapse cross platform duplicates
+    // here, key: Name, value: summed sales
+    const totals = new Map();
+    for (const doc of docs) {
+      const name = doc.Name;
+      //against undefined or null
+      const sales = doc.Global_Sales || 0;
       totals.set(name, (totals.get(name) || 0) + sales);
     }
 
