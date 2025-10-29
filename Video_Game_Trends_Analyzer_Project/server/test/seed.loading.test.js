@@ -26,18 +26,18 @@ describe('seed.js loading module (fs/promises mocked)', () => {
   it('reads 2 json files and inserts parsed arrays, remember-no disk, no dn', async () => {
     //fake file contents
     const fakeVGSales = '[{"Name":"Call of Duty: Black Ops","Year":2010,"NA_Sales":5.98}]';
-    const fakeTrends = '[{"location":"Global","year":2001,"query_en":"Counterstrike"}]';
+    // const fakeTrends = '[{"location":"Global","year":2001,"query_en":"Counterstrike"}]';
 
     ///stub fs.readFile to return fake json
-    const readFileStub = sinon.stub(fs, "readFile").resolves(fakeVGSales);
+    const readFileStub = sinon.stub(fs, 'readFile').resolves(fakeVGSales);
     stubs.push(readFileStub);
 
     // stub db methods so mongodb nt used
-    stubs.push(sinon.stub(dbModule.db, "connect").resolves());
-    stubs.push(sinon.stub(dbModule.db, "setCollection").resolves());
-    const createManyStub = sinon.stub(dbModule.db, "createMany").resolves(1);
+    stubs.push(sinon.stub(dbModule.db, 'connect').resolves());
+    stubs.push(sinon.stub(dbModule.db, 'setCollection').resolves());
+    const createManyStub = sinon.stub(dbModule.db, 'createMany').resolves(1);
     stubs.push(createManyStub);
-    stubs.push(sinon.stub(dbModule.db, "close").resolves());
+    stubs.push(sinon.stub(dbModule.db, 'close').resolves());
 
     await runSeed();
 
@@ -53,20 +53,20 @@ describe('seed.js loading module (fs/promises mocked)', () => {
    *T2 – bad json so failure
    * error & skip db inserts
    */
-  it("handle bad json & skips insert", async () => {
+  it('handle bad json & skips insert', async () => {
     //stub fs.readFile to return bad json
-    const badReadFile = sinon.stub(fs, "readFile").resolves("{{not good json");
+    const badReadFile = sinon.stub(fs, 'readFile').resolves('{{not good json');
     stubs.push(badReadFile);
 
     // stub db methods so mongodb nt used
-    stubs.push(sinon.stub(dbModule.db, "connect").resolves());
-    const createManyStub = sinon.stub(dbModule.db, "createMany").resolves(0);
+    stubs.push(sinon.stub(dbModule.db, 'connect').resolves());
+    const createManyStub = sinon.stub(dbModule.db, 'createMany').resolves(0);
     stubs.push(createManyStub);
-    stubs.push(sinon.stub(dbModule.db, "setCollection").resolves());
-    stubs.push(sinon.stub(dbModule.db, "close").resolves());
+    stubs.push(sinon.stub(dbModule.db, 'setCollection').resolves());
+    stubs.push(sinon.stub(dbModule.db, 'close').resolves());
 
     //stub console.error to confirm error
-    const consoleErrStub = sinon.stub(console, "error");
+    const consoleErrStub = sinon.stub(console, 'error');
     stubs.push(consoleErrStub);
 
     await runSeed();
