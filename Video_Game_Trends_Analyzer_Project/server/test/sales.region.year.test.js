@@ -28,7 +28,7 @@ describe('GET /sales/region/:region/:year', () => {
    * include the stubbed countries list for NA,
    *map the dn results [{ name, sales }] to [{ name, NA: rounded to 2 decimals }, ..]
   */
-  it('200: returns {region, year, countries, data[]}, maps sales to the region key', async () => {
+  it('200 - returns {region, year, countries, data[]} and maps sales to region key', async () => {
     //stub db helper
     stubs.push(
       sinon.stub(db, 'findTopGamesByRegionYear').resolves([
