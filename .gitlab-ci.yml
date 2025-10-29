@@ -17,7 +17,7 @@ stages:
 
 #ADD DUMMY .ENV FILE SO THAT PIPELINE DOESNT COMPLAIN
 before_script:
-  - cd server
+  - cd Video_Game_Trends_Analyzer_Project/server
   - echo "DEV_ATLAS_URI=mongodb://localhost:27017" > .env
   - echo "DEV_DB=testDB" >> .env
   - echo "DEV_VG_COLLECTION=video_game_sales" >> .env
