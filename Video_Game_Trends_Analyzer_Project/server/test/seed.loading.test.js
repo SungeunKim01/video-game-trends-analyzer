@@ -48,4 +48,32 @@ describe('seed.js loading module (fs/promises mocked)', () => {
     // verify 2ollections
     expect(createManyStub.callCount).to.equal(2);
   });
+
+  /**
+   *T2 – bad json so failure
+   * error & skip db inserts
+   */
+  it("handle bad json & skips insert", async () => {
+    //stub fs.readFile to return bad json
+    const badReadFile = sinon.stub(fs, "readFile").resolves("{{not good json");
+    stubs.push(badReadFile);
+
+    // stub db methods so mongodb nt used
+    stubs.push(sinon.stub(dbModule.db, "connect").resolves());
+    const createManyStub = sinon.stub(dbModule.db, "createMany").resolves(0);
+    stubs.push(createManyStub);
+    stubs.push(sinon.stub(dbModule.db, "setCollection").resolves());
+    stubs.push(sinon.stub(dbModule.db, "close").resolves());
+
+    //stub console.error to confirm error
+    const consoleErrStub = sinon.stub(console, "error");
+    stubs.push(consoleErrStub);
+
+    await runSeed();
+
+    // logged error
+    expect(consoleErrStub.called).to.equal(true);
+    //skipped inserts
+    expect(createManyStub.callCount).to.equal(0);
+  });
 });

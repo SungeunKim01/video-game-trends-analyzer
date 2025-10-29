@@ -29,19 +29,17 @@ export async function runSeed() {
     console.log(`Inserted ${trendsNum} Google query data.`);
   
   } catch (e) {
-    console.error('could not seed');
-    console.dir(e);
+    if (process.env.NODE_ENV === 'test') {
+      console.error('could not seed -test');
+    } else {
+      console.error('could not seed');
+      console.dir(e);
+    }
   
   } finally {
     //clean up at the end
     if (db) {
       db.close();
     }
-    process.exit();
   }
-}
-
-//skip process.exit() when NODE_ENV === 'test' so Mocha is not terminated, otherwise, execute and exit
-if (process.env.NODE_ENV !== 'test') {
-  runSeed().finally(() => process.exit());
 }
