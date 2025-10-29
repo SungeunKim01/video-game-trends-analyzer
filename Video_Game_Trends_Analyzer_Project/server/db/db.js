@@ -77,7 +77,7 @@ class DB {
    * Return the top selling game titles by region and year, collapsing duplicates across platforms
    * Otherwie, will get duplicates of the same game title
    * so thi summing by Name collapses all platform rows into a single total per game
-   *region: NA, EU, JP, Other
+   * region: NA, EU, JP, Other
    * limit: top 5
    * Return: [{ name, sales }]
    */
@@ -161,12 +161,12 @@ class DB {
   async getTotalGamesPerYear() {
     const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
     const cursor = collection.aggregate([
-      { $group: { _id: '$Year', num_games: { $sum: 1 } } },
+      { $group: { _id: '$Year', total_games: { $sum: 1 } } },
       { $sort: { _id: 1 } }
     ]);
     const result = [];
     for (const doc of cursor) {
-      result.push({ year: doc._id, num_games: doc.num_games });
+      result.push({ year: doc._id, total_games: doc.total_games });
     }
     return result;
   }

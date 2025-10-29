@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import express from 'express';
 import { db } from '../db/db.js';
 export const router = express.Router();
@@ -13,7 +14,7 @@ const COUNTRIES_BY_REGION = {
   OTHER: ['Australia', 'Brazil', 'South Korea']
 };
 
-// GET /region/:region/:year
+// GET /sales/region/:region/:year
 router.get('/region/:region/:year', async (req, res) => {
   try {
     const regionParam = req.params.region;
@@ -96,4 +97,44 @@ router.get('/region/:region/:year/:category', (req, res) => {
   return res.status(501).json({
     error: 'Not implemented yet'
   });
+});
+
+
+// GET /sales/genre/:genre
+router.get('/genre/:genre', async (req, res) => {
+  try {
+    const genre = req.params.genre;
+
+    // Get all distinct video game genres
+    const allGenres = await db.getDistinctGenres();
+
+    if (!allGenres.includes(genre)) {
+      return res.status(400).json({error: 'Genre does not exist'});
+    }
+
+    const genreGames = await db.getYearlyGameCountByGenre(genre);
+    const totalGames = await db.getTotalGamesPerYear();
+    const totalGamesRes = new Map(totalGames.map(data => [
+      data.year, data.total_games
+    ]));
+
+    const result = genreGames.map(data => {
+      const total_games = totalGamesRes.get(data.year) || 0;
+      const percent = total_games > 0 
+        ? (data.num_games / total_games) * 100 
+        : 0;
+      return {
+        year: data.year,
+        num_games: data.num_games,
+        total_games,
+        percent: Number(percent.toFixed(2))
+      };
+    });
+
+    return res.json(result);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
