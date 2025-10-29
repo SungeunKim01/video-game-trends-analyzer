@@ -38,7 +38,7 @@ describe('GET /sales/region/:region/:year', () => {
     );
 
     // call route with valid params
-    const res = await request(app).get('/sales/region/NA/2010');
+    const res = await request(app).get('/api/sales/region/NA/2010');
 
     //status
     expect(res.status).to.equal(200);
@@ -70,7 +70,7 @@ describe('GET /sales/region/:region/:year', () => {
     stubs.push(spy);
 
     // call the route with invalid year string, not num
-    const res = await request(app).get('/sales/region/EU/yearstr');
+    const res = await request(app).get('/api/sales/region/EU/yearstr');
 
     //status and error
     expect(spy.callCount).to.equal(0);

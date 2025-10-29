@@ -35,7 +35,7 @@ describe('GET /sales/genre/:genre', () => {
     distinctGenreStub.resolves(['Sports', 'Action']);
 
     // Call endpoint
-    const result = await request(app).get(`/sales/genre/Sports`);
+    const result = await request(app).get(`/api/sales/genre/Sports`);
 
     expect(result.status).to.equal(200);
     expect(result.body).to.have.length(2);
@@ -60,7 +60,7 @@ describe('GET /sales/genre/:genre', () => {
     distinctGenreStub.resolves(['Sports', 'Action']);
 
     // Call endpoint with invalid genre
-    const res = await request(app).get('/sales/genre/RPG');
+    const res = await request(app).get('/api/sales/genre/RPG');
 
     expect(res.status).to.equal(400);
     expect(res.body).to.have.property('error', 'Genre does not exist');

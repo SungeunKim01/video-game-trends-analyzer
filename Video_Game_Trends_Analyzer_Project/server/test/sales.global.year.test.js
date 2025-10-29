@@ -13,7 +13,7 @@ import { db } from '../db/db.js';
  * assert on http status and response body values
  * I refer Express and Unit Testing lecture slides and mocha cahi exercise to write these unit tests
 */
-describe('GET /sales/region/:region/:year', () => {
+describe('GET /api/sales/global/:year', () => {
   let stubs = [];
 
   //clean all stubs after each test
@@ -37,7 +37,7 @@ describe('GET /sales/region/:region/:year', () => {
     );
 
     // call route with valid params
-    const res = await request(app).get('/sales/global/2010');
+    const res = await request(app).get('/api/sales/global/2010');
 
     //status
     expect(res.status).to.equal(200);
@@ -59,7 +59,7 @@ describe('GET /sales/region/:region/:year', () => {
     stubs.push(spy);
 
     // call the route with invalid year string, not num
-    const res = await request(app).get('/sales/global/yearstr');
+    const res = await request(app).get('/api/sales/global/yearstr');
 
     //status and error
     expect(spy.callCount).to.equal(0);
