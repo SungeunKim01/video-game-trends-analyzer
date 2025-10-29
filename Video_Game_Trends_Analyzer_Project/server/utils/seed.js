@@ -7,33 +7,41 @@ process.loadEnvFile(path.resolve('.env'));
 const vgFilepath = path.resolve('data', 'vgsales.json');
 const trendsFilepath = path.resolve('data', 'trends.json');
 
-try {
-  await db.connect(process.env.DEV_DB);
+// Wrap current seeding code in exported function runSeed() so tests can call it after stubbing fs and db
+export async function runSeed() {
+  try {
+    await db.connect(process.env.DEV_DB);
+    
+    // Load the 2 json files
+    const rawVGSales = await fs.readFile(vgFilepath, 'utf8');
+    const vgsalesData = JSON.parse(rawVGSales);
+    const rawGoogTrends = await fs.readFile(trendsFilepath, 'utf8');
+    const trendsData = JSON.parse(rawGoogTrends);
+    
+    // Insert in Video Game collection
+    await db.setCollection(process.env.DEV_VG_COLLECTION);
+    const vgSalesNum = await db.createMany(vgsalesData);
+    console.log(`Inserted ${vgSalesNum} video games sales entries.`);
+    
+    // Insert in Google Trends collection
+    await db.setCollection(process.env.DEV_TRENDS_COLLECTION);
+    const trendsNum = await db.createMany(trendsData);
+    console.log(`Inserted ${trendsNum} Google query data.`);
   
-  // Load the 2 json files
-  const rawVGSales = await fs.readFile(vgFilepath, 'utf8');
-  const vgsalesData = JSON.parse(rawVGSales);
-  const rawGoogTrends = await fs.readFile(trendsFilepath, 'utf8');
-  const trendsData = JSON.parse(rawGoogTrends);
+  } catch (e) {
+    console.error('could not seed');
+    console.dir(e);
   
-  // Insert in Video Game collection
-  await db.setCollection(process.env.DEV_VG_COLLECTION);
-  const vgSalesNum = await db.createMany(vgsalesData);
-  console.log(`Inserted ${vgSalesNum} video games sales entries.`);
-  
-  // Insert in Google Trends collection
-  await db.setCollection(process.env.DEV_TRENDS_COLLECTION);
-  const trendsNum = await db.createMany(trendsData);
-  console.log(`Inserted ${trendsNum} Google query data.`);
- 
-} catch (e) {
-  console.error('could not seed');
-  console.dir(e);
- 
-} finally {
-  //clean up at the end
-  if (db) {
-    db.close();
+  } finally {
+    //clean up at the end
+    if (db) {
+      db.close();
+    }
+    process.exit();
   }
-  process.exit();
+}
+
+//skip process.exit() when NODE_ENV === 'test' so Mocha is not terminated, otherwise, execute and exit
+if (process.env.NODE_ENV !== 'test') {
+  runSeed().finally(() => process.exit());
 }
