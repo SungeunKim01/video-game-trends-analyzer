@@ -1,0 +1,84 @@
+#some code taken from: https://gitlab.com/dawson-cst-cohort-2026/520/exercises/08-unit-testing/-/blob/main/.gitlab-ci.yml?ref_type=heads
+
+image: node:22.8-bullseye-slim
+
+# if any of the conditions below is satisfied, the pipeline runs  
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "staging"
+
+stages:
+  - install
+  - lint
+  - build
+  - test
+
+#split install job into server & client since each has their own package.json
+install-server:
+  stage: install
+  script:
+    - cd Video_Game_Trends_Analyzer_Project/server
+    - npm ci --cache .npm --prefer-offline
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - Video_Game_Trends_Analyzer_Project/server/.npm/
+  artifacts:
+    paths:
+      - Video_Game_Trends_Analyzer_Project/server/node_modules/
+
+install-client:
+  stage: install
+  script:
+    - cd Video_Game_Trends_Analyzer_Project/client
+    - npm ci --cache .npm --prefer-offline
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - Video_Game_Trends_Analyzer_Project/client/.npm/
+  artifacts:
+    paths:
+      - Video_Game_Trends_Analyzer_Project/client/node_modules/
+
+#--server jobs--#
+
+# run lint on server js files
+lint-server:
+  stage: lint 
+  dependencies:
+    - install-server
+  script:
+    - cd Video_Game_Trends_Analyzer_Project/server
+    - npm run lint
+
+test-server:
+  stage: test
+  dependencies:
+    - install-server
+  script:
+    - cd Video_Game_Trends_Analyzer_Project/server
+    - npm run test
+
+#--client jobs--#
+
+# run lint on client js files
+lint-client:
+  stage: lint
+  dependencies:
+    - install-client
+  script:
+    - cd Video_Game_Trends_Analyzer_Project/client
+    - npm run lint
+
+build-client:
+  stage: build
+  dependencies:
+    - install-client
+  script:
+    - cd Video_Game_Trends_Analyzer_Project/client
+    - npm run build
+  artifacts:
+    paths:
+      - Video_Game_Trends_Analyzer_Project/client/dist

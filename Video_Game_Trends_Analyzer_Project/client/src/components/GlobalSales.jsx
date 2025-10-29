@@ -21,8 +21,6 @@ export default function GlobalSales(){
         });
     }, [])
 
-    console.log('GlobalSales data:', data);
-
     return(
         <div>
             <h2>Displaying Top 10 global sales for video games published in {year}:</h2>
