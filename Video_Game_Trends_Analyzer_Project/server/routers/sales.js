@@ -1,5 +1,5 @@
-import express from "express";
-import { db } from "../db/db.js";
+import express from 'express';
+import { db } from '../db/db.js';
 export const router = express.Router();
 
 /**
@@ -7,14 +7,14 @@ export const router = express.Router();
  * vgsales has no country field, so I will replace this with trends based query in later phase2...?
  */
 const COUNTRIES_BY_REGION = {
-  NA: ["United States", "Canada", "Mexico"],
-  EU: ["United Kingdom", "Germany", "France", "Spain", "Italy"],
-  JP: ["Japan"],
-  OTHER: ["Australia", "Brazil", "South Korea"]
+  NA: ['United States', 'Canada', 'Mexico'],
+  EU: ['United Kingdom', 'Germany', 'France', 'Spain', 'Italy'],
+  JP: ['Japan'],
+  OTHER: ['Australia', 'Brazil', 'South Korea']
 };
 
 // GET /region/:region/:year
-router.get("/region/:region/:year", async (req, res) => {
+router.get('/region/:region/:year', async (req, res) => {
   try {
     const regionParam = req.params.region;
     //normalize to "NA" | "EU" | "JP" | "OTHER"
@@ -25,7 +25,7 @@ router.get("/region/:region/:year", async (req, res) => {
     //validation - region must be present and year must be a number,
     //so 400 - client sent invalid inpupt
     if (!regionParam || Number.isNaN(year)) {
-      return res.status(400).json({ error: "Invalid region or year" });
+      return res.status(400).json({ error: 'Invalid region or year' });
     }
 
     // fetch top 5 games from db.js - findTopGamesByRegionYear
@@ -51,24 +51,24 @@ router.get("/region/:region/:year", async (req, res) => {
 
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ error: 'Server error' });
   }
 });
 
 // GET /sales/region/:region/:year/:country
 //return country specific categories and searches from trends
-router.get("/region/:region/:year/:country", (req, res) => {
+router.get('/region/:region/:year/:country', (req, res) => {
   return res.status(501).json({
-    error: "Not implemented yet",
-    route: "/sales/region/:region/:year/:country"
+    error: 'Not implemented yet',
+    route: '/sales/region/:region/:year/:country'
   });
 });
 
 
 // GET /sales/region/:region/:year/:category
 // return top search results for a category
-router.get("/region/:region/:year/:category", (req, res) => {
+router.get('/region/:region/:year/:category', (req, res) => {
   return res.status(501).json({
-    error: "Not implemented yet"
+    error: 'Not implemented yet'
   });
 });
