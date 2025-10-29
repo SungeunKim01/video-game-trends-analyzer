@@ -9,6 +9,9 @@ app.use(express.json());
 //static files
 app.use(express.static('../client/dist'));
 
+// api routes
+app.use("/sales", salesRouter);
+
 //default 404 page
 app.use((req, res) =>{
   res.status(404).send('Page not found');
