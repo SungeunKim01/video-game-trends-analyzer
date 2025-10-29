@@ -72,7 +72,7 @@ router.get('/global/:year', async (req, res) => {
       global_sales: game.sales
     }));
 
-    return res.json(data);
+    return res.json({ year, data });
 
   } catch(error){
     console.error(error);
