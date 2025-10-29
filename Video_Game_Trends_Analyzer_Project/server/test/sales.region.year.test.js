@@ -4,7 +4,7 @@ const expect = chai.expect;
 import sinon from "sinon";
 import  app  from '../app.js';
 import { db } from "../db/db.js";
-
+//
 /**
  * 2 unittest GET /sales/region/:region/:year
  *supertest to hit the Express app w/o starting real server
