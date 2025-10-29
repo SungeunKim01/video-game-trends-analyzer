@@ -1,4 +1,5 @@
 import express from 'express';
+import { router as salesRouter } from './routers/sales.js';
 const app = express();
 
 //Routes are here either directly or using a router
