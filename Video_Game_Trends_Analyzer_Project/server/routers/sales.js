@@ -55,6 +55,31 @@ router.get('/region/:region/:year', async (req, res) => {
   }
 });
 
+// GET /sales/global/:year
+router.get('/global/:year', async (req, res) => {
+  try{
+    const year = Number(req.params.year);
+    //validation
+    if (Number.isNaN(year)) {
+      return res.status(400).json({ error: 'Year must be a number' });
+    }
+    const results = await db.findTopGamesByYear(year, 10);
+
+    //map data for formatting
+    const data = results.map(game => ({
+      name: game.name,
+      // eslint-disable-next-line camelcase
+      global_sales: game.sales
+    }));
+
+    return res.json(data);
+
+  } catch(error){
+    console.error(error);
+    return res.status(500).json({error: 'Server error'});
+  }
+});
+
 // GET /sales/region/:region/:year/:country
 //return country specific categories and searches from trends
 router.get('/region/:region/:year/:country', (req, res) => {
