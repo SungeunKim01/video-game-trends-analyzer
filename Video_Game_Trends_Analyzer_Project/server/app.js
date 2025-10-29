@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.static('../client/dist'));
 
 // api routes
-app.use('/sales', salesRouter);
+app.use('/api/sales', salesRouter);
 
 //default 404 page
 app.use((req, res) =>{

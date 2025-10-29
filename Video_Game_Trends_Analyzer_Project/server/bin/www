@@ -6,7 +6,7 @@ import process from 'node:process';
 const port = process.env.PORT || 3000;
 
 // await db.connect("Video_Game_Trends_Analyzer_Production");
-await db.connect(process.env.PROD_DB);
+await db.connect(process.env.DEV_DB);
 
 const server = app.listen(port, () => {
     console.log("Server listening on port 3000!");
