@@ -15,6 +15,14 @@ stages:
   - build
   - test
 
+#ADD DUMMY .ENV FILE SO THAT PIPELINE DOESNT COMPLAIN
+before_script:
+  - cd server
+  - echo "DEV_ATLAS_URI=mongodb://localhost:27017" > .env
+  - echo "DEV_DB=testDB" >> .env
+  - echo "DEV_VG_COLLECTION=video_game_sales" >> .env
+  - echo "DEV_TRENDS_COLLECTION=google_trends_queries" >> .env
+
 #split install job into server & client since each has their own package.json
 install-server:
   stage: install
