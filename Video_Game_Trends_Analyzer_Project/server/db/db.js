@@ -154,6 +154,24 @@ class DB {
 
   // Reference: https://www.mongodb.com/docs/manual/aggregation/
   /**
+   * Gets the total number of games released per year.
+   * @author Jennifer
+   * @returns Array with the year and total games released that year.
+   */
+  async getTotalGamesPerYear() {
+    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
+    const cursor = collection.aggregate([
+      { $group: { _id: '$Year', num_games: { $sum: 1 } } },
+      { $sort: { _id: 1 } }
+    ]);
+    const result = [];
+    for (const doc of cursor) {
+      result.push({ year: doc._id, num_games: doc.num_games });
+    }
+    return result;
+  }
+
+  /**
    * Gets all games of that genre. Grouped by year.
    * @author Jennifer
    * @param {string} genre 
@@ -173,10 +191,6 @@ class DB {
     }
     return result;
   }
-
-  
-
-
 }
 
 export const db = new DB();
