@@ -106,7 +106,7 @@ router.get('/region/:region/:year/:category', (req, res) => {
 
 
 // ================= VIEW 3 =================
-// GET /sales/genre/:genre
+// GET /sales/genre/:genre AND /sales/platform/:platform
 router.get('/genre/:genre', async (req, res) => {
   try {
     const genre = req.params.genre;

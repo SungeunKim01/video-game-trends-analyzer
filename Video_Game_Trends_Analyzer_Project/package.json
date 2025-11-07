@@ -9,7 +9,10 @@
   },
   "keywords": [],
   "author": "Sungeun Kim",
-  "contributors": ["Jennifer Huangs", "Yan Chi Ng"],
+  "contributors": [
+    "Jennifer Huang",
+    "Yan Chi Ng"
+  ],
   "license": "ISC",
   "description": ""
 }
