@@ -42,9 +42,10 @@ export async function countriesFromTrends(regionKey, year) {
     // ...baseQuery takes every key/value from baseQuery and copies them into new obj 
     //$ne is not equal
     const match = { ...baseQuery, location: { $ne: 'Global' } };
-    if (sameYear != null) {
-        match.year = Number(sameYear);
+    if (sameYear !== null && sameYear !== undefined) {
+      match.year = Number(sameYear);
     }
+
     const pipeline = [
       { $match: match },
       { $group: { _id: '$location' } },
@@ -62,7 +63,7 @@ export async function countriesFromTrends(regionKey, year) {
     let list = await uniqueLocations({ region: mapped }, year);
     // if empty, fall back to all years for that region
     if (list.length === 0) {
-        list = await uniqueLocations({ region: mapped }, null);
+      list = await uniqueLocations({ region: mapped }, null);
     }
     return list;
   }
