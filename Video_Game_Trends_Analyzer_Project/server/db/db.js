@@ -64,60 +64,44 @@ class DB {
 
   //your additional queries here
 
+  // I refer this mongodb comparison operators website:
+  //https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
+  // also refer this mongodb Aggregation operations website:
+  //https://www.mongodb.com/docs/manual/aggregation/
   /**
-   * sungeun
-   * this translate region code to column name in vg_sales data
-   * vg_sales has field - NA_Sales, EU_Sales, JP_Sales, Other_Sales
+   * Sungeun
+   * Find top games for a given region and year using the vg_sales collection
+   * regionCode will be one of NA, EU,JP, OTHER
+   * year will be 4digit number like 2010
+   * limit is how many top rows to return, here I need to find top5
    */
-  regionField(region) {
-    const key = String(region).toUpperCase();
-    switch (key) {
-    case 'NA': return 'NA_Sales';
-    case 'EU': return 'EU_Sales';
-    case 'JP': return 'JP_Sales';
-    case 'OTHER': return 'Other_Sales';
-    default: throw new Error(`E: region - ${region}`);
+  async findTopGamesAllRegionsByYear(regionCode, year, limit = 5) {
+    // map the incoming short region code to the actual sales field name in vg_sales.json
+    const SALES_FIELD_BY_REGION = {
+      NA: 'NA_Sales',
+      EU: 'EU_Sales',
+      JP: 'JP_Sales',
+      OTHER: 'Other_Sales'
+    };
+    const regionField = SALES_FIELD_BY_REGION[String(regionCode).toUpperCase()];
+    if (!regionField) {
+      throw new Error(`Invalid region: ${regionCode}`);
     }
-  }
+    const col = this.db.collection(process.env.DEV_VG_COLLECTION);
 
-  /**
-   * sungeun
-   * Return the top selling game titles by region and year, collapsing duplicates across platforms
-   * Otherwie, will get duplicates of the same game title
-   * so thi summing by Name collapses all platform rows into a single total per game
-   * region: NA, EU, JP, Other
-   * limit: top 5
-   * Return: [{ name, sales }]
-   */
-  async findTopGamesByRegionYear(region, year, limit = 5) {
+    const docs = await col.aggregate([
+      //keep only the requested year & rows where region sales bigger than 0 after cast
+      { $match: { Year: Number(year), [regionField]: { $gt: 0 } } },
 
-    const regionField = this.regionField(region);
-    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
+      // collapse duplicates across platforms by game Name
+      // and sum the region sales over all platforms
+      { $group: {_id: '$Name', total: { $sum: `$${regionField}` }} },
 
-    //get documents for given year where region sales more than 0
-    const cursor = await collection.find({
-      Year: Number(year),
-      [regionField]: { $gt: 0}
-    }).project({ Name: 1, [regionField]: 1, _id: 0 });
-
-    const docs = await cursor.toArray();
-    // sum sales per game name to collapse cross platform duplicates
-    // here, key: Name, value: summed sales
-    const totals = new Map();
-    for (const doc of docs) {
-      const name = doc.Name;
-      //against undefined or null
-      const sales = doc[regionField] || 0;
-      totals.set(name, (totals.get(name) || 0) + sales);
-    }
-
-    //convert to array and sort descending by sales
-    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales })).
-      sort((a, b) => b.sales - a.sales).
-      slice(0, limit);
-
-    //[{ name, sales }]
-    return sorted;
+      //sort by total descending & return top5
+      { $sort: { total: -1 } },
+      { $limit: Number(limit) }
+    ]).toArray();
+    return docs;
   }
 
   /**
