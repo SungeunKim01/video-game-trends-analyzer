@@ -5,7 +5,7 @@ import path from 'node:path';
 process.loadEnvFile(path.resolve('.env'));
 
 const vgFilepath = path.resolve('data', 'vgsales.json');
-const trendsFilepath = path.resolve('data', 'trends_withregion_unindexed.json');
+const trendsFilepath = path.resolve('data', 'trends.json');
 
 // Wrap current seeding code in exported function runSeed() 
 // so tests can call it after stubbing fs and db
@@ -44,3 +44,5 @@ export async function runSeed() {
     }
   }
 }
+
+runSeed();
