@@ -87,3 +87,8 @@ export async function countriesFromTrends(regionKey, year) {
   }
   return list;
 }
+
+//define this object to expose mutable obj for easier sinon stubbing in test
+export const trendsApi = {
+  countriesFromTrends,
+};

@@ -3,7 +3,7 @@ import express from 'express';
 import { db } from '../db/db.js';
 export const router = express.Router();
 
-import { VALID_REGIONS, countriesFromTrends } from './view2_helpers.js';
+import { VALID_REGIONS, trendsApi } from './view2_helpers.js';
 
 // GET /sales/region/:region/:year
 router.get('/region/:region/:year', async (req, res) => {
@@ -32,7 +32,7 @@ router.get('/region/:region/:year', async (req, res) => {
     const data = top.map(d => ({ name: d._id }));
 
     // get the list of countries for this region andyear from the Trends collection
-    const countries = await countriesFromTrends(regionKey, year);
+    const countries = await trendsApi.countriesFromTrends(regionKey, year);
 
     //response that normalized region code, year in number, country list found in trends,
     // and top5 game names for the region and year
