@@ -56,4 +56,33 @@ export async function countriesFromTrends(regionKey, year) {
     return docs.map(d => d._id);
   }
 
+  // For these NA/EU/JP, region in trends is a single known label
+  if (mapped && mapped !== 'Other') {
+    //try the same year
+    let list = await uniqueLocations({ region: mapped }, year);
+    // if empty, fall back to all years for that region
+    if (list.length === 0) {
+        list = await uniqueLocations({ region: mapped }, null);
+    }
+    return list;
+  }
+
+  // for Other, colloct all region that are not in NA/EU/JP/Global
+  //then gather their locations
+  const excluded = ['North America', 'Europe', 'Japan', 'Global'];
+  //discover which region labels belong to Other
+  const otherRegions = await col.aggregate([
+    //$nin is the specified field value is not in the specified array
+    { $match: { region: { $nin: excluded } } },
+    { $group: { _id: '$region' } }
+  ]).toArray();
+  const regionList = otherRegions.map(d => d._id);
+
+  //try the specific year 1st, then all years
+  //$in is for Matche any of the values specified in an array
+  let list = await uniqueLocations({ region: { $in: regionList } }, year);
+  if (list.length === 0) {
+    list = await uniqueLocations({ region: {$in: regionList } }, null);
+  }
+  return list;
 }
