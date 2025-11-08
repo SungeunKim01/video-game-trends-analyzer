@@ -1,3 +1,7 @@
+* {
+  /* border: red solid 1px; */
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,4 +43,9 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/************ CHART VIEWS ************/
+.view-div {
+  height: 100vh;
 }
