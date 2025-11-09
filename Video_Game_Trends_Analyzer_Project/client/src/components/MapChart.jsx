@@ -36,6 +36,26 @@ const MapChart = () => {
       })
     );
 
+    // From tutorial: setting value to regions
+    polygonSeries.data.setAll([
+      { id: 'FR', name: 'France', value: 100 },
+      { id: 'ES', name: 'Spain', value: 200 }
+    ]);
+
+    // From tutorial: Set MapPolygon appearance
+    polygonSeries.mapPolygons.template.setAll({
+      // enable tooltip
+      tooltipText: '{name}: {value}',
+      stroke: am5.color(0xffffff),
+      strokeWidth: 2,
+      fillOpacity: 0.5
+    });
+
+    // Highlight on hover
+    polygonSeries.mapPolygons.template.states.create('hover', {
+      fill: am5.color(0x677935)
+    });
+
     return () => {
       root.dispose();
     };
