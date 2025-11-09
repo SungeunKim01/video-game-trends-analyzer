@@ -10,9 +10,23 @@ if (fs.existsSync(envPath)) {
   process.loadEnvFile(envPath); 
 }
 
-const dbUrl = process.env.DEV_ATLAS_URI;
+const dbUrl = process.env.ATLAS_URI;
 
 let instance = null;
+
+// support only these region codes
+export const VALID_REGIONS = ['NA', 'EU', 'JP', 'OTHER'];
+
+// map sales region codes NA, EU, JP, OTHER to the textual region
+//values used in Google Trends dataset
+//OTHER is mapped to Otheer in the file
+// handle it to exclude NA, EU JP, Global and gather everything else
+const TRENDS_REGION_BY_SALES = {
+  NA: 'North America',
+  EU: 'Europe',
+  JP: 'Japan',
+  OTHER: 'Other'
+};
 
 class DB {
   constructor() {
@@ -68,40 +82,74 @@ class DB {
   //https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
   // also refer this mongodb Aggregation operations website:
   //https://www.mongodb.com/docs/manual/aggregation/
+
   /**
-   * Sungeun
-   * Find top games for a given region and year using the vg_sales collection
-   * regionCode will be one of NA, EU,JP, OTHER
-   * year will be 4digit number like 2010
-   * limit is how many top rows to return, here I need to find top5
+   * @returns a list of countries for the chosen region
+   * this try to return only countries that appear in the given year, and then
+   * if none found for that year, fall back to all years
+   * always exclude Global since it’s not country
+   * and for OTHER, exclude NA, EU , JP, Global and combine the rest
    */
-  async findTopGamesAllRegionsByYear(regionCode, year, limit = 5) {
-    // map the incoming short region code to the actual sales field name in vg_sales.json
-    const SALES_FIELD_BY_REGION = {
-      NA: 'NA_Sales',
-      EU: 'EU_Sales',
-      JP: 'JP_Sales',
-      OTHER: 'Other_Sales'
-    };
-    const regionField = SALES_FIELD_BY_REGION[String(regionCode).toUpperCase()];
-    if (!regionField) {
-      throw new Error(`Invalid region: ${regionCode}`);
+  async countriesFromTrends(regionKey, year) {
+    const col = db.db.collection(process.env.DEV_TRENDS_COLLECTION);
+    // translate region code as they appear in trends.json
+    const mapped = TRENDS_REGION_BY_SALES[String(regionKey).toUpperCase()];
+
+    /**
+     * this is helper function to get unique country names using aggregation
+     * @param baseQuery is the region filter
+     * @param sameYear is either 4digit num or null to ignore year
+     * exclude Global bc only want actual countries
+     * $group by location, the countries to dedup, then $sort alphabetically
+     */
+    async function uniqueLocations(baseQuery, sameYear) {
+      // ...baseQuery takes every key/value from baseQuery and copies them into new obj 
+      //$ne is not equal
+      const match = { ...baseQuery, location: { $ne: 'Global' } };
+      if (sameYear !== null && sameYear !== undefined) {
+        match.year = Number(sameYear);
+      }
+
+      const pipeline = [
+        { $match: match },
+        { $group: { _id: '$location' } },
+        // here sort country names alphabetically
+        { $sort: { _id: 1 } }
+      ];
+      const docs = await col.aggregate(pipeline).toArray();
+      // for example, unwrap {_id: 'Canada'} to 'Canada'
+      return docs.map(d => d._id);
     }
-    const col = this.db.collection(process.env.DEV_VG_COLLECTION);
 
-    const docs = await col.aggregate([
-      //keep only the requested year & rows where region sales bigger than 0 after cast
-      { $match: { Year: Number(year), [regionField]: { $gt: 0 } } },
+    // For these NA/EU/JP, region in trends is a single known label
+    if (mapped && mapped !== 'Other') {
+      //try the same year
+      let list = await uniqueLocations({ region: mapped }, year);
+      // if empty, fall back to all years for that region
+      if (list.length === 0) {
+        list = await uniqueLocations({ region: mapped }, null);
+      }
+      return list;
+    }
 
-      // collapse duplicates across platforms by game Name
-      // and sum the region sales over all platforms
-      { $group: {_id: '$Name', total: { $sum: `$${regionField}` }} },
-
-      //sort by total descending & return top5
-      { $sort: { total: -1 } },
-      { $limit: Number(limit) }
+    // for Other, colloct all region that are not in NA/EU/JP/Global
+    //then gather their locations
+    const excluded = ['North America', 'Europe', 'Japan', 'Global'];
+    //discover which region labels belong to Other
+    const otherRegions = await col.aggregate([
+      //$nin is the specified field value is not in the specified array
+      { $match: { region: { $nin: excluded } } },
+      { $group: { _id: '$region' } }
     ]).toArray();
-    return docs;
+    const regionList = otherRegions.map(d => d._id);
+
+    //try the specific year 1st, then all years
+    //$in is for Matche any of the values specified in an array
+    let list = await uniqueLocations({ region: { $in: regionList } }, year);
+    if (list.length === 0) {
+      list = await uniqueLocations({ region: {$in: regionList } }, null);
+    }
+    return list;
   }
 
   /**
