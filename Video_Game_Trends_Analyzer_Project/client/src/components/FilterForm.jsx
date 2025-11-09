@@ -7,7 +7,9 @@ import { useState } from 'react';
 
 /**
  * Dynamically create a Filter based on a set of configurations.
- * @returns 
+ * @prop `filterConfig`: array of `<input>` properties.
+ * @prop `onSubmit`: Callback function called when the form is submitted.
+ * @returns A form with input fields defined by `filterConfig` and a submit handler.
  */
 function FilterForm({ filterConfig, onSubmit }) {
 
@@ -16,6 +18,9 @@ function FilterForm({ filterConfig, onSubmit }) {
     filterConfig.map(filter => ({ ...filter }))
   );
 
+  /* Convert values in allFilters into array
+   * and send it back to parent Component
+  */
   function handleSubmit (evt) {
     evt.preventDefault();
     const result = allFilters.map(filter => ({
@@ -27,6 +32,7 @@ function FilterForm({ filterConfig, onSubmit }) {
     onSubmit(result);
   };
 
+  // Update filter input values when there's a change
   function handleChange (filterName, newFilterValue) {
     setAllFilters(prevVersion =>
       prevVersion.map(filter =>

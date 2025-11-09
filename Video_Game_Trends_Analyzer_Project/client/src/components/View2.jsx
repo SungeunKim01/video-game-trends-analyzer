@@ -8,6 +8,7 @@ function View2() {
     // {name: 'category', label: 'category', type: 'text', value: ''}
   ];
 
+  // Handle form submission values
   function handleSubmit(filters) {
     filters.forEach(f => {
       console.log(`Filter: ${f.name}, ${f.value}`);
