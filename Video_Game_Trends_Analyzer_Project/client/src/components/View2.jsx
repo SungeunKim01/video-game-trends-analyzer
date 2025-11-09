@@ -11,6 +11,7 @@ function View2() {
   // Handle form submission values
   function handleSubmit(filters) {
     filters.forEach(f => {
+      // eslint-disable-next-line no-console
       console.log(`Filter: ${f.name}, ${f.value}`);
     });
   }
