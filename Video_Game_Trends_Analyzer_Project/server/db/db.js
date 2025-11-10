@@ -229,11 +229,21 @@ class DB {
   async getAllYears(){
     const gameCollection = this.db.collection(process.env.DEV_VG_COLLECTION);
     const trendCollection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
-    const gameYears = await gameCollection.distinct('Year');
-    const trendYears = await trendCollection.distinct('year');
+    
+    //get distinct years from trend collection using aggregate
+    const trendYearsAg = await trendCollection.aggregate([
+      { $group: { _id: '$year' } }
+    ]).toArray();
+    const trendYears = trendYearsAg.map(d => d._id);
 
-    const commonYears = gameYears.filter(year => trendYears.includes(year));
-    return commonYears;
+    //get years from game collection that exist in trendYears
+    const commonYearsAg = await gameCollection.aggregate([
+      { $match: { Year: { $in: trendYears } } },
+      { $group: { _id: '$Year' } },
+      { $sort: { _id: 1 } }
+    ]).toArray();
+
+    return commonYearsAg.map(d => d._id);
   }
 
   /**

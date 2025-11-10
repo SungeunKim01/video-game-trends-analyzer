@@ -5,7 +5,13 @@ export const router = express.Router();
 
 // GET /sales/years
 router.get('/years', async (req, res) => {
-  return res.json(db.getAllYears());
+  try {
+    const years = await db.getAllYears();
+    return res.json(years);
+  } catch(error){
+    console.error(error);
+    return res.status(500).json({error: 'Server error'});
+  }
 });
 
 // GET /sales/region/:region/:year
