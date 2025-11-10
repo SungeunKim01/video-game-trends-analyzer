@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 /** References:
@@ -11,54 +11,58 @@ import { useState } from 'react';
  * @prop `onSubmit`: Callback function called when the form is submitted.
  * @returns A form with input fields defined by `filterConfig` and a submit handler.
  */
-function SelectFilter({ filterConfig, onSubmit }) {
+function SelectFilter({ fetchURL, label, extractList, onChange }) {
 
-  // Create shallow copy of filterConfig
-  const [allFilters, setAllFilters] = useState(
-    filterConfig.map(filter => ({ ...filter }))
-  );
+  const [options, setOptions] = useState([]);
+  const [selected, setSelected] = useState('');
 
-  /* Convert values in allFilters into array
-   * and send it back to parent Component
-  */
-  function handleSubmit (evt) {
-    evt.preventDefault();
-    const result = allFilters.map(filter => ({
-      name: filter.name,
-      label: filter.label,
-      type: filter.type,
-      value: filter.value
-    }));
-    onSubmit(result);
-  };
+  useEffect(() => {
+    //dont fetch if no url
+    if(!fetchURL) return;
 
-  // Update filter input values when there's a change
-  function handleChange (filterName, newFilterValue) {
-    setAllFilters(prevVersion =>
-      prevVersion.map(filter =>
-        filter.name === filterName ?
-          // Update new value to the respective filter input
-          {...filter, value: newFilterValue} : filter
-      ));
+    const fetchData = async () => {
+      try{
+        const response = await fetch(fetchURL);
+        if (!response.ok) throw new Error(`status code: ${response.status}`);
+        const data = await response.json();
+
+        let list;
+        if (extractList) {
+          // use extractList function to get specific list from object
+          list = extractList(data);
+          //set list of options to just use data from fetch if it is an array
+        } else if (Array.isArray(data)){
+          list = data;
+        } else{
+          throw new Error('cannot find array to populate dropdown');
+        }
+        //set options of select field
+        setOptions(list);
+      } catch(error){
+        console.error('fetch error:', error);
+        setOptions([]);
+      }
+    };
+    fetchData();
+  }, [fetchURL, extractList]);
+
+  const handleChange = (e) => {
+    setSelected(e.target.value);
+    onChange?.(e.target.value);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {filterConfig.map(filter =>
-        <div key={filter.name} className="filter-option-div">
-          <label>
-            {filter.label}:
-            <input
-              type={filter.type}
-              value={allFilters[filter.name]}
-              onChange={evt => handleChange(filter.name, evt.target.value)}
-              placeholder={filter.placeholder || ''}
-            />
-          </label>
-        </div>
-      )}
-      <button type="submit">Apply Filters</button>
-    </form>
+    <div>
+      <label>{label}</label>
+      <select value={selected} onChange={handleChange}>
+        <option value="">{label}</option>
+        {options.map((opt, index) => (
+          <option value={opt} key={index}>
+            {opt}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
