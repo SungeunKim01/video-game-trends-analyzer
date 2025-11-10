@@ -90,11 +90,10 @@ class DB {
    * Used for the purpose of rendering the world map.
    * @returns An array of regions containing a list of countries & its country code.
    * Expected output:
-   *  [
-        { region: 'NA', countries: [ { location: 'USA', country_code: 'US' }, ... ] },
-        { region: 'EU', countries: [ { location: 'France', country_code: 'FR' }, ... ] },
-        ...
-      ]
+   * [
+      { "region": "Europe", "country_code": "DE", "location": "Germany" },
+      { "region": "Japan", "country_code": "JP", "location": "Japan" }
+     ]
    */
   async groupCountriesByRegion() {
     const collection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
@@ -105,48 +104,30 @@ class DB {
       { $group: {
         _id: {
           region: '$region',
-          location: '$location',
-          country_code: '$country_code'
+          country_code: '$country_code',
+          location: '$location'
         }}},
       // remove the _id field from results of gouping
       { $project: {
         _id: 0,
         region: '$_id.region',
-        location: '$_id.location',
-        country_code: '$_id.country_code'
+        country_code: '$_id.country_code',
+        location: '$_id.location'
       }}
     ];
 
     const docs = await collection.aggregate(pipeline).toArray();
 
-    // Swap values in TRENDS_REGION_BY_SALES
-    const REGION_KEYVALUE_SWAPPED = Object.entries(TRENDS_REGION_BY_SALES).
-      reduce((result, currElem) => {
-        const [key, value] = currElem;
-        result[ value ] = key;
-        return result;
-      }, {});
-
-    const data = { NA: [], EU: [], JP: [], OTHER: [] };
-
-    for (const doc of docs) {
-      const key = REGION_KEYVALUE_SWAPPED[doc.region] || 'OTHER';
-      data[key].push({
-        location: doc.location,
-        country_code: doc.country_code
-      });
-    }
-
-    // Convert to simple array
-    const result = Object.entries(data).map(([region, countries]) => ({
-      region,
-      countries
+    const result = docs.map(doc => ({
+      region: doc.region,
+      country_code: doc.country_code,
+      location: doc.location
     }));
 
     return result;
   }
   
-  
+
   // I refer this mongodb comparison operators website:
   // https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
   // also refer this mongodb Aggregation operations website:
