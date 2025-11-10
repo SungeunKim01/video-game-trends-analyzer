@@ -4,6 +4,7 @@ import { db, VALID_REGIONS } from '../db/db.js';
 export const router = express.Router();
 
 // GET /sales/years
+// returns aggregate of years from trends and games tables
 router.get('/years', async (req, res) => {
   try {
     const years = await db.getAllYears();
