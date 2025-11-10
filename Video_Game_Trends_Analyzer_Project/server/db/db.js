@@ -32,7 +32,8 @@ export const VALID_TYPES = ['genre', 'platform'];
 
 class DB {
   constructor() {
-    //instance is the singleton, defined in outer scope
+
+    // Instance is the singleton, defined in outer scope
     if (!instance) {
       instance = this;
       this.mongoClient = null;
@@ -41,7 +42,8 @@ class DB {
     }
     return instance;
   }
-  //Only connect to database if not already connected
+
+  // Only connect to database if not already connected
   async connect(dbName) {
     if (instance.db){
       return;
@@ -60,7 +62,7 @@ class DB {
     console.log('Successfully connected to MongoDB database ' + dbName);
   }
   
-  //set the collection desired
+  // Set the collection desired
   async setCollection(collectionName) {
     instance.collection = await instance.db.collection(collectionName);
   }
@@ -71,19 +73,18 @@ class DB {
     return result.insertedCount;
   }
 
-  //close the connection when gracefully shutting down
+  // Close the connection when gracefully shutting down
   async close() {
     await instance.mongoClient.close();
     this.db = null;
     this.collection = null;
   }
 
-  //your additional queries here
 
   // I refer this mongodb comparison operators website:
-  //https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
+  // https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
   // also refer this mongodb Aggregation operations website:
-  //https://www.mongodb.com/docs/manual/aggregation/
+  // https://www.mongodb.com/docs/manual/aggregation/
 
   /**
    * @returns a list of countries for the chosen region
@@ -153,6 +154,7 @@ class DB {
     }
     return list;
   }
+
 
   /**
    * Sungeun

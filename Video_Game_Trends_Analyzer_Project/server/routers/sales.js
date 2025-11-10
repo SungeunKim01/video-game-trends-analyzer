@@ -39,14 +39,14 @@ router.get('/region/:region/:year', async (req, res) => {
 
     // only need game names in payload, so no need total sales
     //thi will return name: 'Game name'
-    const data = top.map(d => ({ name: d._id }));
+    const topVgData = top.map(d => ({ name: d._id }));
 
-    // get the list of countries for this region andyear from the Trends collection
+    // get the list of countries for this region and year from the Trends collection
     const countries = await db.countriesFromTrends(regionKey, year);
 
     //response that normalized region code, year in number, country list found in trends,
     // and top5 game names for the region and year
-    return res.json({ region: regionKey, year, countries, data });
+    return res.json({ region: regionKey, year, countries, topVgData });
 
   } catch (err) {
     //unexpected error becomes server error
@@ -55,6 +55,8 @@ router.get('/region/:region/:year', async (req, res) => {
   }
 });
 
+
+// ================= VIEW 1 =================
 
 // GET /sales/global/:year
 router.get('/global/:year', async (req, res) => {
