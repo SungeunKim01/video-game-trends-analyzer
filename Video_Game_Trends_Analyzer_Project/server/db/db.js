@@ -80,6 +80,64 @@ class DB {
     this.collection = null;
   }
 
+  /** Reference for swapping key-values in TRENDS_REGION_BY_SALES:
+   * https://stackoverflow.com/questions/23013573/swap-key-with-value-in-object
+   */
+
+  /**
+   * Collect all unique countries and groups them into regions (NA, EU, JP, OTHER).
+   * @returns An array of regions containing a list of countries & its country code.
+   * 
+   */
+  async groupCountriesByRegion() {
+    const collection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
+
+    // Get unique countries
+    const pipeline = [
+      { $match: { location: {$ne: 'Global'} } },
+      { $group: {
+        _id: {
+          region: '$region',
+          location: '$location',
+          country_code: '$country_code'
+        }}},
+      // remove the _id field from results of gouping
+      { $project: {
+        _id: 0,
+        region: '$_id.region',
+        location: '$_id.location',
+        country_code: '$_id.country_code'
+      }}
+    ];
+
+    const docs = await collection.aggregate(pipeline).toArray();
+
+    // Swap values in TRENDS_REGION_BY_SALES
+    const REGION_KEYVALUE_SWAPPED = Object.entries(TRENDS_REGION_BY_SALES).
+      reduce((result, currElem) => {
+        const [key, value] = currElem;
+        result[ value ] = key;
+        return result;
+      }, {});
+
+    const data = { NA: [], EU: [], JP: [], OTHER: [] };
+
+    for (const doc of docs) {
+      const key = REGION_KEYVALUE_SWAPPED[doc.region] || 'OTHER';
+      data[key].push({
+        location: doc.location,
+        country_code: doc.country_code
+      });
+    }
+
+    // Convert to simple array
+    const result = Object.entries(data).map(([region, countries]) => ({
+      region,
+      countries
+    }));
+
+    return result;
+  }
 
   // I refer this mongodb comparison operators website:
   // https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
