@@ -3,6 +3,11 @@ import express from 'express';
 import { db, VALID_REGIONS } from '../db/db.js';
 export const router = express.Router();
 
+// GET /sales/years
+router.get('/years', async (req, res) => {
+  return res.json(db.getAllYears());
+});
+
 // GET /sales/region/:region/:year
 router.get('/region/:region/:year', async (req, res) => {
   try {
