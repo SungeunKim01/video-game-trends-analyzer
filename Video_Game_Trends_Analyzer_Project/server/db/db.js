@@ -15,7 +15,7 @@ const dbUrl = process.env.ATLAS_URI;
 let instance = null;
 
 // support only these region codes
-export const VALID_REGIONS = ['NA', 'EU', 'JP', 'OTHER'];
+export const VALID_REGIONS = ['NA', 'EU', 'JP', 'OTHER', 'GLOBAL'];
 
 // map sales region codes NA, EU, JP, OTHER to the textual region
 //values used in Google Trends dataset
@@ -80,14 +80,21 @@ class DB {
     this.collection = null;
   }
 
+
   /** Reference for swapping key-values in TRENDS_REGION_BY_SALES:
    * https://stackoverflow.com/questions/23013573/swap-key-with-value-in-object
    */
 
   /**
    * Collect all unique countries and groups them into regions (NA, EU, JP, OTHER).
+   * Used for the purpose of rendering the world map.
    * @returns An array of regions containing a list of countries & its country code.
-   * 
+   * Expected output:
+   *  [
+        { region: 'NA', countries: [ { location: 'USA', country_code: 'US' }, ... ] },
+        { region: 'EU', countries: [ { location: 'France', country_code: 'FR' }, ... ] },
+        ...
+      ]
    */
   async groupCountriesByRegion() {
     const collection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
@@ -138,7 +145,8 @@ class DB {
 
     return result;
   }
-
+  
+  
   // I refer this mongodb comparison operators website:
   // https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/
   // also refer this mongodb Aggregation operations website:

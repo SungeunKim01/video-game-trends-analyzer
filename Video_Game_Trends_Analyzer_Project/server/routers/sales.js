@@ -18,38 +18,50 @@ router.get('/years', async (req, res) => {
 // GET /sales/region/:region/:year
 router.get('/region/:region/:year', async (req, res) => {
   try {
-    // normalize the region code from the url to uppercase
+    
     const regionKey = String(req.params.region).toUpperCase();
-    //in Express, req.params.* are always strings, so 
-    //first coerce to str (yearStr) to validate the exact format with the regex
-    //then convert to number
+
+    /* in Express, req.params.* are always strings:
+     * coerce to str (yearStr) to validate the format with the regex,
+     * then convert to number
+    */
     const yearStr = String(req.params.year);
     const year = Number(yearStr);
     const isValidYear = /^\d{4}$/.test(yearStr) && Number.isInteger(year);
 
-    //respond with 400 
-    //if region is not one of ['NA','EU','JP','OTHER'] OR the year is invalid
     if (!VALID_REGIONS.includes(regionKey) || !isValidYear) {
       return res.status(400).json({ error: 'Invalid region OR year' });
     }
 
-    //ask the db for the top games for this region and year
-    // so this will return like _id: 'Game name', total: 0.00
-    const top = await db.findTopGamesAllRegionsByYear(regionKey, year, 5);
+    let topVgData = [];
+    let countries = [];
 
-    // only need game names in payload, so no need total sales
-    //thi will return name: 'Game name'
-    const topVgData = top.map(d => ({ name: d._id }));
+    if (regionKey === 'GLOBAL') {
 
-    // get the list of countries for this region and year from the Trends collection
-    const countries = await db.countriesFromTrends(regionKey, year);
+      // Top 5 Global Games
+      const top = await db.findTopGamesByYear(year, 5);
+      topVgData = top.map(d => ({ name: d.name }));
 
-    //response that normalized region code, year in number, country list found in trends,
+    } else {
+
+      // Top 5 Games by Region
+      // return _id: 'Game name', total: 0.00
+      const top = await db.findTopGamesAllRegionsByYear(regionKey, year, 5);
+
+      // only need game names in payload, so no need total sales
+      // this will return name: 'Game name'
+      topVgData = top.map(d => ({ name: d._id }));
+
+      // get the list of countries for this region and year from the Trends collection
+      countries = await db.countriesFromTrends(regionKey, year);
+    }
+
+    // response that normalized region code, year in number, country list found in trends,
     // and top5 game names for the region and year
     return res.json({ region: regionKey, year, countries, topVgData });
 
   } catch (err) {
-    //unexpected error becomes server error
+    // unexpected error becomes server error
     console.error(err);
     return res.status(500).json({ error:'Server error'});
   }
