@@ -9,3 +9,4 @@ markdown_tools/
 .bash_history
 deploy.zip
 .DS_Store
+dist/

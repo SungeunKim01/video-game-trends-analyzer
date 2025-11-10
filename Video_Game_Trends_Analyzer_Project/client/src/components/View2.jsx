@@ -1,5 +1,5 @@
 import MapChart from './MapChart';
-import FilterForm from './FilterForm';
+import SelectFilter from './SelectFilter';
 
 function View2() {
 
@@ -20,7 +20,7 @@ function View2() {
     <div className="view-div">
       <h2>Explore Top Games and Google Trends by Country</h2>
       <MapChart />
-      <FilterForm filterConfig={filterConfig} onSubmit={handleSubmit}/>
+      <SelectFilter filterConfig={filterConfig} onSubmit={handleSubmit}/>
     </div>
   );
 }
