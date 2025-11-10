@@ -153,6 +153,43 @@ class DB {
   }
 
   /**
+   * Sungeun
+   * Find top games for a given region and year using the vg_sales collection
+   * regionCode will be one of NA, EU,JP, OTHER
+   * year will be 4digit number like 2010
+   * limit is how many top rows to return, here I need to find top5
+   */
+  async findTopGamesAllRegionsByYear(regionCode, year, limit = 5) {
+    // map the incoming short region code to the actual sales field name in vg_sales.json
+    const SALES_FIELD_BY_REGION = {
+      NA: 'NA_Sales',
+      EU: 'EU_Sales',
+      JP: 'JP_Sales',
+      OTHER: 'Other_Sales'
+    };
+    const regionField = SALES_FIELD_BY_REGION[String(regionCode).toUpperCase()];
+    if (!regionField) {
+      throw new Error(`Invalid region: ${regionCode}`);
+    }
+    const col = this.db.collection(process.env.DEV_VG_COLLECTION);
+
+    const docs = await col.aggregate([
+      //keep only the requested year & rows where region sales bigger than 0 after cast
+      { $match: { Year: Number(year), [regionField]: { $gt: 0 } } },
+
+      // collapse duplicates across platforms by game Name
+      // and sum the region sales over all platforms
+      { $group: {_id: '$Name', total: { $sum: `$${regionField}` }} },
+
+      //sort by total descending & return top5
+      { $sort: { total: -1 } },
+      { $limit: Number(limit) }
+    ]).toArray();
+    return docs;
+  }
+
+
+  /**
    * Yan Chi
    * Return the top selling game titles by a certain year, collapsing duplicates
    * Summing by Name = single row per game
