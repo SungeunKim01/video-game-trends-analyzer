@@ -226,6 +226,16 @@ class DB {
     return sorted;
   }
 
+  async getAllYears(){
+    const gameCollection = this.db.collection(process.env.DEV_VG_COLLECTION);
+    const trendCollection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
+    const gameYears = await gameCollection.distinct('Year');
+    const trendYears = await trendCollection.distinct('year');
+
+    const commonYears = gameYears.filter(year => trendYears.includes(year));
+    return commonYears;
+  }
+
   /**
    * Gets all distinct video game genres.
    * @author Jennifer
