@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import express from 'express';
-import { db, VALID_REGIONS } from '../db/db.js';
+import { db, VALID_REGIONS, VALID_TYPES } from '../db/db.js';
 export const router = express.Router();
 
 // GET /sales/years
@@ -87,42 +87,67 @@ router.get('/global/:year', async (req, res) => {
 });
 
 // ================= VIEW 3 =================
-// GET /sales/genre/:genre AND /sales/platform/:platform
-router.get('/genre/:genre', async (req, res) => {
+/**
+ * GET /api/sales/by/:type/:value
+ * View3 time series for a given genre OR platform
+ * @author Sungeun
+ * @param {string} req.params.type genre or platform
+ * @param {string} req.params.value selected genre or platform
+ * @returns {Array<{year:number,num_games:number,total_games:number,percent:number}>}
+ */
+router.get('/by/:type/:value', async (req, res) => {
   try {
-    const genre = req.params.genre;
+    const type = String(req.params.type).toLowerCase();
+    const value = req.params.value;
 
-    // Get all distinct video game genres
-    const allGenres = await db.getDistinctGenres();
-
-    if (!allGenres.includes(genre)) {
-      return res.status(400).json({error: 'Genre does not exist'});
+    if (!VALID_TYPES.includes(type)) {
+      return res.status(400).json({ error: 'E: invalid type - Use "genre" OR "platform"' });
     }
 
-    const genreGames = await db.getYearlyGameCountByGenre(genre);
-    const totalGames = await db.getTotalGamesPerYear();
-    const totalGamesRes = new Map(totalGames.map(data => [
-      data.year, data.total_games
-    ]));
+    const allowedValues = await db.getDistinctByType(type);
+    if (!allowedValues.includes(value)) {
+      return res.status(400).json({ error: `${type} does not exist: ${value}` });
+    }
 
-    // Iterate through both arrays and calculate percentage 
-    const result = genreGames.map(data => {
-      const totalGamesYearly = totalGamesRes.get(data.year) || 0;
-      const percent = totalGamesYearly > 0 
-        ? data.num_games / totalGamesYearly * 100 
-        : 0;
+    const part = await db.getYearlyGameCountByType(type, value);
+    const totals = await db.getTotalGamesPerYear();
+
+    const totalMap = new Map(totals.map(d => [d.year, d.total_games]));
+    const rows = part.map(d => {
+      const total = totalMap.get(d.year) || 0;
+      const percent = total > 0 ? (d.num_games / total) * 100 : 0;
       return {
-        year: data.year,
-        num_games: data.num_games,
-        total_games: totalGamesYearly,
+        year: d.year,
+        num_games: d.num_games,
+        total_games: total,
         percent: Number(percent.toFixed(2))
       };
     });
 
-    return res.json(result);
-
+    return res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'server error' });
+  }
+});
+
+// this, we can remove later
+/**
+ * GET /api/sales/options/:type
+ * this return distinct list for dropdown
+ * @author Sungeun
+ * @param {string} req.params.type genre or platform
+ * @returns {string[]} distinct values
+ */
+router.get('/options/:type', async (req, res) => {
+  try {
+    const type = String(req.params.type).toLowerCase();
+    if (!VALID_TYPES.includes(type)) {
+      return res.status(400).json({ error: 'E: invalid type - Use "genre" OR "platform"' });
+    }
+    const values = await db.getDistinctByType(type);
+    return res.json(values);
+  } catch {
+    return res.status(500).json({ error: 'server error' });
   }
 });

@@ -28,6 +28,8 @@ const TRENDS_REGION_BY_SALES = {
   OTHER: 'Other'
 };
 
+export const VALID_TYPES = ['genre', 'platform'];
+
 class DB {
   constructor() {
     //instance is the singleton, defined in outer scope
@@ -91,7 +93,7 @@ class DB {
    * and for OTHER, exclude NA, EU , JP, Global and combine the rest
    */
   async countriesFromTrends(regionKey, year) {
-    const col = db.db.collection(process.env.DEV_TRENDS_COLLECTION);
+    const col = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
     // translate region code as they appear in trends.json
     const mapped = TRENDS_REGION_BY_SALES[String(regionKey).toUpperCase()];
 
@@ -187,7 +189,6 @@ class DB {
     ]).toArray();
     return docs;
   }
-
 
   /**
    * Return the top selling game titles by a certain year, collapsing duplicates
@@ -303,15 +304,11 @@ class DB {
    */
   async getTotalGamesPerYear() {
     const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
-    const cursor = collection.aggregate([
+    const docs = await collection.aggregate([
       { $group: { _id: '$Year', total_games: { $sum: 1 } } },
       { $sort: { _id: 1 } }
-    ]);
-    const result = [];
-    for (const doc of cursor) {
-      result.push({ year: doc._id, total_games: doc.total_games });
-    }
-    return result;
+    ]).toArray();
+    return docs.map(d => ({ year: d._id, total_games: d.total_games }));
   }
 
   /**
@@ -322,18 +319,14 @@ class DB {
    */
   async getYearlyGameCountByGenre(genre) {
     const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
-    const cursor = await collection.aggregate([
+    const docs = await collection.aggregate([
       { $match: { Genre: genre } },
-      { $group: { _id: '$Year', num_games: { $sum: 1 } }},
-      { $sort: { _id: 1 }}
-    ]);
-    const result = [];
-    const docs = await cursor.toArray();
-    for (const doc of docs) {
-      result.push({ year: doc._id, num_games: doc.num_games });
-    }
-    return result;
+      { $group: { _id: '$Year', num_games: { $sum: 1 } } },
+      { $sort: { _id: 1 } }
+    ]).toArray();
+    return docs.map(doc => ({ year: doc._id, num_games: doc.num_games }));
   }
+
 
   /**
    * Get all distinct genres from the Google Trends dataset using aggregation on category_en
@@ -366,7 +359,7 @@ class DB {
       return await this.getDistinctGenresFromTrends();
     }
     if (type === 'platform') {
-       const colVG = this.db.collection(process.env.DEV_VG_COLLECTION);
+      const colVG = this.db.collection(process.env.DEV_VG_COLLECTION);
 
       const docs = await colVG.aggregate([
         { $match: { Platform: { $type: 'string' } } },
