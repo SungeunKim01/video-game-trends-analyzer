@@ -108,7 +108,7 @@ router.get('/region/:region/:year', async (req, res) => {
 
 // ================= VIEW 3 =================
 /**
- * GET /api/sales/by/:type/:value
+ * GET /api/sales/:type/:value
  * View3 time series for a given genre OR platform
  * @author Sungeun
  * @param {string} req.params.type genre or platform
@@ -153,7 +153,7 @@ router.get('/:type/:value', async (req, res) => {
 
 // this, we can remove later
 /**
- * GET /api/sales/options/:type
+ * GET /api/sales/:type
  * this return distinct list for dropdown
  * @author Sungeun
  * @param {string} req.params.type genre or platform
