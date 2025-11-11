@@ -86,25 +86,6 @@ router.get('/global/:year', async (req, res) => {
   }
 });
 
-/*// GET /sales/region/:region/:year/:country
-//return country specific categories and searches from trends
-router.get('/region/:region/:year/:country', (req, res) => {
-  return res.status(501).json({
-    error: 'Not implemented yet',
-    route: '/sales/region/:region/:year/:country'
-  });
-});
-
-
-// GET /sales/region/:region/:year/:category
-// return top search results for a category
-router.get('/region/:region/:year/:category', (req, res) => {
-  return res.status(501).json({
-    error: 'Not implemented yet'
-  });
-});*/
-
-
 // ================= VIEW 3 =================
 // GET /sales/genre/:genre AND /sales/platform/:platform
 router.get('/genre/:genre', async (req, res) => {
