@@ -376,9 +376,9 @@ class DB {
       { $sort: { _id: 1 } }
     ]).toArray();
 
-    return docs
-      .map(d => (typeof d._id === 'string' ? d._id.trim() : ''))
-      .filter(v => v.length > 0);
+    return docs.
+      map(d => typeof d._id === 'string' ? d._id.trim() : '').
+      filter(v => v.length > 0);
   }
 
   /**
