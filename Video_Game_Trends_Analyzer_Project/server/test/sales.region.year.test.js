@@ -4,7 +4,7 @@ const expect = chai.expect;
 import sinon from 'sinon';
 import app from '../app.js';
 import { db } from '../db/db.js';
-import { trendsApi } from '../routers/view2_helpers.js';
+// import { trendsApi } from '../routers/view2_helpers.js';
 
 /**
  * unit test for GET /api/sales/region/:region/:year
@@ -41,7 +41,7 @@ describe('GET /api/sales/region/:region/:year', () => {
 
     //stub the country list provider using trendsApi wrapper obj
     stubs.push(
-      sinon.stub(trendsApi, 'countriesFromTrends').resolves(['Canada', 'Mexico', 'United States'])
+      sinon.stub(db, 'countriesFromTrends').resolves(['Canada', 'Mexico', 'United States'])
     );
 
     // call route with valid params

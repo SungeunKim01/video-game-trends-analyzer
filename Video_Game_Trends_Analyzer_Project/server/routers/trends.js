@@ -13,6 +13,12 @@ router.get('/region/:year/country/:country', async (req, res) => {
     const country = String(req.params.country);
     // fetch all categories for a country in a given year
     const results = await db.getCategoriesByYearAndCountry(year, country);
+
+    // Even with invalid country, db can still return empty data
+    if (!results || results.length === 0) {
+      return res.status(500).json({ error: 'Server error' });
+    }
+
     return res.json(results);
   } catch(error){
     console.error(error);
