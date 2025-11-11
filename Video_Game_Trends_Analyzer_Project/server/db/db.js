@@ -312,34 +312,17 @@ class DB {
   }
 
   /**
-   * Gets all games of that genre. Grouped by year.
-   * @author Jennifer
-   * @param {string} genre 
-   * @returns Array of number of games grouped by years. 
-   */
-  async getYearlyGameCountByGenre(genre) {
-    const collection = this.db.collection(process.env.DEV_VG_COLLECTION);
-    const docs = await collection.aggregate([
-      { $match: { Genre: genre } },
-      { $group: { _id: '$Year', num_games: { $sum: 1 } } },
-      { $sort: { _id: 1 } }
-    ]).toArray();
-    return docs.map(doc => ({ year: doc._id, num_games: doc.num_games }));
-  }
-
-
-  /**
-   * Get all distinct genres from the Google Trends dataset using aggregation on category_en
-   * Each value is taken from the category_en field, this is genre
+   * Get all distinct values (genre OR platform) from vgsales
    * @author Sungeun
-   * @returns Array of distinct genre names from trends.json
-   *
    */
-  async getDistinctGenresFromTrends() {
-    const colTrends = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
-    const docs = await colTrends.aggregate([
-      { $match: { category_en: { $type: 'string' } } },
-      { $group: { _id: '$category_en' } },
+  async getDistinctByType(type) {
+    const colVG = this.db.collection(process.env.DEV_VG_COLLECTION);
+    const field = type === 'genre' ? 'Genre' : type === 'platform' ? 'Platform' : null;
+    if (!field) return [];
+
+    const docs = await colVG.aggregate([
+      { $match: { [field]: { $type: 'string' } } },
+      { $group: { _id: `$${field}` } },
       { $sort: { _id: 1 } }
     ]).toArray();
 
@@ -349,47 +332,18 @@ class DB {
   }
 
   /**
-   * Get all distinct values based on the chosen type for View 3.
-   * so if type is genre, get values from trends.category_en thru aggregation
-   * if type is platform,get values from vgsales.Platform thru aggregation
-   * @author Sungeun
-   */
-  async getDistinctByType(type) {
-    if (type === 'genre') {
-      return await this.getDistinctGenresFromTrends();
-    }
-    if (type === 'platform') {
-      const colVG = this.db.collection(process.env.DEV_VG_COLLECTION);
-
-      const docs = await colVG.aggregate([
-        { $match: { Platform: { $type: 'string' } } },
-        { $group: { _id: '$Platform' } },
-        { $sort: { _id: 1 } }
-      ]).toArray();
-
-      return docs
-        .map(d => (typeof d._id === 'string' ? d._id.trim() : ''))
-        .filter(v => v.length > 0);
-    }
-    return [];
-  }
-
-  /**
-   * Get all games for the chosen type (genre or platform) grouped by year
-   *If type is genre, give all the matches vgsales.Genre using value from trends.category_en
-   * If type is platform, give all the matches vgsales.Platform directly
+   * Get all games for the chosen type (genre OR platform) grouped by year from vgsales
    * @author Sungeun
    * @param {string} type  Either 'genre' or 'platform'
    * @param {string} value The selected genre or platform
    * @returns Array of objects with { year, num_games }
    */
   async getYearlyGameCountByType(type, value) {
-    const colVG = this.db.collection(process.env.DEV_VG_COLLECTION);
-    const match = (type === 'genre')
-      ? { Genre: value }
-      : { Platform: value };
+    const collectionVG = this.db.collection(process.env.DEV_VG_COLLECTION);
+    const field = type === 'genre' ? 'Genre' : 'Platform';
+    const match = { [field]: value };
 
-    const docs = await colVG.aggregate([
+    const docs = await collectionVG.aggregate([
       { $match: match },
       { $group: { _id: '$Year', num_games: { $sum: 1 } } },
       { $sort: { _id: 1 } }
