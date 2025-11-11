@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MapChart from './MapChart';
-import SelectFilter from './SelectFilter';
+// import SelectFilter from './SelectFilter';
 
 function View2() {
   const [mapData, setMapData] = useState(null);
