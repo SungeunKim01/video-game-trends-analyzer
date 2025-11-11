@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import request from 'supertest';
 import * as chai from 'chai';
@@ -34,13 +35,11 @@ describe('GET /api/trends/region/:year/category/:category', () => {
     // Mock DB output: queries from
     // the category_en "Searches" in US, year 2016
     queriesStub.resolves([
-      {'year': 2016, 'data': [
-        { name: 'Powerball', region: 'North America', rank: 1 },
-        { name: 'Prince', region: 'North America', rank: 2 },
-        { name: 'Hurricane Matthew', region: 'North America', rank: 3 },
-        { name: 'Pokémon Go', region: 'North America', rank: 4 },
-        { name: 'Slither.io', region: 'North America', rank: 5 }
-      ]}
+      { query_en: 'Powerball', region: 'North America', rank: 1 },
+      { query_en: 'Prince', region: 'North America', rank: 2 },
+      { query_en: 'Hurricane Matthew', region: 'North America', rank: 3 },
+      { query_en: 'Pokémon Go', region: 'North America', rank: 4 },
+      { query_en: 'Slither.io', region: 'North America', rank: 5 }
     ]);
     
     // Call endpoint
@@ -49,6 +48,7 @@ describe('GET /api/trends/region/:year/category/:category', () => {
     // Check the body of the response
     expect(res.status).to.equal(200);
     expect(res.body.year).to.equal(2016);
+    expect(Array.isArray(res.body.data)).to.equal(true);
     expect(res.body.data.length).to.equal(5);
 
     // Check the first query element
