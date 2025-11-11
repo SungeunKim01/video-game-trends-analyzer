@@ -10,7 +10,7 @@ if (fs.existsSync(envPath)) {
   process.loadEnvFile(envPath); 
 }
 
-const dbUrl = process.env.ATLAS_URI;
+const dbUrl = process.env.DEV_ATLAS_URI;
 
 let instance = null;
 
@@ -59,6 +59,7 @@ class DB {
     instance.db = await instance.mongoClient.db(dbName);
     // Send a ping to confirm a successful connection
     await instance.mongoClient.db(dbName).command({ ping: 1 });
+    // eslint-disable-next-line no-console
     console.log('Successfully connected to MongoDB database ' + dbName);
   }
   
