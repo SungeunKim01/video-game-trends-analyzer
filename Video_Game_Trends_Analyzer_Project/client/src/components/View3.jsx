@@ -67,6 +67,36 @@ function View3() {
     return () => { isActive = false; };
   }, [type, value]);
 
+  return (
+    <div className="view-div">
+      <h2>Genre &amp; Platform Trend Chart</h2>
+
+      <label style={{ marginRight: '10px' }}>
+        Filter by:&nbsp;
+        <select value={type} onChange={handleTypeChange}>
+          <option value="genre">Genre</option>
+          <option value="platform">Platform</option>
+        </select>
+      </label>
+
+      {/*reset dropdown when type changes*/}
+      <SelectFilter
+        key={type}
+        fetchURL={`/api/sales/${type}`}
+        label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
+        onChange={setValue}
+      />
+
+      {/* erro */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* Chart*/}
+      <LineChart
+        rows={rows}
+        label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
+      />
+    </div>
+  );
 }
 
 export default View3;
