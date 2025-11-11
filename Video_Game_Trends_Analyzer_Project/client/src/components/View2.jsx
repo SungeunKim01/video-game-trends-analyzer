@@ -34,10 +34,14 @@ function View2() {
     getDefaultGlobalData();
   }, []);
 
+  function handleRegionClick(region) {
+    console.log('Region clicked: ', region);
+  }
+
   return (
     <div className="view-div">
       <h2>Explore Top Games and Google Trends by Country</h2>
-      <MapChart mapData={mapData}/>
+      <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
       {/* <FilterForm filterConfig={filterConfig} onSubmit={handleSubmit}/> */}
     </div>
   );

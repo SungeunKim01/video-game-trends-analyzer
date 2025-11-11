@@ -18,7 +18,7 @@ import am5themesAnimated from '@amcharts/amcharts5/themes/Animated';
  * @author Jennifer
  * @returns a map React Component
  */
-const MapChart = ({ mapData }) => {
+const MapChart = ({ mapData, onRegionClick }) => {
   useEffect(() => {
 
     // Create root element for MapChart
@@ -52,7 +52,6 @@ const MapChart = ({ mapData }) => {
 
     // Set MapPolygon appearance
     polygonSeries.mapPolygons.template.setAll({
-      // enable tooltip
       templateField: 'polygonSettings',
       interactive: false,
       stroke: am5.color(0xffffff),
@@ -65,14 +64,17 @@ const MapChart = ({ mapData }) => {
       fillOpacity: 1
     });
 
-    // Highlight on hover
+    // Zoom in when country is clicked
     polygonSeries.mapPolygons.template.events.on('click', (evt) => {
-      var zoomAnimation;
+      const clickedRegion = evt.target.dataItem.dataContext.region;
       var dataItem = evt.target.dataItem;
       if (dataItem?.dataContext?.isActive){
-        zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
+        var zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
+        zoomAnimation.waitForStop();
       }
-      zoomAnimation.waitForStop();
+      if (clickedRegion) {
+        onRegionClick(clickedRegion);
+      }
     });
 
     const regionColors = {
