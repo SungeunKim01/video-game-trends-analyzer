@@ -322,18 +322,19 @@ class DB {
   }
 
   /**
-   * Return the highest rank trends in a certain year for a certain category
+   * Return the highest rank trends in a certain year for a certain country's category
    * @author Yan Chi
-   * @returns: [{ query_en, region, rank }]
+   * @returns: [{ query_en, country, rank }]
    */
-  async getTopTrendsByYearAndCategory(year, category){
+  async getTopTrendsByYearAndCategory(year, country, category){
     const collection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
 
     //get documents for given year depending on category
     const cursor = await collection.find({
       year: Number(year),
+      country_code: country,
       category_en: category
-    }).project({ query_en: 1, region: 1, rank: 1, _id: 0 });
+    }).project({ query_en: 1, country_code: 1, rank: 1, _id: 0 });
 
     const docs = await cursor.toArray();
 
@@ -341,7 +342,7 @@ class DB {
     const sorted = docs.
       sort((a, b) => a.rank - b.rank);
 
-    //[{ query_en, region, rank }]
+    //[{ query_en, country, rank }]
     return sorted;
   }
 

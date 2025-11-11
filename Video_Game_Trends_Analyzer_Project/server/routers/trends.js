@@ -96,23 +96,24 @@ router.get('/region/:year/country/:country', async (req, res) => {
  *       500:
  *         description: Server error
  */
-// GET /trends/region/:year/category/:category
-router.get('/region/:year/category/:category', async (req, res) => {
+// GET /trends/region/:year/country/:country/category/:category
+router.get('/region/:year/country/:country/category/:category', async (req, res) => {
   try{
     const year = Number(req.params.year);
     //validation
     if (Number.isNaN(year)) {
       return res.status(400).json({ error: 'Year must be a number' });
     }
+    const country = String(req.params.country);
     const category = String(req.params.category);
     // fetch highest trends for a category in a given year
     // returns [{ query_en, region, rank }]
-    const results = await db.getTopTrendsByYearAndCategory(year, category);
+    const results = await db.getTopTrendsByYearAndCategory(year, country, category);
 
     //map data for formatting
     const data = results.map(trend => ({
       name: trend.query_en,
-      region: trend.region,
+      country: trend.country_code,
       rank: trend.rank
     }));
 

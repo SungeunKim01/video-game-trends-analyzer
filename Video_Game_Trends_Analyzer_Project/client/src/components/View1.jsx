@@ -35,7 +35,7 @@ function View1() {
           //if user selects a new category
           onChange={(newCategory) => {
             setCategory(newCategory);
-            fetch(`/api/trends/region/${year}/category/${newCategory}`)
+            fetch(`/api/trends/region/${year}/country/${'GLOBAL'}/category/${newCategory}`)
               .then(res => res.json())
               .then(json => setTrends(json.data || []))
               .catch(err => console.error(err));
@@ -57,7 +57,7 @@ function View1() {
         <>
           {trends.map((trend, index) => 
             <p key={index}>
-              {trend.name} - Region: {trend.region} - Rank: {trend.rank} 
+              {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
             </p>
           )}
         </>
