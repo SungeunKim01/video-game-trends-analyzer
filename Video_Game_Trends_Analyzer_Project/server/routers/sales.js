@@ -3,6 +3,7 @@ import express from 'express';
 import { db, VALID_REGIONS, VALID_TYPES } from '../db/db.js';
 export const router = express.Router();
 
+
 // GET /sales/years
 // returns aggregate of years from trends and games tables
 router.get('/years', async (req, res) => {
@@ -14,6 +15,42 @@ router.get('/years', async (req, res) => {
     return res.status(500).json({error: 'Server error'});
   }
 });
+
+
+// ================= VIEW 1 =================
+
+// GET /sales/global/:year
+router.get('/global/:year', async (req, res) => {
+  try{
+    const year = Number(req.params.year);
+    //validation
+    if (Number.isNaN(year)) {
+      return res.status(400).json({ error: 'Year must be a number' });
+    }
+    // fetch top 10 games from db.js - findTopGamesByYear
+    //filter by Year,
+    // sum duplicate titles across platform,
+    //sort descending by total sales.
+    // an returns [{ name, global_sales }]
+    const results = await db.findTopGamesByYear(year, 10);
+
+    //map data for formatting
+    const data = results.map(game => ({
+      name: game.name,
+      // eslint-disable-next-line camelcase
+      global_sales: game.sales
+    }));
+
+    return res.json({ year, data });
+
+  } catch(error){
+    console.error(error);
+    return res.status(500).json({error: 'Server error'});
+  }
+});
+
+
+// ================= VIEW 2 =================
 
 // GET /sales/region/:region/:year
 router.get('/region/:region/:year', async (req, res) => {
@@ -68,38 +105,6 @@ router.get('/region/:region/:year', async (req, res) => {
   }
 });
 
-
-// ================= VIEW 1 =================
-
-// GET /sales/global/:year
-router.get('/global/:year', async (req, res) => {
-  try{
-    const year = Number(req.params.year);
-    //validation
-    if (Number.isNaN(year)) {
-      return res.status(400).json({ error: 'Year must be a number' });
-    }
-    // fetch top 10 games from db.js - findTopGamesByYear
-    //filter by Year,
-    // sum duplicate titles across platform,
-    //sort descending by total sales.
-    // an returns [{ name, global_sales }]
-    const results = await db.findTopGamesByYear(year, 10);
-
-    //map data for formatting
-    const data = results.map(game => ({
-      name: game.name,
-      // eslint-disable-next-line camelcase
-      global_sales: game.sales
-    }));
-
-    return res.json({ year, data });
-
-  } catch(error){
-    console.error(error);
-    return res.status(500).json({error: 'Server error'});
-  }
-});
 
 // ================= VIEW 3 =================
 /**
