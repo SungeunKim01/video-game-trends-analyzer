@@ -12,6 +12,8 @@ describe('GET /sales/genre/:genre', () => {
   let distinctGenreStub;
 
   beforeEach(() => {
+    // Stub connection to MongoDB
+    sinon.stub(db, 'connect').resolves();
     genreStub = sinon.stub(db, 'getYearlyGameCountByGenre');
     totalStub = sinon.stub(db, 'getTotalGamesPerYear');
     distinctGenreStub = sinon.stub(db, 'getDistinctGenres');

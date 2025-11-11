@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-/* eslint-disable camelcase */
 import request from 'supertest';
 import * as chai from 'chai';
 const expect = chai.expect;
@@ -17,6 +16,8 @@ describe('GET /api/trends/region/:year/country/:country', () => {
   let catgeoriesStub;
   
   beforeEach(() => {
+    // Stub connection to MongoDB
+    sinon.stub(db, 'connect').resolves();
     catgeoriesStub = sinon.stub(db, 'getCategoriesByYearAndCountry');
   });
   
