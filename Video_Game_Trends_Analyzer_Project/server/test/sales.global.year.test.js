@@ -16,6 +16,11 @@ import { db } from '../db/db.js';
 describe('GET /api/sales/global/:year', () => {
   let stubs = [];
 
+  beforeEach(() => {
+    // Stub connection to MongoDB
+    sinon.stub(db, 'connect').resolves();
+  });
+
   //clean all stubs after each test
   afterEach(() => {
     stubs.forEach(s => s.restore());
