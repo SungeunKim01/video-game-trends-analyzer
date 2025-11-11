@@ -53,21 +53,25 @@ const MapChart = ({ mapData }) => {
     // Set MapPolygon appearance
     polygonSeries.mapPolygons.template.setAll({
       // enable tooltip
-      tooltipText: '{name}\n{region}',
       templateField: 'polygonSettings',
-      interactive: true,
+      interactive: false,
       stroke: am5.color(0xffffff),
-      strokeWidth: 2
+      strokeWidth: 2,
+      fill: am5.color(0xcccccc),
+      fillOpacity: 0.7
     });
 
     polygonSeries.mapPolygons.template.states.create('hover', {
-      fill: am5.color(0xff0000)
+      fillOpacity: 1
     });
 
     // Highlight on hover
     polygonSeries.mapPolygons.template.events.on('click', (evt) => {
+      var zoomAnimation;
       var dataItem = evt.target.dataItem;
-      var zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
+      if (dataItem?.dataContext?.isActive){
+        zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
+      }
       zoomAnimation.waitForStop();
     });
 
@@ -85,8 +89,10 @@ const MapChart = ({ mapData }) => {
           id: data.country_code.toUpperCase(),
           name: data.location,
           region: data.region,
+          isActive: true,
           polygonSettings: {
-            fill: regionColors[data.region] || am5.color(0xffffff)
+            fill: regionColors[data.region] || am5.color(0xffffff),
+            tooltipText: `${data.location}\n${data.region}`
           }
         }))
       );
