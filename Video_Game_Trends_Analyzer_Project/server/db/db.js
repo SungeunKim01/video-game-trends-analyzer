@@ -227,6 +227,43 @@ class DB {
   }
 
   /**
+   * Return the highest rank trends in a certain year for global
+   * limit: top 5
+   * @author Yan Chi
+   * @returns: [{ query_en, region, rank }]
+   */
+
+  async findTopGlobalTrendsByYear(year, limit = 5){
+    const collection = this.db.collection(process.env.DEV_TRENDS_COLLECTION);
+
+    //get documents for given year where region is global
+    const cursor = await collection.find({
+      year: Number(year),
+      region: 'Global'
+    }).project({ query_en: 1, region: 1, rank: 1, _id: 0 });
+
+    const docs = await cursor.toArray();
+    /*
+    // sum sales per game name to collapse cross platform duplicates
+    // here, key: Name, value: summed sales
+    const totals = new Map();
+    for (const doc of docs) {
+      const name = doc.query_en;
+      //against undefined or null
+      const sales = doc.Global_Sales || 0;
+      totals.set(name, (totals.get(name) || 0) + sales);
+    }*/
+
+    //convert to array and sort ascending by sales
+    const sorted = docs.
+      sort((a, b) => a.rank - b.rank).
+      slice(0, limit);
+
+    //[{ query_en, region, rank }]
+    return sorted;
+  }
+
+  /**
    * Gets all years from both collections.
    * @author Yan Chi
    * @returns Array of all possible years.
