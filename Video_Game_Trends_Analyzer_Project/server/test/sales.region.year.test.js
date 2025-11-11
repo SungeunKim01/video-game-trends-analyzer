@@ -9,7 +9,7 @@ import { db } from '../db/db.js';
 /**
  * unit test for GET /api/sales/region/:region/:year
  *
- *supertest to hit the Express app w/o starting real server
+ * supertest to hit the Express app w/o starting real server
  * sinon to stub db.findTopGamesByRegionYear so it does not touch mongodb
  * assert on http status and response body values
 
@@ -22,7 +22,7 @@ describe('GET /api/sales/region/:region/:year', () => {
 
   beforeEach(() => {
     // Stub connection to MongoDB
-    sinon.stub(db, 'connect').resolves();
+    stubs.push(sinon.stub(db, 'connect').resolves());
   });
 
   //clean all stubs after each test
@@ -63,9 +63,9 @@ describe('GET /api/sales/region/:region/:year', () => {
     expect(res.body.countries).to.deep.equal(['Canada', 'Mexico', 'United States']);
 
     //data should include only names
-    const data = res.body.data;
-    expect(Array.isArray(res.body.data)).to.equal(true);
-    expect(res.body.data.length).to.equal(5);
+    const data = res.body.topVgData;
+    expect(Array.isArray(data)).to.equal(true);
+    expect(data.length).to.equal(5);
 
     //data
     expect(data[0].name).to.equal('Wii Sports');

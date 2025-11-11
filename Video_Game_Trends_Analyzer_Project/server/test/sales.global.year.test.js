@@ -18,7 +18,7 @@ describe('GET /api/sales/global/:year', () => {
 
   beforeEach(() => {
     // Stub connection to MongoDB
-    sinon.stub(db, 'connect').resolves();
+    stubs.push(sinon.stub(db, 'connect').resolves());
   });
 
   //clean all stubs after each test
