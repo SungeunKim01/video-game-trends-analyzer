@@ -86,7 +86,7 @@ router.get('/global/:year', async (req, res) => {
   }
 });
 
-// GET /sales/region/:region/:year/:country
+/*// GET /sales/region/:region/:year/:country
 //return country specific categories and searches from trends
 router.get('/region/:region/:year/:country', (req, res) => {
   return res.status(501).json({
@@ -102,7 +102,7 @@ router.get('/region/:region/:year/:category', (req, res) => {
   return res.status(501).json({
     error: 'Not implemented yet'
   });
-});
+});*/
 
 
 // ================= VIEW 3 =================

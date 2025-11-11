@@ -4,7 +4,9 @@ import SelectFilter from './SelectFilter';
 function View1() {
 
   const [year, setYear] = useState('');
-  const [data, setData] = useState([]);
+  const [category, setCategory] = useState('');
+  const [games, setGames] = useState([]);
+  const [trends, setTrends] = useState([]);
 
   return (
     <div className="view-div">
@@ -17,19 +19,45 @@ function View1() {
         onChange={(newYear) => {
           //set new year
           setYear(newYear);
-          //fetch global sales of that year and set data
+          //fetch global sales / global trends of that year and set data
           fetch(`/api/sales/global/${newYear}`)
             .then(res => res.json())
-            .then(json => setData(json.data || []))
+            .then(json => setGames(json.data || []))
             .catch(err => console.error(err));
         }}
       />
 
-      {year && data.length > 0 &&
+      {year && games.length > 0 &&
+        <SelectFilter
+          label="Select Category"
+          //fetch global trend categories from db based on year
+          fetchURL={`/api/trends/region/${year}/country/${'GLOBAL'}`}
+          //if user selects a new category
+          onChange={(newCategory) => {
+            setCategory(newCategory);
+            fetch(`/api/trends/region/${year}/category/${newCategory}`)
+              .then(res => res.json())
+              .then(json => setTrends(json.data || []))
+              .catch(err => console.error(err));
+          }}
+        />
+      }
+
+      {year && games.length > 0 &&
         <>
-          {data.map((game, index) => 
+          {games.map((game, index) => 
             <p key={index}>
               {game.name} - {game.global_sales.toFixed(2)} million
+            </p>
+          )}
+        </>
+      }
+      <hr></hr>
+      {category && trends.length > 0 &&
+        <>
+          {trends.map((trend, index) => 
+            <p key={index}>
+              {trend.name} - Region: {trend.region} - Rank: {trend.rank} 
             </p>
           )}
         </>
