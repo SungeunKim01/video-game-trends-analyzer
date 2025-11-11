@@ -95,7 +95,7 @@ router.get('/global/:year', async (req, res) => {
  * @param {string} req.params.value selected genre or platform
  * @returns {Array<{year:number,num_games:number,total_games:number,percent:number}>}
  */
-router.get('/by/:type/:value', async (req, res) => {
+router.get('/:type/:value', async (req, res) => {
   try {
     const type = String(req.params.type).toLowerCase();
     const value = req.params.value;
@@ -139,7 +139,7 @@ router.get('/by/:type/:value', async (req, res) => {
  * @param {string} req.params.type genre or platform
  * @returns {string[]} distinct values
  */
-router.get('/options/:type', async (req, res) => {
+router.get('/:type', async (req, res) => {
   try {
     const type = String(req.params.type).toLowerCase();
     if (!VALID_TYPES.includes(type)) {
