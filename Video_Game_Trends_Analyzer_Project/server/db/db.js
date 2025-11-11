@@ -28,6 +28,8 @@ const TRENDS_REGION_BY_SALES = {
   OTHER: 'Other'
 };
 
+const col = this.db.collection(process.env.DEV_VG_COLLECTION);
+
 class DB {
   constructor() {
     //instance is the singleton, defined in outer scope
