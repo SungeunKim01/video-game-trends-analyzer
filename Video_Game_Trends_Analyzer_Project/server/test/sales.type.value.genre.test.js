@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import request from 'supertest';
 import * as chai from 'chai';
 const expect = chai.expect;
