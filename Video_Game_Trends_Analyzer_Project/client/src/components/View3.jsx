@@ -57,14 +57,16 @@ function View3() {
         }
       } catch (err) {
         if (isActive) {
-           console.error('Fetch error:', err);
+          console.error('Fetch error:', err);
           setError('Failed to load data');
           setRows([]);
         }
       }
     })();
 
-    return () => { isActive = false; };
+    return () => {
+      isActive = false;
+    };
   }, [type, value]);
 
   return (
