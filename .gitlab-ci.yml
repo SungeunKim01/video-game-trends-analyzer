@@ -89,6 +89,8 @@ build-client:
   script:
     - cd Video_Game_Trends_Analyzer_Project/client
     - npm run build
+    - cd ../
+    - npm run bundlesize
   artifacts:
     paths:
       - Video_Game_Trends_Analyzer_Project/client/dist
