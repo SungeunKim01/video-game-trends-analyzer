@@ -32,12 +32,12 @@ describe('GET /api/sales/global/:year', () => {
    * return ttp 200,
    * echo back year 2010,
   */
-  it('200 - returns {title, global_sales}', async () => {
+  it('200 - returns array of {year, name, global_sales}', async () => {
     //stub db helper
     stubs.push(
       sinon.stub(db, 'findTopGamesByYear').resolves([
-        { name: 'Kinect Adventures!', global_sales: 21.82 },
-        { name: 'Pokemon Black/Pokemon White', global_sales: 15.32 }
+        { name: 'Kinect Adventures!', sales: 21.82 },
+        { name: 'Pokemon Black/Pokemon White', sales: 15.32 }
       ])
     );
 
@@ -46,14 +46,19 @@ describe('GET /api/sales/global/:year', () => {
 
     //status
     expect(res.status).to.equal(200);
-    expect(res.body.year).to.equal(2010);
 
     //data mapping
-    const data = res.body.data;
+    const data = res.body;
     expect(Array.isArray(data)).to.equal(true);
     expect(data.length).to.equal(2);
+
     expect(data[0].name).to.equal('Kinect Adventures!');
+    expect(data[0].global_sales).to.equal(21.82);
+    expect(data[0].year).to.equal(2010);
+
     expect(data[1].name).to.equal('Pokemon Black/Pokemon White');
+    expect(data[1].global_sales).to.equal(15.32);
+    expect(data[1].year).to.equal(2010);
   });
 
 

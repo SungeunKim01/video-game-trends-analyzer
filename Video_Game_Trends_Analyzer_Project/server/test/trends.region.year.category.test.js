@@ -13,7 +13,7 @@ import { db } from '../db/db.js';
  * Google trends queries given a year, country and category.
  * @author Jennifer
  */
-describe('GET /api/trends/region/:year/category/:category', () => {
+describe('GET /api/trends/region/:year/country/:country/category/:category', () => {
 
   // Stub for Google Trends query_en
   let queriesStub;
@@ -35,26 +35,28 @@ describe('GET /api/trends/region/:year/category/:category', () => {
     // Mock DB output: queries from
     // the category_en "Searches" in US, year 2016
     queriesStub.resolves([
-      { query_en: 'Powerball', region: 'North America', rank: 1 },
-      { query_en: 'Prince', region: 'North America', rank: 2 },
-      { query_en: 'Hurricane Matthew', region: 'North America', rank: 3 },
-      { query_en: 'Pokémon Go', region: 'North America', rank: 4 },
-      { query_en: 'Slither.io', region: 'North America', rank: 5 }
+      { query_en: 'Powerball', country_code: 'GLOBAL', rank: 1 },
+      { query_en: 'Prince', country_code: 'GLOBAL', rank: 2 },
+      { query_en: 'Hurricane Matthew', country_code: 'GLOBAL', rank: 3 },
+      { query_en: 'Pokémon Go', country_code: 'GLOBAL', rank: 4 },
+      { query_en: 'Slither.io', country_code: 'GLOBAL', rank: 5 }
     ]);
     
     // Call endpoint
-    const res = await request(app).get('/api/trends/region/2016/category/Searches');
+    const res = await request(app).get('/api/trends/region/2016/country/GLOBAL/category/Searches');
 
     // Check the body of the response
     expect(res.status).to.equal(200);
-    expect(res.body.year).to.equal(2016);
-    expect(Array.isArray(res.body.data)).to.equal(true);
-    expect(res.body.data.length).to.equal(5);
+
+    const data = res.body;
+    expect(Array.isArray(data)).to.equal(true);
+    expect(data.length).to.equal(5);
 
     // Check the first query element
-    expect(res.body.data[0].name).to.equal('Powerball');
-    expect(res.body.data[0].region).to.equal('North America');
-    expect(res.body.data[0].rank).to.equal(1);
+    expect(data[0].year).to.equal(2016);
+    expect(data[0].name).to.equal('Powerball');
+    expect(data[0].country).to.equal('GLOBAL');
+    expect(data[0].rank).to.equal(1);
   });
 
 
@@ -62,7 +64,7 @@ describe('GET /api/trends/region/:year/category/:category', () => {
   it('400 - invalid year', async () => {
 
     // Call endpoint with invalid year
-    const res = await request(app).get('/api/trends/region/Z0lP/category/Searches');
+    const res = await request(app).get('/api/trends/region/Z0lP/country/GLOBAL/category/Searches');
 
     expect(res.status).to.equal(400);
     expect(res.body).to.have.property('error', 'Year must be a number');
@@ -73,7 +75,7 @@ describe('GET /api/trends/region/:year/category/:category', () => {
   it('500 - server error, non-existent category', async () => {
 
     // Call endpoint with invalid category
-    const res = await request(app).get('/api/trends/region/2016/category/asdfgkl');
+    const res = await request(app).get('/api/trends/region/2016/country/GLOBAL/category/asdfgkl');
 
     expect(res.status).to.equal(500);
     expect(res.body).to.have.property('error', 'Server error');
