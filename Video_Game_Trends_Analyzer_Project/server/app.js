@@ -24,6 +24,8 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
+console.log('Swagger loaded paths:', Object.keys(swaggerSpec.paths || {})); // one-time sanity log
+
 
 
 const app = express();
