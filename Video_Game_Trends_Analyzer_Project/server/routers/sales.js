@@ -3,7 +3,25 @@ import express from 'express';
 import { db, VALID_REGIONS, VALID_TYPES } from '../db/db.js';
 export const router = express.Router();
 
-
+/**
+ * @swagger
+ * /sales/years:
+ *   get:
+ *     summary: All years available in the datasets
+ *     tags: [Sales]
+ *     description: Returns the union of years from the Trends and VG Sales collections.
+ *     responses:
+ *       200:
+ *         description: Array of years
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: integer
+ *       500:
+ *         description: Server error
+ */
 // GET /sales/years
 // returns aggregate of years from trends and games tables
 router.get('/years', async (req, res) => {
@@ -16,9 +34,41 @@ router.get('/years', async (req, res) => {
   }
 });
 
-
 // ================= VIEW 1 =================
-
+/**
+ * @swagger
+ * /sales/global/{year}:
+ *   get:
+ *     summary: Top 10 global games for a year
+ *     tags: [Sales]
+ *     parameters:
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Four digit year
+ *     responses:
+ *       200:
+ *         description: Top games and global sales
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 year: { type: integer }
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name: { type: string }
+ *                       global_sales: { type: number }
+ *       400:
+ *         description: Year must be a number
+ *       500:
+ *         description: Server error
+ */
 // GET /sales/global/:year
 router.get('/global/:year', async (req, res) => {
   try{
@@ -49,9 +99,51 @@ router.get('/global/:year', async (req, res) => {
   }
 });
 
-
 // ================= VIEW 2 =================
-
+/**
+ * @swagger
+ * /sales/region/{region}/{year}:
+ *   get:
+ *     summary: Top 5 games and countries for a region/year
+ *     tags: [Sales]
+ *     description: Region codes are NA, EU, JP, OTHER. GLOBAL
+ *     parameters:
+ *       - in: path
+ *         name: region
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [NA, EU, JP, OTHER, GLOBAL]
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Countries list and top 5 game names for the region/year
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 region: { type: string }
+ *                 year: { type: integer }
+ *                 countries:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 topVgData:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name: { type: string }
+ *       400:
+ *         description: Invalid region OR year
+ *       500:
+ *         description: Server error
+ */
 // GET /sales/region/:region/:year
 router.get('/region/:region/:year', async (req, res) => {
   try {
@@ -105,8 +197,47 @@ router.get('/region/:region/:year', async (req, res) => {
   }
 });
 
-
 // ================= VIEW 3 =================
+/**
+ * @swagger
+ * /sales/{type}/{value}:
+ *   get:
+ *     summary: Yearly counts and percentages for a genre or platform
+ *     tags: [Sales]
+ *     description: Computes {year, num_games, total_games, percent} per year.
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [genre, platform]
+ *         description: Choose "genre" or "platform"
+ *       - in: path
+ *         name: value
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The selected genre or platform value
+ *     responses:
+ *       200:
+ *         description: Time series rows
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   year: { type: integer }
+ *                   num_games: { type: integer }
+ *                   total_games: { type: integer }
+ *                   percent: { type: number }
+ *       400:
+ *         description: Invalid type or unknown value
+ *       500:
+ *         description: Server error
+ */
 /**
  * GET /api/sales/:type/:value
  * View3 time series for a given genre OR platform
@@ -151,6 +282,33 @@ router.get('/:type/:value', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /sales/{type}:
+ *   get:
+ *     summary: Distinct values for genre or platform
+ *     tags: [Sales]
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [genre, platform]
+ *     responses:
+ *       200:
+ *         description: Array of distinct values
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       400:
+ *         description: Invalid type
+ *       500:
+ *         description: Server error
+ */
 // this, we can remove later
 /**
  * GET /api/sales/:type

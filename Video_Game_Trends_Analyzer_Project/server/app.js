@@ -25,7 +25,6 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
-
 const app = express();
 
 //Routes are here either directly or using a router
