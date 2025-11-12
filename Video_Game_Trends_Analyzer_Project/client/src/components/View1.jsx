@@ -48,17 +48,6 @@ function View1() {
         rows={games}
       />
 
-
-      {year && games.length > 0 &&
-        <>
-          {games.map((game, index) => 
-            <p key={index}>
-              {game.name} - {game.global_sales.toFixed(2)} million
-            </p>
-          )}
-        </>
-      }
-      <hr></hr>
       {category && trends.length > 0 &&
         <>
           {trends.map((trend, index) => 
