@@ -112,12 +112,13 @@ router.get('/region/:year/country/:country/category/:category', async (req, res)
 
     //map data for formatting
     const data = results.map(trend => ({
+      year,
       name: trend.query_en,
       country: trend.country_code,
       rank: trend.rank
     }));
 
-    return res.json({year, data});
+    return res.json(data);
   } catch(error){
     console.error(error);
     return res.status(500).json({error: 'Server error'});

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SelectFilter from './SelectFilter';
+import BarChart from './BarChart';
 
 function View1() {
 
@@ -22,7 +23,7 @@ function View1() {
           //fetch global sales / global trends of that year and set data
           fetch(`/api/sales/global/${newYear}`)
             .then(res => res.json())
-            .then(json => setGames(json.data || []))
+            .then(json => setGames(json))
             .catch(err => console.error(err));
         }}
       />
@@ -37,11 +38,16 @@ function View1() {
             setCategory(newCategory);
             fetch(`/api/trends/region/${year}/country/${'GLOBAL'}/category/${newCategory}`)
               .then(res => res.json())
-              .then(json => setTrends(json.data || []))
+              .then(json => setTrends(json))
               .catch(err => console.error(err));
           }}
         />
       }
+      {/* Chart */}
+      <BarChart
+        rows={games}
+      />
+
 
       {year && games.length > 0 &&
         <>

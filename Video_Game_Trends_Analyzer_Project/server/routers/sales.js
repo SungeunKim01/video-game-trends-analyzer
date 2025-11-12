@@ -86,12 +86,12 @@ router.get('/global/:year', async (req, res) => {
 
     //map data for formatting
     const data = results.map(game => ({
+      year,
       name: game.name,
-      // eslint-disable-next-line camelcase
       global_sales: game.sales
     }));
 
-    return res.json({ year, data });
+    return res.json(data);
 
   } catch(error){
     console.error(error);

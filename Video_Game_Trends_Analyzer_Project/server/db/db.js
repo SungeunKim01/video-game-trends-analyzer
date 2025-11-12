@@ -10,7 +10,7 @@ if (fs.existsSync(envPath)) {
   process.loadEnvFile(envPath); 
 }
 
-const dbUrl = process.env.ATLAS_URI;
+const dbUrl = process.env.DEV_ATLAS_URI;
 
 let instance = null;
 
