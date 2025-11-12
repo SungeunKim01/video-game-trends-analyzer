@@ -6,7 +6,7 @@
     "start": "cd server && node bin/www",
     "build": "cd client && npm install && npm run build && cd ../server && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundlesize": "bundlesize --config ./bundlesize.json"
+    "bundlesize": "npx bundlesize2 --config ./bundlesize.json"
   },
   "keywords": [],
   "author": "Sungeun Kim",
