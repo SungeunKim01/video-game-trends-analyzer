@@ -90,8 +90,7 @@ build-client:
     - cd Video_Game_Trends_Analyzer_Project/client
     - npm run build
     - cd ../
-    - npm install --save-dev bundlesize
-    - npm run bundlesize
+    - npx bundlesize --config ./bundlesize.json
   artifacts:
     paths:
       - Video_Game_Trends_Analyzer_Project/client/dist
