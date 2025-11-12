@@ -104,7 +104,7 @@ router.get('/global/:year', async (req, res) => {
  * @swagger
  * /sales/region/{region}/{year}:
  *   get:
- *     summary: Top 5 games and countries for a region/year
+ *     summary: Top 5 games and countries for a region and year
  *     tags: [Sales]
  *     description: Region codes are NA, EU, JP, OTHER. GLOBAL
  *     parameters:
