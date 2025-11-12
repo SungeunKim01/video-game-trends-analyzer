@@ -2,7 +2,7 @@ import {db} from '../db/db.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-process.loadEnvFile(path.resolve('.env'));
+// process.loadEnvFile(path.resolve('.env'));
 
 const vgFilepath = path.resolve('data', 'vgsales.json');
 const trendsFilepath = path.resolve('data', 'trends.json');
