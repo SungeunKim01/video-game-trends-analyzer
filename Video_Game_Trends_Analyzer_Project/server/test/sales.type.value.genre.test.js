@@ -15,7 +15,7 @@ import { db } from '../db/db.js';
  * 200Division by zero, so percent = 0 when total_games = 0
  *
  * this use supertest against the real Express app,
- * stub db methods (getDistinctByType, getYearlyGameCountByType, getTotalGamesPerYear) *
+ * stub db methods (getDistinctByType, getYearlyGameCountByType, getTotalGamesPerYear)
  * @author Sungeun
  */
 describe('View3 GET /api/sales/genre/:value', () => {
