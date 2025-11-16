@@ -45,13 +45,19 @@ function SelectFilter({ fetchURL, label, extractList, onChange }) {
         }
         //set options of select field
         setOptions(list);
+
+        if (list.length > 0) {
+          setSelected(list[0]);
+          onChange?.(list[0]);
+        }
+
       } catch(error){
         console.error('fetch error:', error);
         setOptions([]);
       }
     };
     fetchData();
-  }, [fetchURL, extractList]);
+  }, [fetchURL, extractList, onChange]);
 
   const handleChange = (e) => {
     setSelected(e.target.value);
