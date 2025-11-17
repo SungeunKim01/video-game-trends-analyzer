@@ -86,6 +86,7 @@ function View3() {
         key={type}
         fetchURL={`/api/sales/${type}`}
         label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
+        value={value}
         onChange={setValue}
       />
 
