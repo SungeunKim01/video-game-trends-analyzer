@@ -10,3 +10,4 @@ markdown_tools/
 deploy.zip
 .DS_Store
 dist/
+*.pem
