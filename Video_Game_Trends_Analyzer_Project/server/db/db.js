@@ -10,7 +10,7 @@ if (fs.existsSync(envPath)) {
   process.loadEnvFile(envPath); 
 }
 
-const dbUrl = process.env.PRO_DB;
+const dbUrl = process.env.PROD_ATLAS_URI;
 
 let instance = null;
 
@@ -142,7 +142,7 @@ class DB {
    * and for OTHER, exclude NA, EU , JP, Global and combine the rest
    */
   async countriesFromTrends(regionKey, year) {
-    const col = this.db.collection(process.env.PRO_TRENDS_COLLECTION);
+    const col = this.db.collection(process.env.PROD_TRENDS_COLLECTION);
     // translate region code as they appear in trends.json
     const mapped = TRENDS_REGION_BY_SALES[String(regionKey).toUpperCase()];
 
