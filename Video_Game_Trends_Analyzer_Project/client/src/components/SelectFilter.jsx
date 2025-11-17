@@ -9,17 +9,15 @@ import { useEffect, useState } from 'react';
  * Dynamically create a select dropdown menu based on what needs to be fetched from the db.
  * @prop `fetchURL`: String that indicates route to fetch from in express
  * @prop `label`: Label of the select field.
- * @prop `extractList`: Optional function that specifies where data is if wrapped inside an object
- * For example, /api/sales/region/:region/:year returns the list of countries 
- * inside of a data object, so we add an anonymous function as input that specifies which property
- * of the object we want to populate the select
  * @prop `onChange`: Callback function that is called when user changes options
  * @returns A select element populated by what is fetched from the given URL
  */
-function SelectFilter({ fetchURL, label, extractList, onChange }) {
+function SelectFilter({ fetchURL, label, onChange, value }) {
 
   const [options, setOptions] = useState([]);
-  const [selected, setSelected] = useState('');
+  //const [selected, setSelected] = useState('');
+  //https://react.dev/reference/react/useRef
+  //const initialLoad = useRef(true);
 
   useEffect(() => {
     //dont fetch if no url
@@ -32,13 +30,7 @@ function SelectFilter({ fetchURL, label, extractList, onChange }) {
         const data = await response.json();
 
         let list;
-        if (extractList) {
-          // use extractList function to get specific list from object
-          //for country and category, which are an array inside an object
-          list = extractList(data);
-          //set list of options to just use data from fetch if it is an array
-          //basically for years, genre, platform
-        } else if (Array.isArray(data)){
+        if (Array.isArray(data)){
           list = data;
         } else{
           throw new Error('cannot find array to populate dropdown');
@@ -46,8 +38,8 @@ function SelectFilter({ fetchURL, label, extractList, onChange }) {
         //set options of select field
         setOptions(list);
 
-        if (list.length > 0) {
-          setSelected(list[0]);
+        //set default values on initial load
+        if (list.length > 0 && !value) {
           onChange?.(list[0]);
         }
 
@@ -56,18 +48,22 @@ function SelectFilter({ fetchURL, label, extractList, onChange }) {
         setOptions([]);
       }
     };
+
+    //reset initialLoad useRef when new URL
+    //initialLoad.current = true;
     fetchData();
-  }, [fetchURL, extractList, onChange]);
+
+  }, [fetchURL]);
 
   const handleChange = (e) => {
-    setSelected(e.target.value);
+    //setSelected(e.target.value);
     onChange?.(e.target.value);
   };
 
   return (
     <div>
       <label>{label}</label>
-      <select value={selected} onChange={handleChange}>
+      <select value={value ?? ''} onChange={handleChange}>
         <option value="">{label}</option>
         {options.map((opt, index) => (
           <option value={opt} key={index}>

@@ -13,9 +13,11 @@ function View1() {
     <div className="view-div">
       <h2>View 1: Best Global Selling Games </h2>
       <SelectFilter
+        key="year-filter"
         label="Select Year"
         //fetch all years from db and populate select
         fetchURL="/api/sales/years"
+        value={year}
         //if user selects a new year
         onChange={(newYear) => {
           //set new year
@@ -30,9 +32,11 @@ function View1() {
 
       {year && games.length > 0 &&
         <SelectFilter
+          key={year}
           label="Select Category"
           //fetch global trend categories from db based on year
           fetchURL={`/api/trends/region/${year}/country/${'GLOBAL'}`}
+          value={category}
           //if user selects a new category
           onChange={(newCategory) => {
             setCategory(newCategory);
