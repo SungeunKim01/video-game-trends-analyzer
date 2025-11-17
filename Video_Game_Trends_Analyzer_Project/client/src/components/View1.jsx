@@ -9,6 +9,8 @@ function View1() {
   const [games, setGames] = useState([]);
   const [trends, setTrends] = useState([]);
 
+  const [error, setError] = useState('');
+
   return (
     <div className="view-div">
       <h2>View 1: Best Global Selling Games </h2>
@@ -26,7 +28,10 @@ function View1() {
           fetch(`/api/sales/global/${newYear}`)
             .then(res => res.json())
             .then(json => setGames(json))
-            .catch(err => console.error(err));
+            .catch((err) => {
+              setError(err.message);
+              console.error(err);
+            });
         }}
       />
 
@@ -43,10 +48,17 @@ function View1() {
             fetch(`/api/trends/region/${year}/country/${'GLOBAL'}/category/${newCategory}`)
               .then(res => res.json())
               .then(json => setTrends(json))
-              .catch(err => console.error(err));
+              .catch((err) => {
+                setError(err.message);
+                console.error(err);
+              });
           }}
         />
       }
+
+      {/* Error display */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
       {/* Chart */}
       <BarChart
         rows={games}
