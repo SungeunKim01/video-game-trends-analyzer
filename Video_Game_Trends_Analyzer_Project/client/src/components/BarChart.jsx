@@ -30,7 +30,10 @@ export default function BarChart({rows}){
     if (!canvas) return;
 
     //get sales data for y-axis
-    const points = Array.isArray(rows) ? rows.map(r => r.global_sales ) : [];
+    const points = Array.isArray(rows) 
+      ? rows.map(r => 
+        ({ x: r.name, y: r.global_sales, genre: r.genre, publisher: r.publisher })) 
+      : [];
 
     let chart = Chart.getChart(canvas);
 
@@ -39,7 +42,7 @@ export default function BarChart({rows}){
         type: 'bar',
         data: {
           // game names = x-axis labels
-          labels: rows.map(r => r.name),
+          //labels: rows.map(r => r.name),
           datasets: [{
             label: 'Sales',
             //y-axis values uses points
@@ -61,12 +64,22 @@ export default function BarChart({rows}){
           plugins: {
             title: { display: true, text: 'Top 10 Globally Sold Games' },
             legend: { display: true },
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.parsed.y} Million `,
+                afterLabel: ctx => {
+                  // {x, y, genre, publisher}
+                  const raw = ctx.raw;
+                  return raw ? `Genre: ${raw.genre} / Publisher: ${raw.publisher}` : '';
+                }
+              }
+            }
           }
         }
       });
     } else {
       // update existing chart
-      chart.data.labels = rows.map(r => r.name);
+      //chart.data.labels = rows.map(r => r.name);
       chart.data.datasets[0].data = points;
       chart.update();
     }

@@ -88,7 +88,9 @@ router.get('/global/:year', async (req, res) => {
     const data = results.map(game => ({
       year,
       name: game.name,
-      global_sales: game.sales
+      global_sales: game.sales,
+      publisher: game.publisher,
+      genre: game.genre
     }));
 
     return res.json(data);

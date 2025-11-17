@@ -255,7 +255,7 @@ class DB {
     const cursor = await collection.find({
       Year: Number(year),
       Global_Sales: { $gt: 0}
-    }).project({ Name: 1, Global_Sales: 1, _id: 0 });
+    }).project({ Name: 1, Global_Sales: 1, Publisher: 1, Genre: 1, _id: 0 });
 
     const docs = await cursor.toArray();
     // sum sales per game name to collapse cross platform duplicates
@@ -265,15 +265,27 @@ class DB {
       const name = doc.Name;
       //against undefined or null
       const sales = doc.Global_Sales || 0;
-      totals.set(name, (totals.get(name) || 0) + sales);
+
+      if(!totals.has(name)){
+        totals.set(name, { sales, publisher: doc.Publisher, genre: doc.Genre });
+      } else{
+        const dupe = totals.get(name);
+        dupe.sales += sales;
+        totals.set(name, dupe);
+      }
     }
 
     //convert to array and sort descending by sales
-    const sorted = Array.from(totals, ([name, sales]) => ({ name, sales })).
+    const sorted = Array.from(totals, ([name, info]) => ({ 
+      name, 
+      sales: Number(info.sales.toFixed(2)),
+      publisher: info.publisher,
+      genre: info.genre
+    })).
       sort((a, b) => b.sales - a.sales).
       slice(0, limit);
 
-    //[{ name, global_sales }]
+    //[{ name, global_sales, publisher, genre }]
     return sorted;
   }
 
