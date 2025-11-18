@@ -7,8 +7,8 @@ const port = process.env.PORT || 3000;
 
 try{
     // await db.connect("Video_Game_Trends_Analyzer_Production");
-    await db.connect(process.env.PROD_DB);
-    await db.setCollection(process.env.PROD_VG_COLLECTION);
+    await db.connect(process.env.DB);
+    await db.setCollection(process.env.VG_COLLECTION);
     //check db collection is not empty
     const count = await db.collection.countDocuments();
     

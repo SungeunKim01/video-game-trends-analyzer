@@ -10,7 +10,7 @@ if (fs.existsSync(envPath)) {
   process.loadEnvFile(envPath); 
 }
 
-const dbUrl = process.env.PROD_ATLAS_URI;
+const dbUrl = process.env.ATLAS_URI;
 
 let instance = null;
 
@@ -97,7 +97,7 @@ class DB {
      ]
    */
   async groupCountriesByRegion() {
-    const collection = this.db.collection(process.env.PROD_TRENDS_COLLECTION);
+    const collection = this.db.collection(process.env.TRENDS_COLLECTION);
 
     // Get unique countries
     const pipeline = [
@@ -142,7 +142,7 @@ class DB {
    * and for OTHER, exclude NA, EU , JP, Global and combine the rest
    */
   async countriesFromTrends(regionKey, year) {
-    const col = this.db.collection(process.env.PROD_TRENDS_COLLECTION);
+    const col = this.db.collection(process.env.TRENDS_COLLECTION);
     // translate region code as they appear in trends.json
     const mapped = TRENDS_REGION_BY_SALES[String(regionKey).toUpperCase()];
 
@@ -223,7 +223,7 @@ class DB {
     if (!regionField) {
       throw new Error(`Invalid region: ${regionCode}`);
     }
-    const col = this.db.collection(process.env.PROD_VG_COLLECTION);
+    const col = this.db.collection(process.env.VG_COLLECTION);
 
     const docs = await col.aggregate([
       //keep only the requested year & rows where region sales bigger than 0 after cast
@@ -249,7 +249,7 @@ class DB {
    */
 
   async findTopGamesByYear(year, limit = 10){
-    const collection = this.db.collection(process.env.PROD_VG_COLLECTION);
+    const collection = this.db.collection(process.env.VG_COLLECTION);
 
     //get documents for given year where global sales more than 0
     const cursor = await collection.find({
@@ -283,8 +283,8 @@ class DB {
    * @returns Array of all possible years.
    */
   async getAllYears(){
-    const gameCollection = this.db.collection(process.env.PROD_VG_COLLECTION);
-    const trendCollection = this.db.collection(process.env.PROD_TRENDS_COLLECTION);
+    const gameCollection = this.db.collection(process.env.VG_COLLECTION);
+    const trendCollection = this.db.collection(process.env.TRENDS_COLLECTION);
     
     //get distinct years from trend collection using aggregate
     const trendYearsAg = await trendCollection.aggregate([
@@ -309,7 +309,7 @@ class DB {
    * @returns Array with the year and total games released that year.
    */
   async getCategoriesByYearAndCountry(year, country) {
-    const collection = this.db.collection(process.env.PROD_TRENDS_COLLECTION);
+    const collection = this.db.collection(process.env.TRENDS_COLLECTION);
     const cursor = await collection.aggregate([
       { $match: { year: Number(year), country_code: country } },
       { $group: { _id: '$category_en' } },
@@ -327,7 +327,7 @@ class DB {
    * @returns: [{ query_en, country, rank }]
    */
   async getTopTrendsByYearAndCategory(year, country, category){
-    const collection = this.db.collection(process.env.PROD_TRENDS_COLLECTION);
+    const collection = this.db.collection(process.env.TRENDS_COLLECTION);
 
     //get documents for given year depending on category
     const cursor = await collection.find({
@@ -354,7 +354,7 @@ class DB {
    * @returns Array with the year and total games released that year.
    */
   async getTotalGamesPerYear() {
-    const collection = this.db.collection(process.env.PROD_VG_COLLECTION);
+    const collection = this.db.collection(process.env.VG_COLLECTION);
     const docs = await collection.aggregate([
       { $group: { _id: '$Year', total_games: { $sum: 1 } } },
       { $sort: { _id: 1 } }
@@ -367,7 +367,7 @@ class DB {
    * @author Sungeun
    */
   async getDistinctByType(type) {
-    const colVG = this.db.collection(process.env.PROD_VG_COLLECTION);
+    const colVG = this.db.collection(process.env.VG_COLLECTION);
     const field = type === 'genre' ? 'Genre' : type === 'platform' ? 'Platform' : null;
     if (!field) return [];
 
@@ -390,7 +390,7 @@ class DB {
    * @returns Array of objects with { year, num_games }
    */
   async getYearlyGameCountByType(type, value) {
-    const collectionVG = this.db.collection(process.env.PROD_VG_COLLECTION);
+    const collectionVG = this.db.collection(process.env.VG_COLLECTION);
     const field = type === 'genre' ? 'Genre' : 'Platform';
     const match = { [field]: value };
 
