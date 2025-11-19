@@ -114,7 +114,7 @@ build-app-archive:
     - cd server
     - npm ci --omit=dev
     # back to repo root for tar paths
-    - cd ../../
+    - cd ..
   script:
     - tar -zcvf "$RELEASE_FILE" server client/dist
   artifacts:
