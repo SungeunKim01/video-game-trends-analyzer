@@ -66,15 +66,19 @@ export default function LineChart({ rows, label }) {
             }
           },
           plugins: {
-            title: { display: true, text: 'Games Released by Year (%)' },
+            title: { display: true, 
+              text: 'Percent of games released, by year, that were this genre/platform (%)' },
             legend: { display: true },
             tooltip: {
               callbacks: {
-                label: ctx => `${ctx.parsed.y}%`,
+                label: ctx =>{
+                  const percentage = ctx.parsed.y;
+                  const year = ctx.label;
+                  return `${percentage}% of games in ${year}`;
+                },
                 afterLabel: ctx => {
-                  // {x, y, num, total}
                   const raw = ctx.raw;
-                  return raw ? `Games: ${raw.num} / Total games: ${raw.total}` : '';
+                  return raw ? `Games: ${raw.num} out of ${raw.total} total games` : '';
                 }
               }
             }

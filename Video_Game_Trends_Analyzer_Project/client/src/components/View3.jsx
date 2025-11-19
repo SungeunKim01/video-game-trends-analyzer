@@ -73,6 +73,15 @@ function View3() {
     <div className="view-div">
       <h2>Genre &amp; Platform Trend Chart</h2>
 
+      {/*context for user */}
+      <p style={{ maxWidth: '820px', margin: '0 auto 30px' }}>
+        This chart shows, for each year, what percentage of all released games
+        belong to the selected {type}.
+        <br />
+        Hover over a point to see the exact percentage and how many games that is out of the total
+        number of games released that year.
+      </p>
+
       <label style={{ marginRight: '10px' }}>
         Filter by:&nbsp;
         <select value={type} onChange={handleTypeChange}>
