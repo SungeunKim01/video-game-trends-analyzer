@@ -36,7 +36,7 @@ app.use(express.json());
 app.use(express.static('../client/dist'));
 
 // mount Swagger ui and json befo routes
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/api/docs.json', (req, res) => res.json(swaggerSpec));
 
 
