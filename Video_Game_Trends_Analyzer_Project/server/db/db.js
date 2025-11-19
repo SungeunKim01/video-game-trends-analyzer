@@ -163,13 +163,25 @@ class DB {
 
       const pipeline = [
         { $match: match },
-        { $group: { _id: '$location' } },
+        { $group: { 
+          _id: {
+            region: '$region',
+            country_code: '$country_code',
+            location: '$location'
+          }
+        }},
         // here sort country names alphabetically
-        { $sort: { _id: 1 } }
+        { $sort: { _id: 1 } },
+        { $project: {
+          _id: 0,
+          region: '$_id.region',
+          country_code: '$_id.country_code',
+          location: '$_id.location'
+        }}
       ];
       const docs = await col.aggregate(pipeline).toArray();
       // for example, unwrap {_id: 'Canada'} to 'Canada'
-      return docs.map(d => d._id);
+      return docs;
     }
 
     // For these NA/EU/JP, region in trends is a single known label
