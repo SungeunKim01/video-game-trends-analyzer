@@ -2,9 +2,10 @@
 
 image: node:22.8-bullseye-slim
 
-# if any of the conditions below is satisfied, the pipeline runs  
+# if any of the conditions below is satisfied, the pipeline runs
 workflow:
   rules:
+    - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_BRANCH == "staging"
@@ -14,6 +15,7 @@ stages:
   - lint
   - build
   - test
+  - release
 
 #split install job into server & client since each has their own package.json
 install-server:
@@ -51,7 +53,7 @@ install-client:
 
 # run lint on server js files
 lint-server:
-  stage: lint 
+  stage: lint
   dependencies:
     - install-server
   script:
@@ -94,3 +96,28 @@ build-client:
   artifacts:
     paths:
       - Video_Game_Trends_Analyzer_Project/client/dist
+
+# build release archive for aws
+build-app-archive:
+  stage: release
+  variables:
+    # release-<project>-<tag>-<short-commit>.tar.gz
+    RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
+  dependencies:
+    - build-client
+  rules:
+    #run when tag is pushed
+    - if: "$CI_COMMIT_TAG"
+  before_script:
+    - cd Video_Game_Trends_Analyzer_Project/server
+    # install only production depen in /server
+    - npm ci --omit=dev
+    # back to repo root for tar paths
+    - cd ../../
+  script:
+    - tar -zcvf $RELEASE_FILE \
+      Video_Game_Trends_Analyzer_Project/server \
+      Video_Game_Trends_Analyzer_Project/client/dist
+  artifacts:
+    paths:
+      - $RELEASE_FILE
