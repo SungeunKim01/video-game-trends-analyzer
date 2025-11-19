@@ -10,6 +10,10 @@ function View2() {
   const [mapData, setMapData] = useState(null);
   const [region, setRegion] = useState('');
 
+  const [country, setCountry] = useState('');
+  const [category, setCategory] = useState('');
+  const [trends, setTrends] = useState([]);
+
   const [error, setError] = useState('');
 
   const REGION_MAP = {
@@ -37,13 +41,14 @@ function View2() {
     getDefaultGlobalData();
   }, []);
 
-  function handleRegionClick(newRegion) {
+  function handleRegionClick(newRegion, newCountry) {
     //map region
     const regionCode = REGION_MAP[newRegion];
 
     console.log('Region clicked: ', newRegion);
 
     setRegion(regionCode);
+    setCountry(newCountry);
 
     fetch(`/api/sales/region/${regionCode}/${year}`)
       .then(res => res.json())
@@ -52,6 +57,7 @@ function View2() {
         setError(err.message);
         console.error(err);
       });
+    
   }
 
   return (
@@ -68,17 +74,39 @@ function View2() {
         onChange={(newYear) => {
           //set new year
           setYear(newYear);
-          //fetch global sales / global trends of that year and set data
-          /*fetch(`/api/sales/global/${newYear}`)
-            .then(res => res.json())
-            .then(json => setGames(json))
-            .catch((err) => {
-              setError(err.message);
-              console.error(err);
-            });*/
+          if(region){
+            //fetch global sales / global trends of that year and set data
+            fetch(`/api/sales/region/${region}/${newYear}`)
+              .then(res => res.json())
+              .then(json => setMapData(json))
+              .catch((err) => {
+                setError(err.message);
+                console.error(err);
+              });
+          }
         }}
       />
 
+      {year && country &&
+        <SelectFilter
+          key={year}
+          label="Select Category"
+          //fetch global trend categories from db based on year
+          fetchURL={`/api/trends/region/${year}/country/${country}`}
+          value={category}
+          //if user selects a new category
+          onChange={(newCategory) => {
+            setCategory(newCategory);
+            fetch(`/api/trends/region/${year}/country/${country}/category/${newCategory}`)
+              .then(res => res.json())
+              .then(json => setTrends(json))
+              .catch((err) => {
+                setError(err.message);
+                console.error(err);
+              });
+          }}
+        />
+      }
 
       {/* Error display */}
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -90,6 +118,16 @@ function View2() {
           {mapData.topVgData.map((game, index) => (
             <p key={index}>{game.name}</p>
           ))}
+        </>
+      }
+
+      {category && trends.length > 0 &&
+        <>
+          {trends.map((trend, index) => 
+            <p key={index}>
+              {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
+            </p>
+          )}
         </>
       }
 

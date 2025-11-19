@@ -66,6 +66,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
 
     // Zoom in when country is clicked
     polygonSeries.mapPolygons.template.events.on('click', (evt) => {
+      console.log(evt.target.dataItem.dataContext);
       const clickedRegion = evt.target.dataItem.dataContext.region;
       var dataItem = evt.target.dataItem;
       if (dataItem?.dataContext?.isActive){
@@ -73,7 +74,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
         zoomAnimation.waitForStop();
       }
       if (clickedRegion) {
-        onRegionClick(clickedRegion);
+        onRegionClick(clickedRegion, evt.target.dataItem.dataContext.id);
       }
     });
 
