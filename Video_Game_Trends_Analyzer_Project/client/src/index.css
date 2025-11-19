@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    color: white;
+}
+
+html {
+    background-color: #191e26;
+    background:
+    linear-gradient(140deg, rgba(68, 13, 83, 0.9), rgba(248, 199, 255, 0) 10.71%),
+    linear-gradient(210deg, rgb(15, 8, 79), rgba(0, 102, 97, 0) 10.71%),
+    linear-gradient(0deg, #000, #000 100%)
+}
