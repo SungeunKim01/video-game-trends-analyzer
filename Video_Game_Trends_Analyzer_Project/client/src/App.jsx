@@ -9,8 +9,9 @@ function App() {
 
   return (
     <div>
-      <h1>Video Game Trends Analyzer</h1>
-      {/* <GlobalSales/> */}
+      <div className="view-div">
+        <h1>Video Game Trends Analyzer</h1>
+      </div>
       <View1 />
       <hr />
       <View2 />

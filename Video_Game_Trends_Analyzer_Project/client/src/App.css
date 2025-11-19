@@ -1,7 +1,7 @@
 
 /* Adds red border to every element */
 * {
-  border: red solid 1px;
+  /* border: red solid 1px; */
 }
 
 #root {
@@ -11,8 +11,18 @@
   text-align: center;
 }
 
+h1 {
+  font-family: "Elms Sans", sans-serif;
+  font-size: 80px;
+  width: 9em;
+  line-height: 1em;
+}
+
 /************ CHART VIEWS ************/
 .view-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100vh;
 }
 
