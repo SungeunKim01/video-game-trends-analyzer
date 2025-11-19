@@ -9,6 +9,7 @@ function View2() {
   const [year, setYear] = useState('');
   const [mapData, setMapData] = useState(null);
   const [region, setRegion] = useState('');
+  const [games, setGames] = useState([]);
 
   const [country, setCountry] = useState('');
   const [category, setCategory] = useState('');
@@ -52,7 +53,7 @@ function View2() {
 
     fetch(`/api/sales/region/${regionCode}/${year}`)
       .then(res => res.json())
-      .then(json => setMapData(json))
+      .then(json => setGames(json.topVgData))
       .catch((err) => {
         setError(err.message);
         console.error(err);
@@ -78,7 +79,7 @@ function View2() {
             //fetch global sales / global trends of that year and set data
             fetch(`/api/sales/region/${region}/${newYear}`)
               .then(res => res.json())
-              .then(json => setMapData(json))
+              .then(json => setGames(json.topVgData))
               .catch((err) => {
                 setError(err.message);
                 console.error(err);
@@ -113,9 +114,9 @@ function View2() {
 
       <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
 
-      {region && mapData?.topVgData &&
+      {region && games.length > 0 &&
         <>
-          {mapData.topVgData.map((game, index) => (
+          {games.map((game, index) => (
             <p key={index}>{game.name}</p>
           ))}
         </>
