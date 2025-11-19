@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import SelectFilter from './SelectFilter';
 import MapChart from './MapChart';
+import { map } from '@amcharts/amcharts5/.internal/core/util/Array';
 // import SelectFilter from './SelectFilter';
 
 function View2() {
@@ -8,22 +9,16 @@ function View2() {
   const [year, setYear] = useState('');
   const [mapData, setMapData] = useState(null);
   const [region, setRegion] = useState('');
-  const [games, setGames] = useState([]);
 
   const [error, setError] = useState('');
 
-  // const filterConfig = [
-  //   {name: 'country', label: 'country', type: 'text', value: ''}
-  //   // {name: 'category', label: 'category', type: 'text', value: ''}
-  // ];
-
-  // // Handle form submission values
-  // function handleSubmit(filters) {
-  //   filters.forEach(f => {
-  //     // eslint-disable-next-line no-console
-  //     console.log(`Filter: ${f.name}, ${f.value}`);
-  //   });
-  // }
+  const REGION_MAP = {
+    'North America': 'NA',
+    'Europe': 'EU',
+    'Japan': 'JP',
+    'Other': 'OTHER',
+    'Global': 'GLOBAL'
+  };
   
   useEffect(() => {
     async function getDefaultGlobalData() {
@@ -31,6 +26,7 @@ function View2() {
         // Default value when the Map Chart launches
         const rawMapData = await fetch('/api/sales/region/global/2016');
         const mapData = await rawMapData.json();
+        console.log(mapData);
         setMapData(mapData);
 
       } catch (err) {
@@ -42,11 +38,16 @@ function View2() {
   }, []);
 
   function handleRegionClick(newRegion) {
+    //map region
+    const regionCode = REGION_MAP[newRegion];
+
     console.log('Region clicked: ', newRegion);
-    setRegion(newRegion);
-    fetch(`/api/sales/region/${newRegion}/${year}`)
+
+    setRegion(regionCode);
+
+    fetch(`/api/sales/region/${regionCode}/${year}`)
       .then(res => res.json())
-      .then(json => setGames(json))
+      .then(json => setMapData(json))
       .catch((err) => {
         setError(err.message);
         console.error(err);
@@ -83,11 +84,15 @@ function View2() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
-      {/* <FilterForm filterConfig={filterConfig} onSubmit={handleSubmit}/> */}
 
-      {games.forEach(game => {
-        <p>{game}</p>;
-      })}
+      {region && mapData?.topVgData &&
+        <>
+          {mapData.topVgData.map((game, index) => (
+            <p key={index}>{game.name}</p>
+          ))}
+        </>
+      }
+
     </div>
   );
 }
