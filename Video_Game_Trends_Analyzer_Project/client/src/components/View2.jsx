@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import SelectFilter from './SelectFilter';
 import MapChart from './MapChart';
-import { map } from '@amcharts/amcharts5/.internal/core/util/Array';
 // import SelectFilter from './SelectFilter';
 
 function View2() {
