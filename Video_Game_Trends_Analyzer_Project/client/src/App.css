@@ -12,17 +12,21 @@
   font-family: "Elms Sans", sans-serif;
 }
 
-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 h1 {
   font-size: 80px;
   width: 9em;
   margin: 20% 0;
   line-height: 1em;
+}
+
+h3 {
+  text-align: left;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /************ GRADIENT BACKGROUND ************/
@@ -37,28 +41,26 @@ h1 {
   pointer-events: none;
 
   background:
-    /* linear-gradient(150deg, rgba(68, 13, 83, 0.9), rgba(248, 199, 255, 0) 20.71%),
-    linear-gradient(170deg, rgba(13, 83, 75, 0.9), rgba(248, 199, 255, 0) 20.71%),
-    linear-gradient(200deg, rgb(15, 8, 79), rgba(0, 102, 97, 0) 20.71%),
-    linear-gradient(0deg, #000, #000 100%); */
 
     /* Purple, green, blue */
-    /* linear-gradient(150deg, rgb(86, 14, 106), rgba(248, 199, 255, 0) 20.71%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(170deg, rgb(13, 83, 75), rgba(248, 199, 255, 0) 20.71%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(200deg, rgb(15, 8, 79), rgba(0, 102, 97, 0) 20.71%) 0 0 / 200% 200% no-repeat, */
+    linear-gradient(150deg, rgb(123, 11, 106), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(170deg, rgb(105, 14, 157), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(185deg, rgb(14, 157, 138), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(210deg, rgba(61, 32, 165, 0.863), rgba(0, 102, 97, 0) 15%) 0 0 / 200% 200% no-repeat,
 
-    linear-gradient(150deg, rgb(123, 11, 48), rgba(248, 199, 255, 0) 10.71%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(170deg, rgb(157, 81, 14), rgba(248, 199, 255, 0) 10.71%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(190deg, rgba(165, 112, 32, 0.372), rgba(0, 102, 97, 0) 10.71%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(198deg, rgba(165, 32, 76, 0.9), rgba(0, 102, 97, 0) 10.71%) 0 0 / 200% 200% no-repeat,
+    /* linear-gradient(150deg, rgb(123, 11, 48), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(170deg, rgb(157, 81, 14), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(185deg, rgba(157, 81, 14), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(210deg, rgba(165, 32, 112, 0.863), rgba(0, 102, 97, 0) 15%) 0 0 / 200% 200% no-repeat, */
 
     /* radial-gradient(circle at 20% 5%, rgba(123, 11, 48, 0.6), transparent 18%) 0 0 / 200% 200% no-repeat,
     radial-gradient(circle at 50% 3%, rgba(157, 81, 14, 0.5), transparent 15%) 0 0 / 200% 200% no-repeat,
     radial-gradient(circle at 70% 7%, rgba(165, 112, 32, 0.4), transparent 22%) 0 0 / 200% 200% no-repeat,
     radial-gradient(circle at 85% 10%, rgba(165, 32, 76, 0.7), transparent 20%) 0 0 / 200% 200% no-repeat, */
+    
     linear-gradient(0deg, #000, #000 100%) no-repeat;
 
-  animation: gradientShift 30s ease-in-out infinite;
+  animation: gradientShift 20s ease-in-out infinite;
   /* animation: orbShiftTop 80s ease-in-out infinite; */
 }
 
@@ -86,6 +88,12 @@ h1 {
   }
 }
 
+
+/************ INTRO TEXT ************/
+#title-div {
+  height: 100vh;
+}
+
 /************ INTRO TEXT ************/
 
 #intro-section {
@@ -100,6 +108,33 @@ h1 {
 /************ CHART VIEWS ************/
 .view-div {
   height: 100vh;
+  display: flex;
+}
+
+.view-div div {
+  /* width: 100%; */
+}
+
+.view-title-header {
+    display: flex;
+    align-items: center;
+}
+
+.view-title-header h2 {
+    flex: 3;
+    text-align: left;
+}
+
+.left-column {
+  flex: 2;
+}
+
+.right-column {
+  flex: 1;
+}
+
+canvas {
+  width: 100%;
 }
 
 

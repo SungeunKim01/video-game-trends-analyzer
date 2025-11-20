@@ -12,30 +12,48 @@ function View1() {
   const [error, setError] = useState('');
 
   return (
-    <div className="view-div">
-      <h2>View 1: Best Global Selling Games </h2>
-      <SelectFilter
-        key="year-filter"
-        label="Select Year"
-        //fetch all years from db and populate select
-        fetchURL="/api/sales/years"
-        value={year}
-        //if user selects a new year
-        onChange={(newYear) => {
-          //set new year
-          setYear(newYear);
-          //fetch global sales / global trends of that year and set data
-          fetch(`/api/sales/global/${newYear}`)
-            .then(res => res.json())
-            .then(json => setGames(json))
-            .catch((err) => {
-              setError(err.message);
-              console.error(err);
-            });
-        }}
-      />
+    <div className="view-div" id="view-1">
+      <div className="left-column">
+        <div className="view-title-header">
+          <h2>Global Trends </h2>
+          <SelectFilter
+            key="year-filter"
+            label="Select Year"
+            //fetch all years from db and populate select
+            fetchURL="/api/sales/years"
+            value={year}
+            //if user selects a new year
+            onChange={(newYear) => {
+              //set new year
+              setYear(newYear);
+              //fetch global sales / global trends of that year and set data
+              fetch(`/api/sales/global/${newYear}`)
+                .then(res => res.json())
+                .then(json => setGames(json))
+                .catch((err) => {
+                  setError(err.message);
+                  console.error(err);
+                });
+            }}
+          />
+        </div>
 
-      {year && games.length > 0 &&
+        <h3>Top 10 Video Games</h3>
+          
+        {/* Error display */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {/* Chart */}
+        <BarChart
+          rows={games}
+        />
+      </div>
+
+      <div className="right-column">
+        <p>Brief description here! Brief description here! Brief description here!!</p>
+        <h3>Top 5 Google Searches</h3>
+      
+        {year && games.length > 0 &&
         <SelectFilter
           key={year}
           label="Select Category"
@@ -54,17 +72,9 @@ function View1() {
               });
           }}
         />
-      }
+        }
 
-      {/* Error display */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {/* Chart */}
-      <BarChart
-        rows={games}
-      />
-
-      {category && trends.length > 0 &&
+        {category && trends.length > 0 &&
         <>
           {trends.map((trend, index) => 
             <p key={index}>
@@ -72,7 +82,8 @@ function View1() {
             </p>
           )}
         </>
-      }
+        }
+      </div>
     </div>
   );
 }
