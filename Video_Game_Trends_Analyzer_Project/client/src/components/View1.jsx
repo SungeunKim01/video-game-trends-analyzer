@@ -50,7 +50,9 @@ function View1() {
       </div>
 
       <div className="right-column">
-        <p>Brief description here! Brief description here! Brief description here!!</p>
+        <p className="description-text">
+          Brief description here! Brief description here! Brief description here!!
+        </p>
         <h3>Top 5 Google Searches</h3>
       
         {year && games.length > 0 &&
