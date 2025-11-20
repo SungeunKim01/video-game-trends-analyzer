@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SelectFilter from './SelectFilter';
 import BarChart from './BarChart';
+import './View1.css';
 
 function View1() {
 
@@ -79,7 +80,7 @@ function View1() {
         {category && trends.length > 0 &&
         <>
           {trends.map((trend, index) => 
-            <p key={index}>
+            <p key={index} className="global-trends-list">
               {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
             </p>
           )}

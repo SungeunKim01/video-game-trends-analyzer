@@ -19,6 +19,10 @@ h1 {
   line-height: 1em;
 }
 
+h2 {
+  text-align: left;
+}
+
 h3 {
   text-align: left;
 }
@@ -123,7 +127,6 @@ h3 {
 
 .view-title-header h2 {
   flex: 3;
-  text-align: left;
 }
 
 .left-column {

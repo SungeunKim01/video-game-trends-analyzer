@@ -71,42 +71,48 @@ function View3() {
 
   return (
     <div className="view-div">
-      <h2>Genre &amp; Platform Trend Chart</h2>
+      <div className="left-column">
+        <h2>Genre &amp; Platform Trend Chart</h2>
+        {/* Chart*/}
+        <LineChart
+          rows={rows}
+          label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
+        />
+      </div>
 
-      {/*context for user */}
-      <p style={{ maxWidth: '820px', margin: '0 auto 30px' }}>
-        This chart shows, for each year, what percentage of all released games
-        belong to the selected {type}.
-        <br />
-        Hover over a point to see the exact percentage and how many games that is out of the total
-        number of games released that year.
-      </p>
+      <div className="right-column">
+        {/*context for user */}
+        <p style={{ maxWidth: '820px'}}
+          className="description-text">
+          This chart shows, for each year, what percentage of all released games
+          belong to the selected {type}.
+        </p>
+        <p style={{ maxWidth: '820px'}}
+          className="description-text">
+          Hover over a point to see the exact percentage and how many games that is out of the total
+          number of games released that year.
+        </p>
 
-      <label style={{ marginRight: '10px' }}>
-        Filter by:&nbsp;
-        <select value={type} onChange={handleTypeChange}>
-          <option value="genre">Genre</option>
-          <option value="platform">Platform</option>
-        </select>
-      </label>
+        <label style={{ marginRight: '10px' }}>
+          Filter by:&nbsp;
+          <select value={type} onChange={handleTypeChange}>
+            <option value="genre">Genre</option>
+            <option value="platform">Platform</option>
+          </select>
+        </label>
 
-      {/*reset dropdown when type changes*/}
-      <SelectFilter
-        key={type}
-        fetchURL={`/api/sales/${type}`}
-        label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
-        value={value}
-        onChange={setValue}
-      />
+        {/*reset dropdown when type changes*/}
+        <SelectFilter
+          key={type}
+          fetchURL={`/api/sales/${type}`}
+          label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
+          value={value}
+          onChange={setValue}
+        />
 
-      {/* erro */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {/* Chart*/}
-      <LineChart
-        rows={rows}
-        label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
-      />
+        {/* erro */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
     </div>
   );
 }
