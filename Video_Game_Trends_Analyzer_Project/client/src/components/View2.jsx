@@ -80,11 +80,24 @@ function View2() {
         onChange={(newYear) => {
           //set new year
           setYear(newYear);
+
+          fetch(`/api/sales/region/global/${newYear}`)
+            .then(res => res.json())
+            .then(json => {
+              setMapData(json);
+            })
+            .catch((err) => {
+              setError(err.message);
+              console.error(err);
+            });
+
           if(region){
-            //fetch global sales / global trends of that year and set data
+            //fetch global sales of that year and set data
             fetch(`/api/sales/region/${region}/${newYear}`)
               .then(res => res.json())
-              .then(json => setGames(json.topVgData))
+              .then((json) => {
+                setGames(json.topVgData);
+              })
               .catch((err) => {
                 setError(err.message);
                 console.error(err);
