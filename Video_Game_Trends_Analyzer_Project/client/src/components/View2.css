@@ -1,0 +1,17 @@
+.view-body {
+ display: flex;
+}
+
+.view2-list {
+    flex-direction: column;
+    flex: 1;
+}
+
+#view-2 {
+    flex-direction: column;
+    width: 90%;
+}
+
+#mapchart {
+    flex: 2;
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import SelectFilter from './SelectFilter';
 import MapChart from './MapChart';
-// import SelectFilter from './SelectFilter';
+import './View2.css';
 
 function View2() {
 
@@ -67,46 +67,47 @@ function View2() {
   }
 
   return (
-    <div className="view-div">
-      <h2>Explore Top Games and Google Trends by Country</h2>
+    <div className="view-div" id="view-2">
+      <div className="view-title-header">
+        <h2>Regional Trends</h2>
 
-      <SelectFilter
-        key="year-filter"
-        label="Select Year"
-        //fetch all years from db and populate select
-        fetchURL="/api/sales/years"
-        value={year}
-        //if user selects a new year
-        onChange={(newYear) => {
+        <SelectFilter
+          key="year-filter"
+          label="Select Year"
+          //fetch all years from db and populate select
+          fetchURL="/api/sales/years"
+          value={year}
+          //if user selects a new year
+          onChange={(newYear) => {
           //set new year
-          setYear(newYear);
+            setYear(newYear);
 
-          fetch(`/api/sales/region/global/${newYear}`)
-            .then(res => res.json())
-            .then(json => {
-              setMapData(json);
-            })
-            .catch((err) => {
-              setError(err.message);
-              console.error(err);
-            });
-
-          if(region){
-            //fetch global sales of that year and set data
-            fetch(`/api/sales/region/${region}/${newYear}`)
+            fetch(`/api/sales/region/global/${newYear}`)
               .then(res => res.json())
-              .then((json) => {
-                setGames(json.topVgData);
+              .then(json => {
+                setMapData(json);
               })
               .catch((err) => {
                 setError(err.message);
                 console.error(err);
               });
-          }
-        }}
-      />
 
-      {year && country &&
+            if(region){
+            //fetch global sales of that year and set data
+              fetch(`/api/sales/region/${region}/${newYear}`)
+                .then(res => res.json())
+                .then((json) => {
+                  setGames(json.topVgData);
+                })
+                .catch((err) => {
+                  setError(err.message);
+                  console.error(err);
+                });
+            }
+          }}
+        />
+
+        {year && country &&
         <SelectFilter
           key={year}
           label="Select Category"
@@ -125,31 +126,33 @@ function View2() {
               });
           }}
         />
-      }
+        }
+      </div>
 
-      {/* Error display */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="view-body">
+        {/* Error display */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
+        <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
 
-      {region && games.length > 0 &&
-        <>
+        {region && games.length > 0 &&
+        <div className="view2-list">
           {games.map((game, index) => (
             <p key={index}>{game.name}</p>
           ))}
-        </>
-      }
+        </div>
+        }
 
-      {category && trends.length > 0 &&
-        <>
+        {category && trends.length > 0 &&
+        <div className="view2-list">
           {trends.map((trend, index) => 
             <p key={index}>
               {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
             </p>
           )}
-        </>
-      }
-
+        </div>
+        }
+      </div>
     </div>
   );
 }

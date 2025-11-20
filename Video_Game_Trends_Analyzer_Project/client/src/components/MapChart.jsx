@@ -22,7 +22,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
   useEffect(() => {
 
     // Create root element for MapChart
-    const root = am5.Root.new('chartdiv');
+    const root = am5.Root.new('mapchart');
 
     root.setThemes([
       am5themesAnimated.new(root)
@@ -108,7 +108,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
 
   }, [mapData?.countries]);
 
-  return <div id="chartdiv" style={{ width: '100%', height: '500px' }} />;
+  return <div id="mapchart" style={{ width: '100%', height: '500px' }} />;
 };
 
 export default MapChart;
