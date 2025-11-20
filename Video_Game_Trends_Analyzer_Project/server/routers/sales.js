@@ -283,3 +283,51 @@ router.get('/:type/:value', async (req, res) => {
     return res.status(500).json({ error: 'server error' });
   }
 });
+
+/**
+ * @swagger
+ * /sales/{type}:
+ *   get:
+ *     summary: Distinct values for genre or platform
+ *     tags: [Sales]
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [genre, platform]
+ *     responses:
+ *       200:
+ *         description: Array of distinct values
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       400:
+ *         description: Invalid type
+ *       500:
+ *         description: Server error
+ */
+// this, we can remove later
+/**
+ * GET /api/sales/:type
+ * this return distinct list for dropdown
+ * @author Sungeun
+ * @param {string} req.params.type genre or platform
+ * @returns {string[]} distinct values
+ */
+router.get('/:type', async (req, res) => {
+  try {
+    const type = String(req.params.type).toLowerCase();
+    if (!VALID_TYPES.includes(type)) {
+      return res.status(400).json({ error: 'E: invalid type - Use "genre" OR "platform"' });
+    }
+    const values = await db.getDistinctByType(type);
+    return res.json(values);
+  } catch {
+    return res.status(500).json({ error: 'server error' });
+  }
+});
