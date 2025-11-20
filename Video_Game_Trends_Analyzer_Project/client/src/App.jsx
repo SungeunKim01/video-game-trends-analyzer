@@ -1,7 +1,6 @@
 /* eslint-disable @stylistic/max-len */
 //import { useState } from 'react'
 import './App.css';
-// import GlobalSales from './components/GlobalSales';
 import View1 from './components/View1';
 import View2 from './components/View2';
 import View3 from './components/View3';
@@ -10,6 +9,8 @@ function App() {
 
   return (
     <div>
+      <div className="gradient-bg"/>
+
       <div className="view-div" id="title-div">
         <h1>Video Game Trends Analyzer</h1>
         <p>Brief description here!!</p>
