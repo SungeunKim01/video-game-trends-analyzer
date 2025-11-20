@@ -51,14 +51,20 @@ function View2() {
     setRegion(regionCode);
     setCountry(newCountry);
 
-    fetch(`/api/sales/region/${regionCode}/${year}`)
-      .then(res => res.json())
-      .then(json => setGames(json.topVgData))
-      .catch((err) => {
-        setError(err.message);
-        console.error(err);
-      });
-    
+    //use prevYear to get latest year state instead of stale value
+    //https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state
+    setYear(prevYear => {
+      fetch(`/api/sales/region/${regionCode}/${prevYear}`)
+        .then(res => res.json())
+        .then((json) => {
+          setGames(json.topVgData);
+        })
+        .catch((err) => {
+          setError(err.message);
+          console.error(err);
+        });
+      return prevYear;
+    });
   }
 
   return (
