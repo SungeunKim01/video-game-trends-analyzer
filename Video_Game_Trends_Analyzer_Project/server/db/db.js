@@ -85,7 +85,7 @@ class DB {
   /** Reference for swapping key-values in TRENDS_REGION_BY_SALES:
    * https://stackoverflow.com/questions/23013573/swap-key-with-value-in-object
    */
-
+  
   /**
    * Collect all unique countries and groups them into regions (NA, EU, JP, OTHER).
    * Used for the purpose of rendering the world map.
@@ -96,12 +96,17 @@ class DB {
       { "region": "Japan", "country_code": "JP", "location": "Japan" }
      ]
    */
-  async groupCountriesByRegion() {
+  async globalCountriesWithTrends(year) {
     const collection = this.db.collection(process.env.TRENDS_COLLECTION);
+
+    const match = { location: { $ne: 'Global' } };
+    if (year !== null && year !== undefined) {
+      match.year = Number(year);
+    }
 
     // Get unique countries
     const pipeline = [
-      { $match: { location: {$ne: 'Global'} } },
+      { $match: match },
       { $group: {
         _id: {
           region: '$region',
@@ -127,7 +132,6 @@ class DB {
 
     return result;
   }
-  
 
   // I refer this mongodb comparison operators website:
   // https://www.mongodb.com/docs/manual/reference/mql/query-predicates/comparison/

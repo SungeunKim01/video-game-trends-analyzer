@@ -45,7 +45,11 @@ router.get('/region/:year/country/:country', async (req, res) => {
     // fetch all categories for a country in a given year
     const results = await db.getCategoriesByYearAndCountry(year, country);
 
-    return res.json(results || []);
+    if(!results || results.length === 0){
+      return res.status(500).json({ error: 'Server error'});
+    }
+
+    return res.json(results);
   } catch(error){
     console.error(error);
     return res.status(500).json({error: 'Server error'});

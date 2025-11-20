@@ -172,7 +172,7 @@ router.get('/region/:region/:year', async (req, res) => {
       // Top 5 Global Games
       const top = await db.findTopGamesByYear(year, 5);
       topVgData = top.map(d => ({ name: d.name }));
-      countries = await db.groupCountriesByRegion();
+      countries = await db.globalCountriesWithTrends(year);
 
     } else {
 
