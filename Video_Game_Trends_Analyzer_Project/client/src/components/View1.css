@@ -8,7 +8,16 @@
 }
 
 .view1-header h2 {
-  flex: 3;
+  width: 10em;
+}
+
+/* Year Dropdown */
+/* .view1-header div{
+
+} */
+
+.view1-description {
+  width: 10em;
 }
 
 .view1-body {

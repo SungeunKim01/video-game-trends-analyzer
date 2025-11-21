@@ -119,13 +119,13 @@ h3 {
 .view-div {
   display: flex;
   height: 120vh;
+  width: 90vw;
   padding: 0 5%;
 }
 
 .description-text {
   font-family: "Share Tech Mono", monospace;
   text-align: left;
-  margin: 2.5em 0;
 }
 
 canvas {

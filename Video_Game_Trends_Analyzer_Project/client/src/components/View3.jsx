@@ -84,12 +84,12 @@ function View3() {
       <div className="view3-right-column">
         {/*context for user */}
         <p style={{ maxWidth: '820px'}}
-          className="description-text">
+          className="description-text view3-description">
           This chart shows, for each year, what percentage of all released games
           belong to the selected {type}.
         </p>
         <p style={{ maxWidth: '820px'}}
-          className="description-text">
+          className="description-text view3-description">
           Hover over a point to see the exact percentage and how many games that is out of the total
           number of games released that year.
         </p>

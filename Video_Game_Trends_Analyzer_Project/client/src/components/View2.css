@@ -1,6 +1,5 @@
 .view2-container {
-    flex-direction: column;
-    width: 90%;
+  flex-direction: column;
 }
 
 .view2-header {
