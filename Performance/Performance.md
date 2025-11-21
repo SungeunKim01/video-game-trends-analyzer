@@ -26,7 +26,11 @@ was no performance improvement, explain why that might be the case -->
 
 Lead: Sungeun Kim
 
-Link: <!-- gitlab url to specific lines of code -->
+Link:
+
+[Imported the compression](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blob/PerformanceImprovements/Video_Game_Trends_Analyzer_Project/server/app.js?ref_type=heads#L2)
+
+(https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blob/PerformanceImprovements/Video_Game_Trends_Analyzer_Project/server/app.js?ref_type=heads#L32)
 
 #### Before I make changes
 
