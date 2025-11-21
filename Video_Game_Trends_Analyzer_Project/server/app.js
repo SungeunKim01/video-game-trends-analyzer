@@ -31,6 +31,14 @@ const app = express();
 // enable gzip compression for all responses - shrinks js, css, html, json over network
 app.use(compression());
 
+// cach control for api GET requests - tell the browser it can reuse the res for 5mins
+app.use((req, res, next) => {
+  if (req.method === 'GET' && req.path.startsWith('/api/')) {
+    res.set('Cache-Control', 'max-age=300');
+  }
+  next();
+});
+
 //Routes are here either directly or using a router
 
 //parse json for all routes
