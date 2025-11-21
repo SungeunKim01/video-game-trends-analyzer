@@ -6,6 +6,10 @@
 (which browsers, what browser versions, what kind of device, OS,
 width and height of viewport as reported in the console with `window.screen`) -->
 
+For measuring the performance of our site, we mostly used WebPageTest's Instant Test on the Render deployment of our site, testing both Site Performance and doing the Lighthouse test. We also looked at the network tab of the inspector to check how long requests took and if things were being cached. The width and height of the viewport is 1920 x 1080. 
+
+Yan Chi: I used Google Chrome version 142.0.7444.176 on my Windows desktop.
+
 ---
 
 ## Baseline Performance
@@ -13,7 +17,17 @@ width and height of viewport as reported in the console with `window.screen`) --
 <!-- Summarize initial results for each tool that you used. Did the tools
 detect all the performance issues you see as a user? -->
 
----
+![Initial Performance and Lighthouse Scores](./screenshots/initial%20performance.png)
+
+In the initial test for our application, we got a pretty good score on both Page Performance and the Lighthouse report, though there was defintely places that we could have improved on. 
+
+![Initial Issues](./screenshots/initial%20issues.png)
+
+In particular, we had some issues with render blocking from external CSS files, which we later found out had to do with the use of Google Fonts. We also saw an issue that stated our final HTML size was much larger than the initial delivered HTML, but that was because of us using React. There were also some accessibility changes we could make, such as adding labels to select tags and changing some of the colour contrast.
+
+![Initial Requests](./screenshots/inital%20requests.png)
+
+When looking in our network tab, we saw that after changing the year, it took almost half a second to fetch the data from our api, which was quite slow, and may affect the user's experience. There was also no caching on the server-side, so the data from a previously selected year had to be re-fetched.
 
 ## Summary of Changes
 
