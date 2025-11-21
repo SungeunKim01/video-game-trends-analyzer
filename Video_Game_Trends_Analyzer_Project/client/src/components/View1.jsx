@@ -19,6 +19,7 @@ function View1() {
         <SelectFilter
           key="year-filter"
           label="Select Year"
+
           //fetch all years from db and populate select
           fetchURL="/api/sales/years"
           value={year}
