@@ -87,15 +87,24 @@ function View1() {
           />
           }
 
-          {category && trends.length > 0 &&
-          <>
-            {trends.map((trend, index) => 
-              <p key={index} className="global-trends-list">
-                {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
-              </p>
-            )}
-          </>
-          }
+          {category && trends.length > 0 && (
+            <table className="global-trends-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Query</th>
+                </tr>
+              </thead>
+              <tbody>
+                {trends.map((trend, index) => (
+                  <tr key={index}>
+                    <td>{trend.rank}</td>
+                    <td>{trend.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
