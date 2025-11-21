@@ -58,9 +58,9 @@ router.get('/region/:year/country/:country', async (req, res) => {
 
 /**
  * @swagger
- * /trends/region/{year}/category/{category}:
+ * /trends/region/{year}/country/{country}/category/{category}:
  *   get:
- *     summary: Top trends by category for a year
+ *     summary: Top trends for a country and category in a given year
  *     tags: [Trends]
  *     parameters:
  *       - in: path
@@ -69,27 +69,33 @@ router.get('/region/:year/country/:country', async (req, res) => {
  *         schema:
  *           type: integer
  *       - in: path
+ *         name: country
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
  *         name: category
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Ranked queries for the category and year
+ *         description: Ranked queries for the counrty, category and year
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 year: { type: integer }
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       name: { type: string }
- *                       region: { type: string }
- *                       rank: { type: integer }
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   year:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   country:
+ *                     type: string
+ *                   rank:
+ *                     type: integer
  *       400:
  *         description: Year must be a number
  *       500:
