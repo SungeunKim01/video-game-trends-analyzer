@@ -13,9 +13,10 @@
 }
 
 h1 {
-  font-size: 80px;
+  font-size: 7rem;
+  font-weight: 300;
   width: 9em;
-  margin: 20% 0;
+  margin: 0 0 3%;
   line-height: 1em;
 }
 
@@ -47,25 +48,13 @@ h3 {
   background:
 
     /* Purple, green, blue */
-    linear-gradient(150deg, rgb(123, 11, 106), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(170deg, rgb(105, 14, 157), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(185deg, rgb(14, 157, 138), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(210deg, rgba(61, 32, 165, 0.863), rgba(0, 102, 97, 0) 15%) 0 0 / 200% 200% no-repeat,
-
-    /* linear-gradient(150deg, rgb(123, 11, 48), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(170deg, rgb(157, 81, 14), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(185deg, rgba(157, 81, 14), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(210deg, rgba(165, 32, 112, 0.863), rgba(0, 102, 97, 0) 15%) 0 0 / 200% 200% no-repeat, */
-
-    /* radial-gradient(circle at 20% 5%, rgba(123, 11, 48, 0.6), transparent 18%) 0 0 / 200% 200% no-repeat,
-    radial-gradient(circle at 50% 3%, rgba(157, 81, 14, 0.5), transparent 15%) 0 0 / 200% 200% no-repeat,
-    radial-gradient(circle at 70% 7%, rgba(165, 112, 32, 0.4), transparent 22%) 0 0 / 200% 200% no-repeat,
-    radial-gradient(circle at 85% 10%, rgba(165, 32, 76, 0.7), transparent 20%) 0 0 / 200% 200% no-repeat, */
-    
+    linear-gradient(150deg, rgba(111, 1, 184), rgba(248, 199, 255, 0) 16%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(172deg, rgba(126, 15, 96, 0.89), rgba(248, 199, 255, 0) 18%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(188deg, rgba(14, 157, 138, 0.852), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(200deg, rgba(61, 32, 165, 0.913), rgba(0, 102, 97, 0) 18%) 0 0 / 200% 200% no-repeat,
     linear-gradient(0deg, #000, #000 100%) no-repeat;
 
   animation: gradientShift 20s ease-in-out infinite;
-  /* animation: orbShiftTop 80s ease-in-out infinite; */
 }
 
 @keyframes gradientShift {
@@ -80,22 +69,33 @@ h3 {
   }
 }
 
-@keyframes orbShiftTop {
-  0% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-  50% {
-    background-position: 80% 5%, 60% 15%, 30% 10%, 70% 20%, 0 0;
-  }
-  100% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-}
-
 
 /************ TITLE SCREEN ************/
 #title-div {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#title-div > p {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 26px;
+}
+
+#down-arrow {
+  height: 72px;
+  width: 42px;
+  border: 1px white solid;
+  border-radius: 30px;
+  animation: arrow-jump 3s ease-in-out infinite;
+}
+
+@keyframes arrow-jump {
+  0% { transform: translateY(0);}
+  50% { transform: translateY(12px); }
+  100% { transform: translateY(0); }
 }
 
 /************ INTRO TEXT ************/
@@ -107,6 +107,13 @@ h3 {
   height:60vh;
   width: 50vw;
   font-size: large;
+}
+
+#intro-section > h2 {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  color: #a077ff;
 }
 
 /************ CHART VIEWS ************/
