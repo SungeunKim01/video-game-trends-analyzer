@@ -34,8 +34,6 @@ When looking in our network tab, we saw that after changing the year, it took al
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
 
----
-
 ### Change 1: Enable gzip compression on the Express server
 
 Lead: Sungeun Kim
@@ -55,13 +53,22 @@ Link:
 
 #### After I make changes
 
+-
+
+- Test it locally:
+  <img height="300" src="./screenshots/Change1_3.png"/>
+
+- Re run WebPageTest:
+
 ...
 
 ### Change 2: Add Cache Control headers for API GET responses
 
 Lead: Sungeun Kim
 
-Link: <!-- gitlab url to specific lines of code -->
+Link:
+
+https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blob/PerformanceImprovements/Video_Game_Trends_Analyzer_Project/server/app.js?ref_type=heads#L35
 
 #### Before I make changes
 
@@ -70,6 +77,13 @@ Link: <!-- gitlab url to specific lines of code -->
 - WebPageTest flagged 9 of our /api/sales/... and /api/trends/... urls with FAILED (no max-age or expires). So adding Cache Control: public, max-age=300 to all API GET responses directly fixes this issue and lets the browser cache our read only JSON data
 
 #### After I make changes
+
+-
+
+- Test it locally:
+  <img height="300" src="./screenshots/Change2_1.png"/>
+
+- Re run WebPageTest:
 
 ---
 
