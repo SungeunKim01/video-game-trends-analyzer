@@ -21,6 +21,8 @@ h1 {
 }
 
 h2 {
+  font-size: 3rem;
+  font-weight: 300;
   text-align: left;
 }
 
@@ -48,29 +50,24 @@ h3 {
   background:
 
     /* Purple, green, blue */
-    linear-gradient(150deg, rgba(111, 1, 184), rgba(248, 199, 255, 0) 16%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(172deg, rgba(126, 15, 96, 0.89), rgba(248, 199, 255, 0) 18%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(188deg, rgba(14, 157, 138, 0.852), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(200deg, rgba(61, 32, 165, 0.913), rgba(0, 102, 97, 0) 18%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(0deg, #000, #000 100%) no-repeat;
+    linear-gradient(150deg, rgba(111, 1, 184), #00000000 16%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(172deg, rgba(126, 15, 96, 0.89), #00000000 18%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(188deg, rgba(14, 157, 138, 0.852), #00000000 10%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(200deg, rgba(61, 32, 165, 0.913), #00000000 18%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(0deg, #141414, #141414 100%) no-repeat;
 
   animation: gradientShift 20s ease-in-out infinite;
 }
 
 @keyframes gradientShift {
-  0% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-  50% {
-    background-position: 100% 0%, 100% 0%, 100% 0%, 100% 0%, 0 0;
-  }
-  100% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
+  0% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0; }
+  50% { background-position: 100% 0%, 100% 0%, 100% 0%, 100% 0%, 0 0; }
+  100% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0; }
 }
 
 
 /************ TITLE SCREEN ************/
+
 #title-div {
   height: 100vh;
   display: flex;
@@ -80,8 +77,9 @@ h3 {
 }
 
 #title-div > p {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 26px;
+  /* font-family: "Share Tech Mono", monospace; */
+  font-size: 20px;
+  font-weight: 400;
 }
 
 #down-arrow {
@@ -117,43 +115,22 @@ h3 {
 }
 
 /************ CHART VIEWS ************/
+
 .view-div {
   display: flex;
-  height: 100vh;
+  height: 120vh;
   padding: 0 5%;
 }
 
-.view-div div {
-  /* width: 100%; */
-}
-
-.view-title-header {
-  display: flex;
-  align-items: center;
-}
-
-.view-title-header h2 {
-  flex: 3;
-}
-
-.left-column {
-  flex: 2;
-  padding-right: 5%;
-}
-
-.right-column {
-  flex: 1;
-}
-
 .description-text {
+  font-family: "Share Tech Mono", monospace;
   text-align: left;
-  margin: 1.5em 0;
+  margin: 2.5em 0;
 }
 
 canvas {
   width: 100%;
 }
-
 
 /************ MOBILE VIEWS ************/
 /* @media (max-width: 600px) {

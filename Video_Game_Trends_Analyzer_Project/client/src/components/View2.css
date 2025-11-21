@@ -1,15 +1,24 @@
-.view-body {
+.view2-container {
+    flex-direction: column;
+    width: 90%;
+}
+
+.view2-header {
+  display: flex;
+  align-items: center;
+}
+
+.view2-header h2 {
+  flex: 3;
+}
+
+.view2-body {
  display: flex;
 }
 
 .view2-list {
     flex-direction: column;
     flex: 1;
-}
-
-#view-2 {
-    flex-direction: column;
-    width: 90%;
 }
 
 #mapchart {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SelectFilter from './SelectFilter';
 import LineChart from './LineChart';
+import './View3.css';
 
 /**
  * View 3 — Genre/Platform time series selector
@@ -70,9 +71,9 @@ function View3() {
   }, [type, value]);
 
   return (
-    <div className="view-div">
-      <div className="left-column">
-        <h2>Genre &amp; Platform Trend Chart</h2>
+    <div className="view-div view3-container">
+      <div className="view3-left-column">
+        <h2>Genre &amp; Platform Trends</h2>
         {/* Chart*/}
         <LineChart
           rows={rows}
@@ -80,7 +81,7 @@ function View3() {
         />
       </div>
 
-      <div className="right-column">
+      <div className="view3-right-column">
         {/*context for user */}
         <p style={{ maxWidth: '820px'}}
           className="description-text">

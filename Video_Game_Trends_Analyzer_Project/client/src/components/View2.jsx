@@ -67,8 +67,8 @@ function View2() {
   }
 
   return (
-    <div className="view-div" id="view-2">
-      <div className="view-title-header">
+    <div className="view-div view2-container">
+      <div className="view2-header">
         <h2>Regional Trends</h2>
 
         <SelectFilter
@@ -129,7 +129,7 @@ function View2() {
         }
       </div>
 
-      <div className="view-body">
+      <div className="view2-body">
         {/* Error display */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
 

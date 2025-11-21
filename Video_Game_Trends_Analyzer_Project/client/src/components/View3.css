@@ -1,0 +1,8 @@
+.view3-left-column {
+  flex: 2;
+  padding-right: 5%;
+}
+
+.view3-right-column {
+  flex: 1;
+}
