@@ -1,4 +1,29 @@
+.view1-container {
+    flex-direction: column;
+}
+
+.view1-header {
+  display: flex;
+  align-items: center;
+}
+
+.view1-header h2 {
+  flex: 3;
+}
+
+.view1-body {
+    display: flex;
+}
+
+.view1-left-column {
+  flex: 2;
+  padding-right: 5%;
+}
+
+.view1-right-column {
+  flex: 1;
+}
+
 .global-trends-list{
     text-align: left;
 }
-
