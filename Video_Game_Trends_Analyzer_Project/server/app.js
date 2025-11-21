@@ -1,4 +1,5 @@
 import express from 'express';
+import compression from 'compression';
 import { router as salesRouter } from './routers/sales.js';
 import { router as trendsRouter } from './routers/trends.js';
 
@@ -26,6 +27,9 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 const app = express();
+
+// enable gzip compression for all responses - shrinks js, css, html, json over network
+app.use(compression());
 
 //Routes are here either directly or using a router
 

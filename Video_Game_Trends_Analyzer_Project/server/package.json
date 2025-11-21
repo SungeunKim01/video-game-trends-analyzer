@@ -22,9 +22,10 @@
     "supertest": "^7.1.4"
   },
   "dependencies": {
+    "compression": "^1.8.1",
     "express": "^5.1.0",
     "mongodb": "^6.20.0",
-    "swagger-jsdoc": "5.0.1",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
 }

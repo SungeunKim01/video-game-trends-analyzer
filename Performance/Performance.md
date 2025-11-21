@@ -6,19 +6,26 @@
 (which browsers, what browser versions, what kind of device, OS,
 width and height of viewport as reported in the console with `window.screen`) -->
 
+---
+
 ## Baseline Performance
 
 <!-- Summarize initial results for each tool that you used. Did the tools
 detect all the performance issues you see as a user? -->
+
+---
 
 ## Summary of Changes
 
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
 
+---
+
 ### Change 1: Enable gzip compression on the Express server
 
 Lead: Sungeun Kim
+
 Link: <!-- gitlab url to specific lines of code -->
 
 #### Before I make changes
@@ -35,6 +42,7 @@ Link: <!-- gitlab url to specific lines of code -->
 ### Change 2: Add Cache Control headers for API GET responses
 
 Lead: Sungeun Kim
+
 Link: <!-- gitlab url to specific lines of code -->
 
 #### Before I make changes
