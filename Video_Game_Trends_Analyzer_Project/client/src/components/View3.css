@@ -26,3 +26,9 @@ h2, .view3-description {
   margin-top: 10%;
   gap: 20px;
 }
+
+@media (max-width: 700px) {
+  .view3-description {
+    margin: 5% 0;
+  }
+}

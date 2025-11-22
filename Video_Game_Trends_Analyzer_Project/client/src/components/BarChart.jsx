@@ -47,7 +47,7 @@ export default function BarChart({rows}){
             label: 'Sales',
             //y-axis values uses points
             data: points, 
-            backgroundColor: 'skyblue',
+            backgroundColor: '#997dffff',
             borderWidth: 1
           }]
         },
