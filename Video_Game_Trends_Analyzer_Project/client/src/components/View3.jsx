@@ -73,6 +73,9 @@ function View3() {
   return (
     <div className="view-div view3-container">
       <div className="view3-left-column">
+        {/* error */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
         <h2>Genre &amp; Platform Trends</h2>
         {/* Chart*/}
         <LineChart
@@ -94,25 +97,24 @@ function View3() {
           number of games released that year.
         </p>
 
-        <label style={{ marginRight: '10px' }}>
-          Filter by:&nbsp;
-          <select value={type} onChange={handleTypeChange}>
-            <option value="genre">Genre</option>
-            <option value="platform">Platform</option>
-          </select>
-        </label>
+        <div>
+          <label className="select-filter">
+            Filter by:&nbsp;
+            <select value={type} onChange={handleTypeChange}>
+              <option value="genre">Genre</option>
+              <option value="platform">Platform</option>
+            </select>
+          </label>
 
-        {/*reset dropdown when type changes*/}
-        <SelectFilter
-          key={type}
-          fetchURL={`/api/sales/${type}`}
-          label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
-          value={value}
-          onChange={setValue}
-        />
-
-        {/* erro */}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+          {/*reset dropdown when type changes*/}
+          <SelectFilter
+            key={type}
+            fetchURL={`/api/sales/${type}`}
+            label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
+            value={value}
+            onChange={setValue}
+          />
+        </div>
       </div>
     </div>
   );

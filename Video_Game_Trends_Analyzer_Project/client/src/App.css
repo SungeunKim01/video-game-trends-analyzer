@@ -33,20 +33,18 @@ h3 {
   margin-top: 0;
 }
 
-label {
-  margin-bottom: 0.4em;
-}
-
 select {
   font-family: "Elms Sans", sans-serif; 
   font-weight: 600;
   font-size: medium;
   text-align: center;
   padding: 0.4em;
+  margin: 0.4em 0;
   border-radius: 20px;
   border: 2px white solid;
   color: white;
-  background-color: #22222257;
+  background-color: #68686836;
+  /* width: 70%; */
 }
 
 select option {
@@ -58,6 +56,12 @@ select option {
   /* background: none; */
   color: black;
   font-size: 16px;
+}
+
+.select-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main-container {
@@ -156,6 +160,7 @@ select option {
 
 .description-text {
   font-family: "Share Tech Mono", monospace;
+  font-size: 17px;
   text-align: left;
 }
 
