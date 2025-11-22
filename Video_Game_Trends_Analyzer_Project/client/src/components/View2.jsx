@@ -1,7 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy } from 'react';
 import SelectFilter from './SelectFilter';
-import MapChart from './MapChart';
 import './View2.css';
+
+
+/** References for Code Splitting techniques:
+ * React.lazy: https://react.dev/reference/react/lazy
+ * Suspense: https://react.dev/reference/react/Suspense
+ */
+
+// Lazy-load the MapChart component
+const MapChart = LazyMapChart();
+
+function LazyMapChart() {
+  return lazy(() => import('./MapChart'));
+}
 
 function View2() {
 
@@ -145,7 +157,11 @@ function View2() {
 
         <div className="map-div">
           <h3>Click a country on the map</h3>
-          <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
+          
+          {/* Have a 'Loading' screen while MapChart is rendering */}
+          <Suspense fallback={<div>Loading map…</div>}>
+            {mapData && <MapChart mapData={mapData} onRegionClick={handleRegionClick} />}
+          </Suspense>
         </div>
 
         {region && games.length > 0 &&
