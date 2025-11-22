@@ -42,14 +42,12 @@ function View1() {
         />
 
         {/*context for user */}
-        <p className="description-text">
-          This bar chart shows the global sales of the top 10 most sold games of the selected year, 
-          in millions. Hover over a bar to see details about a game, including the game sales, 
-          the genre, and the publisher.
-        </p>
-        <p className="description-text">
-          The side also shows the top 5 most searched terms on Google Trends for that year.
-          Select a specific search category through the dropdown menu. 
+
+        <p className="description-text view1-description">
+          This bar chart shows the top 10 best-selling games of the selected year (in millions).
+          Hover over a bar for details on each game, including sales, genre, and publisher.
+          The side panel shows the year’s top 5 Google search terms, 
+          which you can filter using the dropdown. 
         </p>
       </div>
 
