@@ -21,7 +21,14 @@ try{
     const server = app.listen(port, () => {
         console.log('Server listening on port 3000!');
     });
-
+    //shut down server gracefully
+    process.on('SIGINT', () => {
+      console.debug('SIGINT signal received: closing HTTP server');
+      server.close(() => {
+        console.debug('HTTP server closed');
+        process.exit(0);
+      });
+    });
 } catch (error){
     console.error('Failed to start server:', error)
     process.exit(1);
