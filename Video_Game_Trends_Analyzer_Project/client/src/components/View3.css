@@ -13,6 +13,10 @@ h2, .view3-description {
   padding-right: 5%;
 }
 
+.view3-left-column h2 {
+  font-size: 3.5rem;
+}
+
 .view3-right-column {
   flex: 1;
 }
