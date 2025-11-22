@@ -126,6 +126,8 @@ Link:
 ### Change 5: Preconnect to Google Fonts
 
 > Lead: Jennifer Huang
+> 
+> Link: [Preconnect to Google Fonts](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blame/staging/Video_Game_Trends_Analyzer_Project/client/index.html?ref_type=heads#L6)
 
 #### Before:
 <img height="200" src="./screenshots/font-preconnect-before.png"/>
@@ -133,14 +135,20 @@ Link:
 
 - Loading static file were taking longer because it would download the fonts after it sees the imports in CSS files. This makes the loading speed of he webpage slower. Both FCP & LCP was 1384ms. I found the preconnect links on Google font 'embed code' section and added that to the `index.html` and removed the import statements.
 
-
 #### After:
 - Both metrics went down however now the tag `<link href="https://fonts.googleapis.com/...` is causing it to block rendering, I plan to divide the fonts up into mutilple `<link>` statements and preload one of them.
 
+---
 
 ### Change 6: Lazy Loading Map & Line Chart
 
 > Lead: Jennifer Huang
+> 
+> Links: 
+> 1. [Lazy Loading Map Charts](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blame/staging/Video_Game_Trends_Analyzer_Project/client/src/components/View2.jsx?ref_type=heads#L15)
+> 2. [Add Suspense](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blame/staging/Video_Game_Trends_Analyzer_Project/client/src/components/View2.jsx?ref_type=heads#L162)
+> 3. [Lazy Loading Line Charts](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blame/staging/Video_Game_Trends_Analyzer_Project/client/src/components/View3.jsx?ref_type=heads#L15)
+> 
 
 #### Before:
 <img height="200" src="./screenshots/lazy-loading-before.png"/>
