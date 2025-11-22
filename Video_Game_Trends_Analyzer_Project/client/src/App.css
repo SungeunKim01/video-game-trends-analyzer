@@ -86,9 +86,10 @@ select option {
     linear-gradient(172deg, rgba(232, 35, 179, 0.884), #00000000 18%) 0 0 / 200% 200% no-repeat,
     linear-gradient(188deg, rgba(18, 194, 170, 0.852), #00000000 14%) 0 0 / 200% 200% no-repeat,
     linear-gradient(200deg, rgba(61, 32, 165, 0.913), #00000000 18%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(0deg, #000000, #000000 100%) no-repeat;
+    /* linear-gradient(0deg, #000000, #000000 100%) no-repeat; */
+    linear-gradient(0deg, #141414, #141414 100%) no-repeat;
 
-  animation: gradientShift 20s ease-in-out infinite;
+  animation: gradientShift 15s ease-in-out infinite;
 }
 
 @keyframes gradientShift {
