@@ -124,23 +124,31 @@ Link:
 ---
 ### Change 5: Preconnect to Google Fonts
 
-Lead: Jennifer Huang
+> Lead: Jennifer Huang
 
 #### Before:
 <img height="300" src="./screenshots/font-preconnect-before.png"/>
 <img height="300" src="./screenshots/font-preconnect-before-2.png"/>
 
+- Loading static file were taking longer because it would download the fonts after it sees the imports in CSS files. This makes the loading speed of he webpage slower. Both FCP & LCP was 1384ms. I found the preconnect links on Google font 'embed code' section and added that to the `index.html` and removed the import statements.
+
+
 #### After:
 - Check FCP & LCP time
 
 
-### Change 6: 
+### Change 6: Lazy Loading Map & Line Chart
+
+> Jennifer Huang
 
 #### Before:
+<img height="300" src="./screenshots/lazy-loading-before.png"/>
+
+- The Javascript bundlesizes are large, mainly because of amChart's modules (like geodata). The bundlesize for the index.js script (with gzip) was 315kB. The TBT was 399ms and LCP was 1384ms. I lazy-loaded charts that were below the fold like Map & Line Chart. If the charts were not finished loading I used Suspense to create a loading screen as a fallback component.
 
 
 #### After:
-- Check TTFB
+- Check TTFB, TBT and LCP
 
 
 ## Conclusion
