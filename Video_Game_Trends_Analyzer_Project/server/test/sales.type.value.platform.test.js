@@ -6,6 +6,7 @@ const expect = chai.expect;
 import sinon from 'sinon';
 import app from '../app.js';
 import { db } from '../db/db.js';
+import { salesCache } from '../routers/sales.js';
 
 /**
  * Unit tests for View3 endpoint - GET /api/sales/platform/:value
@@ -23,6 +24,8 @@ describe('View3 GET /api/sales/platform/:value', () => {
   let stubs = [];
 
   beforeEach(() => {
+    //clear cache before test runs
+    salesCache.clear();
     stubs.push(sinon.stub(db, 'connect').resolves());
     // mute route err logs during tests that expect 500
     stubs.push(sinon.stub(console, 'error').callsFake(() => {}));

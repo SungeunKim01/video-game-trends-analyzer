@@ -3,7 +3,7 @@ import express from 'express';
 import { db, VALID_REGIONS, VALID_TYPES } from '../db/db.js';
 export const router = express.Router();
 
-const cache = new Map();
+export const salesCache = new Map();
 
 /**
  * @swagger
@@ -30,13 +30,13 @@ router.get('/years', async (req, res) => {
   try {
     const cacheKey = 'sales-years';
 
-    if (cache.has(cacheKey)) {
-      return res.json(cache.get(cacheKey));
+    if (salesCache.has(cacheKey)) {
+      return res.json(salesCache.get(cacheKey));
     }
 
     const years = await db.getAllYears();
 
-    cache.set(cacheKey, years);
+    salesCache.set(cacheKey, years);
 
     return res.json(years);
   } catch(error){
@@ -91,8 +91,8 @@ router.get('/global/:year', async (req, res) => {
 
     const cacheKey = `sales-global-${year}`;
 
-    if (cache.has(cacheKey)) {
-      return res.json(cache.get(cacheKey));
+    if (salesCache.has(cacheKey)) {
+      return res.json(salesCache.get(cacheKey));
     }
 
     // fetch top 10 games from db.js - findTopGamesByYear
@@ -111,7 +111,7 @@ router.get('/global/:year', async (req, res) => {
       genre: game.genre
     }));
 
-    cache.set(cacheKey, data);
+    salesCache.set(cacheKey, data);
 
     return res.json(data);
 
@@ -185,8 +185,8 @@ router.get('/region/:region/:year', async (req, res) => {
     }
 
     const cacheKey = `sales-region-${regionKey}-${year}`;
-    if (cache.has(cacheKey)) {
-      return res.json(cache.get(cacheKey));
+    if (salesCache.has(cacheKey)) {
+      return res.json(salesCache.get(cacheKey));
     }
 
     let topVgData = [];
@@ -217,7 +217,7 @@ router.get('/region/:region/:year', async (req, res) => {
     // and top5 game names for the region and year
     const resp = { region: regionKey, year, countries, topVgData };
 
-    cache.set(cacheKey, resp);
+    salesCache.set(cacheKey, resp);
 
     return res.json(resp);
 
@@ -287,8 +287,8 @@ router.get('/:type/:value', async (req, res) => {
     }
 
     const cacheKey = `sales-type-${type}-${value}`;
-    if (cache.has(cacheKey)) {
-      return res.json(cache.get(cacheKey));
+    if (salesCache.has(cacheKey)) {
+      return res.json(salesCache.get(cacheKey));
     }
 
     const allowedValues = await db.getDistinctByType(type);
@@ -311,7 +311,7 @@ router.get('/:type/:value', async (req, res) => {
       };
     });
 
-    cache.set(cacheKey, rows);
+    salesCache.set(cacheKey, rows);
 
     return res.json(rows);
   } catch (err) {
@@ -363,13 +363,13 @@ router.get('/:type', async (req, res) => {
     }
 
     const cacheKey = `sales-distinct-${type}`;
-    if (cache.has(cacheKey)) {
-      return res.json(cache.get(cacheKey));
+    if (salesCache.has(cacheKey)) {
+      return res.json(salesCache.get(cacheKey));
     }
 
     const values = await db.getDistinctByType(type);
 
-    cache.set(cacheKey, values);
+    salesCache.set(cacheKey, values);
 
     return res.json(values);
   } catch {
