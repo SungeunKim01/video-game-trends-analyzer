@@ -30,7 +30,10 @@ function View1() {
             //fetch global sales / global trends of that year and set data
             fetch(`/api/sales/global/${newYear}`)
               .then(res => res.json())
-              .then(json => setGames(json))
+              .then(json => {
+                setError('');
+                setGames(json);
+              })
               .catch((err) => {
                 setError(err.message);
                 console.error(err);
@@ -78,7 +81,10 @@ function View1() {
               setCategory(newCategory);
               fetch(`/api/trends/region/${year}/country/${'GLOBAL'}/category/${newCategory}`)
                 .then(res => res.json())
-                .then(json => setTrends(json))
+                .then(json => {
+                  setError('');
+                  setTrends(json);
+                })
                 .catch((err) => {
                   setError(err.message);
                   console.error(err);
