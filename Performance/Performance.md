@@ -131,10 +131,16 @@ Lead: Jennifer Huang
 <img height="300" src="./screenshots/font-preconnect-before-2.png"/>
 
 #### After:
+- Check FCP & LCP time
 
 
 ### Change 6: 
 
+#### Before:
+
+
+#### After:
+- Check TTFB
 
 
 ## Conclusion
