@@ -1,7 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import SelectFilter from './SelectFilter';
-import LineChart from './LineChart';
+// import LineChart from './LineChart';
 import './View3.css';
+
+
+// Lazy-load the MapChart component
+const LineChart = LazyLineChart();
+
+function LazyLineChart() {
+  return lazy(() => import('./LineChart'));
+}
 
 /**
  * View 3 — Genre/Platform time series selector
@@ -78,10 +86,12 @@ function View3() {
 
         <h2>Genre &amp; Platform Trends</h2>
         {/* Chart*/}
-        <LineChart
-          rows={rows}
-          label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
-        />
+        <Suspense fallback={<div>Loading line chart…</div>}>
+          <LineChart
+            rows={rows}
+            label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
+          />
+        </Suspense>
       </div>
 
       <div className="view3-right-column">
