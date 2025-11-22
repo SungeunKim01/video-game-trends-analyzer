@@ -132,6 +132,11 @@ function View2() {
           }}
         />
         }
+
+        <p className="description-text view2-description">
+          Search for the countries&apos; most trending searches and
+          its region&apos;s best-selling games
+        </p>
       </div>
 
       <div className="view2-body">
