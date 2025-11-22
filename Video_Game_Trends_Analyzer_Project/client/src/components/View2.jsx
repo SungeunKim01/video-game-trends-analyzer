@@ -86,6 +86,8 @@ function View2() {
             fetch(`/api/sales/region/global/${newYear}`)
               .then(res => res.json())
               .then(json => {
+                setGames([]);
+                setTrends([]);
                 setMapData(json);
               })
               .catch((err) => {
@@ -136,7 +138,10 @@ function View2() {
         {/* Error display */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
+        <div className="map-div">
+          <h3>Click a country on the map</h3>
+          <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
+        </div>
 
         {region && games.length > 0 &&
         <div className="view2-list">

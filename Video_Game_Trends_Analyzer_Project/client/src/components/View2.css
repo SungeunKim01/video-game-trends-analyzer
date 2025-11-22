@@ -59,7 +59,16 @@
 
 /*** MAP CHART ***/
 
-#mapchart {
+.map-div {
   flex: 2;
   margin: 1%;
+  padding: 1%;
+  background: #34265226;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+/* #mapchart {
+  
+} */
