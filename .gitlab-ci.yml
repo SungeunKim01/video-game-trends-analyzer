@@ -116,7 +116,7 @@ build-app-archive:
     # back to repo root for tar paths
     - cd ..
   script:
-    - tar -zcvf "$RELEASE_FILE" server client/dist
+    - tar -zcvf "../$RELEASE_FILE" server client/dist
   artifacts:
     paths:
       - $RELEASE_FILE
