@@ -44,7 +44,6 @@ select {
   border: 2px white solid;
   color: white;
   background-color: #68686836;
-  /* width: 70%; */
 }
 
 select option {
@@ -53,7 +52,6 @@ select option {
   border: none;
   border-radius: 0;
   background-color: rgba(255, 255, 255, 0.694);
-  /* background: none; */
   color: black;
   font-size: 16px;
 }

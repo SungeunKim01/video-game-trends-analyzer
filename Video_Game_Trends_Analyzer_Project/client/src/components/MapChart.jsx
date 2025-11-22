@@ -54,8 +54,6 @@ const MapChart = ({ mapData, onRegionClick }) => {
     polygonSeries.mapPolygons.template.setAll({
       templateField: 'polygonSettings',
       interactive: false,
-      stroke: am5.color(0xffffff),
-      strokeWidth: 2,
       fill: am5.color(0xcccccc),
       fillOpacity: 0.7
     });
@@ -70,8 +68,8 @@ const MapChart = ({ mapData, onRegionClick }) => {
       const clickedRegion = evt.target.dataItem.dataContext.region;
       var dataItem = evt.target.dataItem;
       if (dataItem?.dataContext?.isActive){
-        var zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
-        zoomAnimation.waitForStop();
+        // var zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
+        // zoomAnimation.waitForStop();
       }
       if (clickedRegion) {
         onRegionClick(clickedRegion, evt.target.dataItem.dataContext.id);
@@ -108,7 +106,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
 
   }, [mapData?.countries]);
 
-  return <div id="mapchart" style={{ width: '100%', height: '500px' }} />;
+  return <div id="mapchart" style={{ width: '99%', height: '50vh' }} />;
 };
 
 export default MapChart;

@@ -4,26 +4,62 @@
 
 .view2-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
-
-/* .view2-header > * {
-    margin-top: 0;
-} */
 
 .view2-header h2 {
-  width: 10em;
+  width: 8em;
 }
+
+.view2-header div.select-filter {
+  margin: 0 1em;
+}
+
+/*** TABLES ***/
 
 .view2-body {
  display: flex;
 }
 
 .view2-list {
-    flex-direction: column;
-    flex: 1;
+  flex: 1;
+  background: #37373757;
+  border-radius: 20px;
+  margin: 1%;
 }
 
+.view2-list table {
+  font-size: 16px;
+  text-align: left;
+  width: 100%;
+  margin-top: 8%;
+  border-collapse: collapse;
+}
+
+.view2-list th {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 2px solid #4a4a4a;
+  padding: 0.5em 0.4em;
+  text-align: left;
+  height: 2em;
+}
+
+.view2-list td {
+  padding: 0.5em 0.4em;
+  height: 2em;
+}
+
+.view2-list th:first-child,
+.view2-list td:first-child {
+  width: 4em;
+  text-align: center;
+}
+
+/*** MAP CHART ***/
+
 #mapchart {
-    flex: 2;
+  flex: 2;
+  margin: 1%;
 }

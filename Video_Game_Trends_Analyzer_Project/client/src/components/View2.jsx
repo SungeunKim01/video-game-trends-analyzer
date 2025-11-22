@@ -56,6 +56,7 @@ function View2() {
       fetch(`/api/sales/region/${regionCode}/${prevYear}`)
         .then(res => res.json())
         .then((json) => {
+          setTrends([]);
           setGames(json.topVgData);
         })
         .catch((err) => {
@@ -119,7 +120,9 @@ function View2() {
             setCategory(newCategory);
             fetch(`/api/trends/region/${year}/country/${country}/category/${newCategory}`)
               .then(res => res.json())
-              .then(json => setTrends(json))
+              .then(json => {
+                setTrends(json);
+              })
               .catch((err) => {
                 setError(err.message);
                 console.error(err);
@@ -137,19 +140,43 @@ function View2() {
 
         {region && games.length > 0 &&
         <div className="view2-list">
-          {games.map((game, index) => (
-            <p key={index}>{game.name}</p>
-          ))}
+          <table>
+            <thead>
+              <tr>
+                <th> Rank </th>
+                <th>Game Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {games.map((game, index) => 
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{game.name}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         }
 
         {category && trends.length > 0 &&
         <div className="view2-list">
-          {trends.map((trend, index) => 
-            <p key={index}>
-              {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
-            </p>
-          )}
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Query</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trends.map((trend, index) => 
+                <tr key={index}>
+                  <td>{trend.rank}</td>
+                  <td>{trend.name}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         }
       </div>
