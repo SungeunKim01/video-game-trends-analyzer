@@ -15,6 +15,11 @@
   margin: 0 1em;
 }
 
+.view2-description {
+  margin: 0 2em;
+  width: 20vw;
+}
+
 /*** TABLES ***/
 
 .view2-body {
