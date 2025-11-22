@@ -106,7 +106,7 @@ build-app-archive:
   dependencies:
     - build-client
   #rules:
-  #run when tag is pushed
+  #run when tag is pushed -comment out for now
   #- if: "$CI_COMMIT_TAG"
   before_script:
     - cd Video_Game_Trends_Analyzer_Project
