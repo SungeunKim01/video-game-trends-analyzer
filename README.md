@@ -7,16 +7,17 @@
 
 ## Overview
 
-- This explores the connection between online search interest and video game sales performance.
-- Using two large datasets — one of global video game sales and another of Google search interest trends — we transform and load the data into MongoDB, then serve it through a Node/Express REST API and visualize it with React "(chart, etc)"
-- Our Project theme: ""
-
-## Requirements
+- This web app aims to display data taken from two large datasets — one of global video game sales and another of Google search interest trends — we transform and load the data into MongoDB, then serve it through a Node/Express REST API and visualize it with React through data charts and forms. 
+- Our goal with this project is to explore the connection between pop culture search trends and video game sales performances for a given year from 2001 - 2006 and see if there is a correlation, perhaps related to global events or something that happened in a specific region/country. 
 
 ## Structure
 
 - main: Contains only this README.md
-- staging: Contains Proposal.md, wireframes, TeamPolicy.md
+- staging contains: 
+    - Planning directory (wireframes, proposal)
+    - Project itself, with a client directory for front-end React components and server directory for back-end express routes and mongoDB setup
+    - Performance directory containing evidence of the 6 performance enhancements we made
+    - gitlab-ci.yml file
 
 ## Technologies Used
 
@@ -25,9 +26,33 @@
 **Frontend** - React (Vite build) : Interactive visualizations and filters
 **Version Control/CI** - GitLab (Protected Branch workflow) : Collaboration
 
-## Features
-
 ## Project Setup
+
+First, clone the git repository using SSH/HTTPS
+
+### MongoDB Setup
+
+- Create a MongoDB account if you don't already have one and login
+- Create a new database cluster: https://www.mongodb.com/resources/products/fundamentals/mongodb-cluster-setup 
+- Click connect -> Drivers -> copy the connection string given
+
+In VSCode: 
+- Install the MongoDB for VS Code extension
+- Connect to your cluster using the connection string, replacing it with your own password
+
+In Video_Game_Trends_Analyzer_Project:
+- cd into server and create a .env file in the following format
+
+ATLAS_URI=<your_connection_string>
+DB=Video_Game_Trends_Analyzer_Production
+VG_COLLECTION=game_sales
+TRENDS_COLLECTION=trends
+
+To populate the database run:
+
+```
+node utils/seed.js
+```
 
 To install all the dependencies and build the React app run:
 
@@ -35,38 +60,37 @@ To install all the dependencies and build the React app run:
 npm run build
 ```
 
-## To run the app
+## To run the app in development mode:
 
-### Just the client
-
-```
-cd metro-client
-npm run dev
-```
-
-### Just the server
+In Video_Game_Trends_Analyzer_Project:
 
 ```
-cd server
-node --watch api.mjs
+- npm run start
+- Open a new terminal and cd client && npm run dev
 ```
 
-### Client and Server
+The app will be listening on `http://localhost:5173` 
+
+## To run the app in production mode:
+
+In Video_Game_Trends_Analyzer_Project:
 
 ```
-cd metro-client/
-npm run build
-cd ../server/
-node --watch api.mjs
+- npm run start
 ```
-The app will be listening on `http://localhost:3000`
+
+The app will be listening on `http://localhost:3000` 
+
+## Attributions
+- Video game sales dataset: https://www.kaggle.com/code/upadorprofzs/eda-video-game-sales/notebook
+- Google Trends dataset: https://www.kaggle.com/datasets/dhruvildave/google-trends-dataset
+
+- Libraries used:
+    - Chart.js (for bar chart and line chart)
+        - https://www.chartjs.org/docs/latest/charts/bar.html
+        - https://www.chartjs.org/docs/latest/charts/doughnut.html
+    - amCharts (for world map chart)
+        - https://www.amcharts.com/demos/trumps-reciprocal-tariffs-map/
 
 ## Authors and acknowledgment
-
 - Jennifer Huang, Yan Chi Ng, Sungeun Kim
-
-## License
-
-## Project status
-
-- donig Proposal & Setup
