@@ -82,6 +82,9 @@ Lead: Yan Chi Ng
 
 Link:
 
+[Add server-side caching for sales routes](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blob/PerformanceImprovements/Video_Game_Trends_Analyzer_Project/server/routers/sales.js#L31)
+
+[Add server-side caching for trends routes](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blob/PerformanceImprovements/Video_Game_Trends_Analyzer_Project/server/routers/trends.js#L48)
 
 #### Before I make changes
 
@@ -102,7 +105,9 @@ Link:
 
 Lead: Yan Chi Ng
 
-Link: <!-- gitlab url to specific lines of code -->
+Link:
+
+[Add indexing to common database queries](https://gitlab.com/dawson-cst-cohort-2026/520/section2/teams/TeamL-23-JenSungeunYanChi/520-project-huang-ng-kim/-/blob/PerformanceImprovements/Video_Game_Trends_Analyzer_Project/server/utils/seed.js#L37)
 
 #### Before I make changes
 
