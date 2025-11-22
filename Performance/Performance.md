@@ -72,7 +72,7 @@ WebPageTest flagged 9 of our /api/sales/... and /api/trends/... urls with FAILED
 
 - I tested the Render deployment using chrome devtool. I also checked the Response Headers of the same api request on the deployed site. The response now includes Cache-Control: max-age=300. This shows that middleware is correctly setting the caching on all /api/.. GET responses in production. On a second reload, chrome serves some of these requests from disk or memory cache, confirming that the browser is reusing the json
 
-<img height="300" src="./screenshots/Change2_1.png"/>
+<img height="300" src="./screenshots/Change2_2.png"/>
 
 ---
 
