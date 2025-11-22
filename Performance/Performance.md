@@ -25,10 +25,6 @@ In the initial test for our application, we got a pretty good score on both Page
 
 In particular, we had some issues with render blocking from external CSS files, which we later found out had to do with the use of Google Fonts. We also saw an issue that stated our final HTML size was much larger than the initial delivered HTML, but that was because of us using React. There were also some accessibility changes we could make, such as adding labels to select tags and changing some of the colour contrast.
 
-![Initial Requests](./screenshots/inital%20requests.png)
-
-When looking in our network tab, we saw that after changing the year, it took almost half a second to fetch the data from our api, which was quite slow, and may affect the user's experience. There was also no caching on the server-side, so the data from a previously selected year had to be re-fetched.
-
 ## Summary of Changes
 
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
@@ -68,6 +64,44 @@ Link: <!-- gitlab url to specific lines of code -->
 <img height="300" src="./screenshots/Change2.png"/>
 
 - WebPageTest flagged 9 of our /api/sales/... and /api/trends/... urls with FAILED (no max-age or expires). So adding Cache Control: public, max-age=300 to all API GET responses directly fixes this issue and lets the browser cache our read only JSON data
+
+#### After I make changes
+
+---
+
+### Change 3: Add server-side memory caching
+
+Lead: Yan Chi Ng
+
+Link:
+
+
+#### Before I make changes
+
+<img height="300" src="./screenshots/inital requests.png"/>
+
+- When looking in our network tab, we saw that after changing the year, it took almost half a second to fetch the data from our api, which was quite slow, and may affect the user's experience. There was also no caching on the server-side, so the data from a previously selected year had to be re-fetched.
+
+#### After I make changes
+
+<img height="300" src="./screenshots/cache improvement.png"/>
+<img height="300" src="./screenshots/cache improvement 2.png"/>
+
+- After adding server-side caching in our express routes, after choosing a category that had previously been selected, it fetches it from memory, reducing database hits and also speeding up requests significantly. 
+
+...
+
+### Change 4: Add
+
+Lead: Yan Chi Ng
+
+Link: <!-- gitlab url to specific lines of code -->
+
+#### Before I make changes
+
+<img height="300" src="./screenshots/Change2.png"/>
+
+- 
 
 #### After I make changes
 

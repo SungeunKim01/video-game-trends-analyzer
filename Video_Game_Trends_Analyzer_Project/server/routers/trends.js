@@ -2,6 +2,8 @@ import express from 'express';
 import { db } from '../db/db.js';
 export const router = express.Router();
 
+const cache = new Map();
+
 /**
  * @swagger
  * /trends/region/{year}/country/{country}:
@@ -42,12 +44,22 @@ router.get('/region/:year/country/:country', async (req, res) => {
       return res.status(400).json({ error: 'Year must be a number' });
     }
     const country = String(req.params.country);
+
+    const cacheKey = `categories-${year}-${country}`;
+    //if key is in cache then get it from the cache instead
+    if(cache.has(cacheKey)){
+      return res.json(cache.get(cacheKey));
+    }
+
     // fetch all categories for a country in a given year
     const results = await db.getCategoriesByYearAndCountry(year, country);
 
     if(!results || results.length === 0){
       return res.status(500).json({ error: 'Server error'});
     }
+
+    //if first time fetching then store in cache
+    cache.set(cacheKey, results);
 
     return res.json(results);
   } catch(error){
@@ -111,6 +123,13 @@ router.get('/region/:year/country/:country/category/:category', async (req, res)
     }
     const country = String(req.params.country);
     const category = String(req.params.category);
+
+    const cacheKey = `trends-${year}-${country}-${category}`;
+    //if key is in cache then get it from the cache instead
+    if(cache.has(cacheKey)){
+      return res.json(cache.get(cacheKey));
+    }
+
     // fetch highest trends for a category in a given year
     // returns [{ query_en, region, rank }]
     const results = await db.getTopTrendsByYearAndCategory(year, country, category);
@@ -122,6 +141,8 @@ router.get('/region/:year/country/:country/category/:category', async (req, res)
       country: trend.country_code,
       rank: trend.rank
     }));
+
+    cache.set(cacheKey, data);
 
     return res.json(data);
   } catch(error){

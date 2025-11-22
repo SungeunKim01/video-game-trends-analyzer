@@ -3,6 +3,8 @@ import express from 'express';
 import { db, VALID_REGIONS, VALID_TYPES } from '../db/db.js';
 export const router = express.Router();
 
+const cache = new Map();
+
 /**
  * @swagger
  * /sales/years:
@@ -26,7 +28,16 @@ export const router = express.Router();
 // returns aggregate of years from trends and games tables
 router.get('/years', async (req, res) => {
   try {
+    const cacheKey = 'sales-years';
+
+    if (cache.has(cacheKey)) {
+      return res.json(cache.get(cacheKey));
+    }
+
     const years = await db.getAllYears();
+
+    cache.set(cacheKey, years);
+
     return res.json(years);
   } catch(error){
     console.error(error);
@@ -77,6 +88,13 @@ router.get('/global/:year', async (req, res) => {
     if (Number.isNaN(year)) {
       return res.status(400).json({ error: 'Year must be a number' });
     }
+
+    const cacheKey = `sales-global-${year}`;
+
+    if (cache.has(cacheKey)) {
+      return res.json(cache.get(cacheKey));
+    }
+
     // fetch top 10 games from db.js - findTopGamesByYear
     //filter by Year,
     // sum duplicate titles across platform,
@@ -92,6 +110,8 @@ router.get('/global/:year', async (req, res) => {
       publisher: game.publisher,
       genre: game.genre
     }));
+
+    cache.set(cacheKey, data);
 
     return res.json(data);
 
@@ -164,6 +184,11 @@ router.get('/region/:region/:year', async (req, res) => {
       return res.status(400).json({ error: 'Invalid region OR year' });
     }
 
+    const cacheKey = `sales-region-${regionKey}-${year}`;
+    if (cache.has(cacheKey)) {
+      return res.json(cache.get(cacheKey));
+    }
+
     let topVgData = [];
     let countries = [];
 
@@ -190,7 +215,11 @@ router.get('/region/:region/:year', async (req, res) => {
 
     // response that normalized region code, year in number, country list found in trends,
     // and top5 game names for the region and year
-    return res.json({ region: regionKey, year, countries, topVgData });
+    const resp = { region: regionKey, year, countries, topVgData };
+
+    cache.set(cacheKey, resp);
+
+    return res.json(resp);
 
   } catch (err) {
     // unexpected error becomes server error
@@ -257,6 +286,11 @@ router.get('/:type/:value', async (req, res) => {
       return res.status(400).json({ error: 'E: invalid type - Use "genre" OR "platform"' });
     }
 
+    const cacheKey = `sales-type-${type}-${value}`;
+    if (cache.has(cacheKey)) {
+      return res.json(cache.get(cacheKey));
+    }
+
     const allowedValues = await db.getDistinctByType(type);
     if (!allowedValues.includes(value)) {
       return res.status(400).json({ error: `${type} does not exist: ${value}` });
@@ -276,6 +310,8 @@ router.get('/:type/:value', async (req, res) => {
         percent: Number(percent.toFixed(2))
       };
     });
+
+    cache.set(cacheKey, rows);
 
     return res.json(rows);
   } catch (err) {
@@ -325,7 +361,16 @@ router.get('/:type', async (req, res) => {
     if (!VALID_TYPES.includes(type)) {
       return res.status(400).json({ error: 'E: invalid type - Use "genre" OR "platform"' });
     }
+
+    const cacheKey = `sales-distinct-${type}`;
+    if (cache.has(cacheKey)) {
+      return res.json(cache.get(cacheKey));
+    }
+
     const values = await db.getDistinctByType(type);
+
+    cache.set(cacheKey, values);
+
     return res.json(values);
   } catch {
     return res.status(500).json({ error: 'server error' });
