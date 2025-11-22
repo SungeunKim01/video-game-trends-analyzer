@@ -88,7 +88,7 @@ Link:
 
 #### Before I make changes
 
-<img height="300" src="./screenshots/inital requests.png"/>
+<img height="250" src="./screenshots/inital requests.png"/>
 
 - When looking in our network tab, we saw that after changing the year, it took almost half a second to fetch the data from our api, which was quite slow, and may affect the user's experience. There was also no caching on the server-side, so the data from a previously selected year had to be re-fetched.
 
@@ -101,7 +101,7 @@ Link:
 
 ...
 
-### Change 4: Add
+### Change 4: Add indexes to database collection
 
 Lead: Yan Chi Ng
 
@@ -122,6 +122,20 @@ Link:
 - I was quite surprised to find that indexes made a massive difference in speeding up requests--the years request that before took around 100ms now only took 3-4ms, which is significantly quicker. Pretty much every request across the board became faster, since I added indexes to the most common queries that most db functions use. 
 
 ---
+### Change 5: Preconnect to Google Fonts
+
+Lead: Jennifer Huang
+
+#### Before:
+<img height="300" src="./screenshots/font-preconnect-before.png"/>
+<img height="300" src="./screenshots/font-preconnect-before-2.png"/>
+
+#### After:
+
+
+### Change 6: 
+
+
 
 ## Conclusion
 
