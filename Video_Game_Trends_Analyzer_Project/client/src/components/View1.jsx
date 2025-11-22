@@ -51,10 +51,18 @@ function View1() {
       </div>
 
       <div className="right-column">
-        <p className="description-text">
-          Brief description here! Brief description here! Brief description here!!
+        {/*context for user */}
+        <p style={{ maxWidth: '820px'}}
+          className="description-text">
+          This bar chart shows the global sales of the top 10 most sold games of the selected year, 
+          in millions. Hover over a bar to see details about a game, including the game sales, 
+          the genre, and the publisher.
         </p>
-        <h3>Top 5 Google Searches</h3>
+        <p style={{ maxWidth: '820px'}}
+          className="description-text">
+          The side also shows the top 5 most searched terms on Google Trends for that year.
+          Select a specific search category through the dropdown menu. 
+        </p>a
       
         {year && games.length > 0 &&
         <SelectFilter

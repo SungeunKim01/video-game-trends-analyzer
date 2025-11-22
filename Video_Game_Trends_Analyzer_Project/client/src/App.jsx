@@ -13,12 +13,17 @@ function App() {
 
       <div id="title-div">
         <h1>Video Game Trends Analyzer</h1>
-        <p>Brief description here!!</p>
+        <p>Keep Scrolling down to see our data!</p>
         <p>*Scroll down icon here*</p>
       </div>
       <section id="intro-section">
         <h2>Introduction</h2>
-        <p className="intro-text">Introduction text here explaining our app. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <p className="intro-text">
+          Welcome to the Video Game Trends Analyzer! This web app uses a video game sales dataset to determine the most popular games of a certain year, 
+          as well as a Google Trends dataset that identifies the most searched google terms around the world per year. Using these datasets, we want to see 
+          if there is a correlation between pop culture trends and the most successful video games of each year. We also delve deeper, using different countries
+          to compare what different regions are interested in at a specific point in time, or seeing when certain types of games are most popular. 
+        </p>
       </section>
       <View1 />
       <View2 />
