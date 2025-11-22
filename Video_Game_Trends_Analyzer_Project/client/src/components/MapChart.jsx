@@ -92,7 +92,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
           region: data.region,
           isActive: true,
           polygonSettings: {
-            fill: am5.color(0x6677D0),
+            fill: am5.color(0x6A6A6A),
             tooltipText: `${data.location}\n${data.region}`
           }
         }))

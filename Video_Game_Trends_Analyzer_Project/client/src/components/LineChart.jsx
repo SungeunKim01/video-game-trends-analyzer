@@ -47,7 +47,7 @@ export default function LineChart({ rows, label }) {
           datasets: [{
             label,
             data: points,
-            borderColor: 'skyblue',
+            borderColor: '#997dffff',
             tension: 0.1,
             pointRadius: 3,
             fill: false

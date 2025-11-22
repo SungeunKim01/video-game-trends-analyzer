@@ -163,5 +163,55 @@ select option {
 }
 
 /************ MOBILE VIEWS ************/
-/* @media (max-width: 600px) {
-} */
+@media (max-width: 700px) {
+
+  .main-container,
+  .view-div,
+  .select-filter,
+  #intro-section {
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    width: auto;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  #intro-section {
+    width: 90vw;
+  }
+
+  .view-div {
+    padding: 0;
+    margin-top: 2rem;
+  }
+
+  select {
+    width: 80%;
+    font-size: 1rem;
+  }
+
+
+  .description-text {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  canvas {
+    max-width: 100% !important;
+  }
+}
