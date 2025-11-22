@@ -13,7 +13,7 @@ function App() {
       <div id="title-div">
         <h1>Video Game Trends Analyzer</h1>
         <p>Keep Scrolling down to see our data!</p>
-        <svg id="down-arrow" xmlns="http://www.w3.org/2000/svg" height="46px" viewBox="0 -960 960 960" width="40px" fill="#a39f9f"><path d="M480-344 240-584l47.33-47.33L480-438.67l192.67-192.66L720-584 480-344Z"/></svg>
+        <svg id="down-arrow" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF"><path d="M480-80 200-360l42-42 208 208v-686h60v686l208-208 42 42L480-80Z"/></svg>
       </div>
       <section id="intro-section">
         <h2>INTRODUCTION</h2>

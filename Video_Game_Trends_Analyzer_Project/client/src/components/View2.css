@@ -7,8 +7,12 @@
   align-items: center;
 }
 
+/* .view2-header > * {
+    margin-top: 0;
+} */
+
 .view2-header h2 {
-  flex: 3;
+  width: 10em;
 }
 
 .view2-body {

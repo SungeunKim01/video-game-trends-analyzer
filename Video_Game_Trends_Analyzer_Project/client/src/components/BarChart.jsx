@@ -86,7 +86,7 @@ export default function BarChart({rows}){
   }, [rows]);
 
   return (
-    <div style={{ height: '400px', marginTop: '25px' }}>
+    <div style={{ width: '99%', height: '50vh', marginTop: '25px' }}>
       <canvas id="view1-bar-chart"></canvas>
     </div>
   );
