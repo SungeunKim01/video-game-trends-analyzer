@@ -95,7 +95,7 @@ export default function LineChart({ rows, label }) {
   }, [rows, label]);
 
   return (
-    <div style={{ height: '400px', marginTop: '25px' }}>
+    <div style={{ width: '99%', height: '50vh', marginTop: '25px' }}>
       <canvas id="view3-line-chart"></canvas>
     </div>
   );

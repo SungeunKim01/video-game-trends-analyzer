@@ -26,9 +26,8 @@
   align-items: flex-end;
 }
 
-.view1-header div select, label {
-    width: 100px;
-    text-align: center;
+.view1-header div label{
+  margin-right: 1em;
 }
 
 /*** View 1 Body ***/
@@ -60,14 +59,14 @@
   font-size: 1rem;
   text-align: left;
   width: 100%;
-  margin-top: 10%;
+  margin-top: 8%;
   border-collapse: collapse;
 }
 
 .global-trends-table th {
   font-family: "Rajdhani", sans-serif;
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   /* color: #a077ff; */
   border-bottom: 2px solid #4a4a4a;
   padding: 12px 8px;

@@ -61,7 +61,7 @@ function SelectFilter({ fetchURL, label, onChange, value }) {
   };
 
   return (
-    <div>
+    <div className="select-filter">
       <label>{label}</label>
       <select value={value ?? ''} onChange={handleChange}>
         <option value="">{label}</option>
