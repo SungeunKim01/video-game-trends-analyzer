@@ -8,9 +8,9 @@ width and height of viewport as reported in the console with `window.screen`) --
 
 For measuring the performance of our site, we mostly used WebPageTest's Instant Test on the Render deployment of our site, testing both Site Performance and doing the Lighthouse test. We also looked at the network tab of the inspector to check how long requests took and if things were being cached. The width and height of the viewport is 1920 x 1080.
 
-Yan Chi: I used Google Chrome version 142.0.7444.176 on my Windows desktop.
-Sungeun: I used Google Chrome version 142.0.7444.176 on my Windows10 desktop
-
+Yan Chi: I used Google Chrome version 142.0.7444.176 on my Windows 10 desktop.
+Sungeun: I used Google Chrome version 142.0.7444.176 on my Windows 10 desktop
+Jennifer: Firefox (ver. 145.0.1) & Google Chrome (ver. 142.0.7444.176) on Windows 11 desktop
 ---
 
 ## Baseline Performance
@@ -170,3 +170,9 @@ Link:
 
 <!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main
 things you learned from this experience. -->
+
+Overall, the changes that had the biggest impact on our performance were adding indexes to the database as well as lazy loading the charts that were below the fold, at least from what we tested from localhost. However, they didn't seem to have a big impact on the performance when deployed to Render, which is something we didn't expect. We also expected further performance enhancements from adding cache-control headers and compression, but they didn't really affect the score we got from WebPageTest. 
+
+We learned that optimization is actually not too hard to implement, a lot of these changes were a few lines of code, so there's not really an excuse to not prioritize user experience.
+
+We also learned that, though some of these optimizations might not have changed much in terms of performance individually, when there are multiple the improvements do add up. When we first implemented the map chart, it would take a long time to fetch all of the data needed for the years and the categories, but with each change we made, it ran faster and faster, which was cool to see. 
