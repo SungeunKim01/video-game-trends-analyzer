@@ -99,11 +99,15 @@ Link: <!-- gitlab url to specific lines of code -->
 
 #### Before I make changes
 
-<img height="300" src="./screenshots/Change2.png"/>
+<img height="300" src="./screenshots/index improvements 1.png"/>
 
-- 
+- Before adding indexes to the database collection, it took quite a long time for certain requests, like getting all years, to respond, since two collections had to be queried. Overall a lot of queries that involved not just one field took ~100 ms. 
 
 #### After I make changes
+
+<img height="300" src="./screenshots/index improvements 2.png"/>
+
+- I was quite surprised to find that indexes made a massive difference in speeding up requests--the years request that before took around 100ms now only took 3-4ms, which is significantly quicker. Pretty much every request across the board became faster, since I added indexes to the most common queries that most db functions use. 
 
 ---
 
