@@ -3,6 +3,10 @@ import SelectFilter from './SelectFilter';
 // import LineChart from './LineChart';
 import './View3.css';
 
+/** References for Code Splitting techniques:
+ * React.lazy: https://react.dev/reference/react/lazy
+ * Suspense: https://react.dev/reference/react/Suspense
+ */
 
 // Lazy-load the MapChart component
 const LineChart = LazyLineChart();
