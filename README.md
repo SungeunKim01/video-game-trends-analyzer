@@ -14,27 +14,31 @@
 
 ## My Contributions
 
-### View3 – Line Chart (Primary Responsibility)
-
-- Designed and implemented the line chart view to visualize trends over time
-- Managed dynamic state changes when switching between filters (genre vs platform)
-- Implemented percentage-based calculations and ensured values were clearly explained to users
-- Added custom tooltips showing:
+### Frontend Visualization & UX (Primary Focus)
+- Designed and implemented the time-based **line chart view (View 3)** to visualize trends across years
+- Handled dynamic state changes when switching between **genre-based** and **platform-based** filters
+- Implemented percentage-based calculations and improved how values were explained to users
+- Built custom tooltips showing:
   - number of matching games
   - total games for the selected year
-  - clear X out of Y raw values
-- Improved UX where percentage values were initially unclear
+  - clear "X out of Y" raw value context
+- Refined UX where percentage values were initially confusing or unclear
 
-### Performance and Loading Improvements
-
-- Implemented lazy loading for heavy chart components using React.lazy and Suspense
+### Performance & Loading Improvements
+- Implemented **lazy loading** for heavy chart components using React.lazy and Suspense
 - Added loading fallbacks to prevent crashes during asynchronous rendering
+- Enabled **gzip compression** and applied basic caching strategies to improve load times
+- Used **Lighthouse** and **WebPageTest** to measure and verify performance improvements
 
-### Frontend Architecture and UX
+### Backend, Deployment & Tooling
+- Contributed to backend organization and REST API structure using **Node.js and Express**
+- Added **Swagger API documentation** to document endpoints and support easier testing
+- Set up **CI/CD pipelines** using GitLab to automate builds and catch errors early
+- Deployed the application to **AWS Lightsail** and managed the Node server using **PM2**
 
-- Built reusable React components focused on logic and data flow
-- Ensured predictable re-renders based on user input and API responses
-- Kept logic separate from styling responsibilities
+### Collaboration & Code Quality
+- Worked with protected branches and merge requests in a team based Git workflow
+- Collaborated with teammates to integrate frontend, backend, and database features
 
 ---
 
