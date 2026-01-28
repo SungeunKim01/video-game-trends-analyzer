@@ -39,11 +39,6 @@ app.use((req, res, next) => {
   next();
 });
 
-//Routes are here either directly or using a router
-
-//parse json for all routes
-app.use(express.json());
-
 //static files
 app.use(express.static('../client/dist'));
 

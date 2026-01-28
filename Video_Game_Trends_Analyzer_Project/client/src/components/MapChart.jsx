@@ -54,8 +54,6 @@ const MapChart = ({ mapData, onRegionClick }) => {
     polygonSeries.mapPolygons.template.setAll({
       templateField: 'polygonSettings',
       interactive: false,
-      stroke: am5.color(0xffffff),
-      strokeWidth: 2,
       fill: am5.color(0xcccccc),
       fillOpacity: 0.7
     });
@@ -70,20 +68,20 @@ const MapChart = ({ mapData, onRegionClick }) => {
       const clickedRegion = evt.target.dataItem.dataContext.region;
       var dataItem = evt.target.dataItem;
       if (dataItem?.dataContext?.isActive){
-        var zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
-        zoomAnimation.waitForStop();
+        // var zoomAnimation = polygonSeries.zoomToDataItem(dataItem);
+        // zoomAnimation.waitForStop();
       }
       if (clickedRegion) {
         onRegionClick(clickedRegion, evt.target.dataItem.dataContext.id);
       }
     });
 
-    const regionColors = {
-      'Europe': am5.color(0x007bff),
-      'Japan': am5.color(0xffb300),
-      'North America': am5.color(0x28a745),
-      'Other': am5.color(0xdc3545)
-    };
+    // const regionColors = {
+    //   'Europe': am5.color(0x6677D0),
+    //   'Japan': am5.color(0xf72585),
+    //   'North America': am5.color(0xb494fe),
+    //   'Other': am5.color(0x89B7EA)
+    // };
 
     // Set Polygon map data if it exists
     if (mapData?.countries) {
@@ -94,7 +92,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
           region: data.region,
           isActive: true,
           polygonSettings: {
-            fill: regionColors[data.region] || am5.color(0xffffff),
+            fill: am5.color(0x6A6A6A),
             tooltipText: `${data.location}\n${data.region}`
           }
         }))
@@ -108,7 +106,7 @@ const MapChart = ({ mapData, onRegionClick }) => {
 
   }, [mapData?.countries]);
 
-  return <div id="mapchart" style={{ width: '100%', height: '500px' }} />;
+  return <div id="mapchart" style={{ width: '100%', height: '50vh' }} />;
 };
 
 export default MapChart;

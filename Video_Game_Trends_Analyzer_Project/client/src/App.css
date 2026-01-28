@@ -1,8 +1,4 @@
 
-/* Adds red border to every element */
-* {
-  /* border: red solid 1px; */
-}
 
 #root {
   max-width: 1280px;
@@ -13,18 +9,53 @@
 }
 
 h1 {
-  font-size: 80px;
+  font-size: 7rem;
+  font-weight: 300;
   width: 9em;
-  margin: 20% 0;
+  margin: 0 0 3%;
   line-height: 1em;
 }
 
 h2 {
+  font-size: 4rem;
+  font-weight: 300;
   text-align: left;
 }
 
 h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
   text-align: left;
+  margin-top: 0;
+}
+
+select {
+  font-family: "Elms Sans", sans-serif; 
+  font-weight: 600;
+  font-size: medium;
+  text-align: center;
+  padding: 0.4em;
+  margin: 0.4em 0;
+  border-radius: 20px;
+  border: 2px white solid;
+  color: white;
+  background-color: #68686836;
+}
+
+select option {
+  font-family: "Elms Sans", sans-serif;
+  padding: 8px;
+  border: none;
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.694);
+  color: black;
+  font-size: 16px;
+}
+
+.select-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main-container {
@@ -47,55 +78,52 @@ h3 {
   background:
 
     /* Purple, green, blue */
-    linear-gradient(150deg, rgb(123, 11, 106), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(170deg, rgb(105, 14, 157), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(185deg, rgb(14, 157, 138), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(210deg, rgba(61, 32, 165, 0.863), rgba(0, 102, 97, 0) 15%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(150deg, rgb(111, 1, 184), #00000000 18%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(172deg, rgba(232, 35, 179, 0.884), #00000000 18%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(188deg, rgba(18, 194, 170, 0.852), #00000000 14%) 0 0 / 200% 200% no-repeat,
+    linear-gradient(200deg, rgba(61, 32, 165, 0.913), #00000000 18%) 0 0 / 200% 200% no-repeat,
+    /* linear-gradient(0deg, #000000, #000000 100%) no-repeat; */
+    linear-gradient(0deg, #141414, #141414 100%) no-repeat;
 
-    /* linear-gradient(150deg, rgb(123, 11, 48), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(170deg, rgb(157, 81, 14), rgba(248, 199, 255, 0) 15%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(185deg, rgba(157, 81, 14), rgba(0, 102, 97, 0) 10%) 0 0 / 200% 200% no-repeat,
-    linear-gradient(210deg, rgba(165, 32, 112, 0.863), rgba(0, 102, 97, 0) 15%) 0 0 / 200% 200% no-repeat, */
-
-    /* radial-gradient(circle at 20% 5%, rgba(123, 11, 48, 0.6), transparent 18%) 0 0 / 200% 200% no-repeat,
-    radial-gradient(circle at 50% 3%, rgba(157, 81, 14, 0.5), transparent 15%) 0 0 / 200% 200% no-repeat,
-    radial-gradient(circle at 70% 7%, rgba(165, 112, 32, 0.4), transparent 22%) 0 0 / 200% 200% no-repeat,
-    radial-gradient(circle at 85% 10%, rgba(165, 32, 76, 0.7), transparent 20%) 0 0 / 200% 200% no-repeat, */
-    
-    linear-gradient(0deg, #000, #000 100%) no-repeat;
-
-  animation: gradientShift 20s ease-in-out infinite;
-  /* animation: orbShiftTop 80s ease-in-out infinite; */
+  animation: gradientShift 15s ease-in-out infinite;
 }
 
 @keyframes gradientShift {
-  0% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-  50% {
-    background-position: 100% 0%, 100% 0%, 100% 0%, 100% 0%, 0 0;
-  }
-  100% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-}
-
-@keyframes orbShiftTop {
-  0% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-  50% {
-    background-position: 80% 5%, 60% 15%, 30% 10%, 70% 20%, 0 0;
-  }
-  100% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
+  0% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0; }
+  50% { background-position: 100% 0%, 100% 0%, 100% 0%, 100% 0%, 0 0; }
+  100% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0; }
 }
 
 
 /************ TITLE SCREEN ************/
+
 #title-div {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#title-div > p {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+#down-arrow {
+  height: 72px;
+  width: 42px;
+  border: 2px white solid;
+  border-radius: 30px;
+  background-color: #3e3e3e5c;
+  margin-top: 5%;
+  animation: arrow-jump 3s ease-in-out infinite;
+}
+
+@keyframes arrow-jump {
+  0% { transform: translateY(0);}
+  50% { transform: translateY(12px); }
+  100% { transform: translateY(0); }
 }
 
 /************ INTRO TEXT ************/
@@ -109,45 +137,78 @@ h3 {
   font-size: large;
 }
 
+#intro-section > h2 {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  color: #a077ff;
+}
+
 /************ CHART VIEWS ************/
+
 .view-div {
   display: flex;
-  height: 100vh;
+  height: 120vh;
+  width: 84vw;
   padding: 0 5%;
 }
 
-.view-div div {
-  /* width: 100%; */
-}
-
-.view-title-header {
-  display: flex;
-  align-items: center;
-}
-
-.view-title-header h2 {
-  flex: 3;
-}
-
-.left-column {
-  flex: 2;
-  padding-right: 5%;
-}
-
-.right-column {
-  flex: 1;
-}
-
 .description-text {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 17px;
   text-align: left;
-  margin: 1.5em 0;
 }
-
-canvas {
-  width: 100%;
-}
-
 
 /************ MOBILE VIEWS ************/
-/* @media (max-width: 600px) {
-} */
+@media (max-width: 700px) {
+
+  .main-container,
+  .view-div,
+  .select-filter,
+  #intro-section {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    width: auto;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  #intro-section {
+    width: 90vw;
+  }
+
+  .view-div {
+    padding: 0;
+    margin-top: 2rem;
+  }
+
+  select {
+    width: 80%;
+    font-size: 1rem;
+  }
+
+
+  .description-text {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  canvas {
+    max-width: 100% !important;
+  }
+}

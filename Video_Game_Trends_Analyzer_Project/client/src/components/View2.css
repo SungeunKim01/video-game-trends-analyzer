@@ -1,17 +1,84 @@
-.view-body {
+.view2-container {
+  flex-direction: column;
+}
+
+.view2-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.view2-header h2 {
+  width: 8em;
+}
+
+.view2-header div.select-filter {
+  margin: 0 1em;
+}
+
+.view2-description {
+  margin: 0 2em;
+  width: 20vw;
+}
+
+/*** TABLES ***/
+
+.view2-body {
  display: flex;
 }
 
 .view2-list {
-    flex-direction: column;
-    flex: 1;
+  flex: 1;
+  background: #37373757;
+  border-radius: 20px;
+  margin: 1%;
 }
 
-#view-2 {
-    flex-direction: column;
-    width: 90%;
+.view2-list table {
+  font-size: 16px;
+  text-align: left;
+  width: 100%;
+  margin-top: 8%;
+  border-collapse: collapse;
 }
 
-#mapchart {
-    flex: 2;
+.view2-list th {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 2px solid #4a4a4a;
+  padding: 0.5em 0.4em;
+  text-align: left;
+  height: 2em;
+}
+
+.view2-list td {
+  padding: 0.5em 0.4em;
+  height: 2em;
+}
+
+.view2-list th:first-child,
+.view2-list td:first-child {
+  width: 4em;
+  text-align: center;
+}
+
+/*** MAP CHART ***/
+
+.map-div {
+  flex: 2;
+  margin-right: 1%;
+  padding: 1%;
+  background: #34265226;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 700px) {
+  .view2-body {
+    display: flex;
+    flex-direction: column;
+  }
 }

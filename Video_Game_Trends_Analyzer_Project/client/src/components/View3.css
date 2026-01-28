@@ -1,0 +1,38 @@
+h2, .view3-description {
+  margin-top: 0;
+}
+
+.view3-container canvas {
+  background: #37373757;
+  padding: 3%;
+  border-radius: 20px;
+}
+
+.view3-left-column {
+  flex: 2;
+  padding-right: 5%;
+}
+
+.view3-left-column h2 {
+  font-size: 3.5rem;
+}
+
+.view3-right-column {
+  flex: 1;
+}
+
+.view3-right-column > div {
+  display: flex;
+  flex-direction: column;
+  background: #37373757;
+  border-radius: 20px;
+  padding: 8%;
+  margin-top: 10%;
+  gap: 20px;
+}
+
+@media (max-width: 700px) {
+  .view3-description {
+    margin: 5% 0;
+  }
+}

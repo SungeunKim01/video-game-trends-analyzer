@@ -5,8 +5,7 @@
   "scripts": {
     "start": "cd server && node bin/www",
     "build": "cd client && npm install && npm run build && cd ../server && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "bundlesize": "npx bundlesize2 --config ./bundlesize.json"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Sungeun Kim",
@@ -15,8 +14,5 @@
     "Yan Chi Ng"
   ],
   "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "bundlesize2": "^0.0.35"
-  }
+  "description": ""
 }

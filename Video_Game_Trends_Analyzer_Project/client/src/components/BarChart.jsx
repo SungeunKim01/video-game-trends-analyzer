@@ -47,7 +47,7 @@ export default function BarChart({rows}){
             label: 'Sales',
             //y-axis values uses points
             data: points, 
-            backgroundColor: 'skyblue',
+            backgroundColor: '#997dffff',
             borderWidth: 1
           }]
         },
@@ -86,7 +86,7 @@ export default function BarChart({rows}){
   }, [rows]);
 
   return (
-    <div style={{ height: '400px', marginTop: '25px' }}>
+    <div style={{ width: '99%', height: '50vh', marginTop: '25px' }}>
       <canvas id="view1-bar-chart"></canvas>
     </div>
   );

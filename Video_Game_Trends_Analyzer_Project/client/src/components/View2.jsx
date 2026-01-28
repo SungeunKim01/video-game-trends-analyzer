@@ -1,7 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy } from 'react';
 import SelectFilter from './SelectFilter';
-import MapChart from './MapChart';
 import './View2.css';
+
+
+/** References for Code Splitting techniques:
+ * React.lazy: https://react.dev/reference/react/lazy
+ * Suspense: https://react.dev/reference/react/Suspense
+ */
+
+// Lazy-load the MapChart component
+const MapChart = LazyMapChart();
+
+function LazyMapChart() {
+  return lazy(() => import('./MapChart'));
+}
 
 function View2() {
 
@@ -56,6 +68,7 @@ function View2() {
       fetch(`/api/sales/region/${regionCode}/${prevYear}`)
         .then(res => res.json())
         .then((json) => {
+          setTrends([]);
           setGames(json.topVgData);
         })
         .catch((err) => {
@@ -67,8 +80,8 @@ function View2() {
   }
 
   return (
-    <div className="view-div" id="view-2">
-      <div className="view-title-header">
+    <div className="view-div view2-container">
+      <div className="view2-header">
         <h2>Regional Trends</h2>
 
         <SelectFilter
@@ -85,6 +98,8 @@ function View2() {
             fetch(`/api/sales/region/global/${newYear}`)
               .then(res => res.json())
               .then(json => {
+                setGames([]);
+                setTrends([]);
                 setMapData(json);
               })
               .catch((err) => {
@@ -119,7 +134,9 @@ function View2() {
             setCategory(newCategory);
             fetch(`/api/trends/region/${year}/country/${country}/category/${newCategory}`)
               .then(res => res.json())
-              .then(json => setTrends(json))
+              .then(json => {
+                setTrends(json);
+              })
               .catch((err) => {
                 setError(err.message);
                 console.error(err);
@@ -127,29 +144,65 @@ function View2() {
           }}
         />
         }
+
+        <p className="description-text view2-description">
+          Search for the countries&apos; most trending searches and
+          its region&apos;s best-selling games
+        </p>
       </div>
 
-      <div className="view-body">
+      <div className="view2-body">
         {/* Error display */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        <MapChart mapData={mapData} onRegionClick={handleRegionClick} />
+        <div className="map-div">
+          <h3>Click a country on the map</h3>
+          
+          {/* Have a 'Loading' screen while MapChart is rendering */}
+          <Suspense fallback={<div>Loading map…</div>}>
+            {mapData && <MapChart mapData={mapData} onRegionClick={handleRegionClick} />}
+          </Suspense>
+        </div>
 
         {region && games.length > 0 &&
         <div className="view2-list">
-          {games.map((game, index) => (
-            <p key={index}>{game.name}</p>
-          ))}
+          <table>
+            <thead>
+              <tr>
+                <th> Rank </th>
+                <th>Game Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {games.map((game, index) => 
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{game.name}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         }
 
         {category && trends.length > 0 &&
         <div className="view2-list">
-          {trends.map((trend, index) => 
-            <p key={index}>
-              {trend.name} - Country: {trend.country} - Rank: {trend.rank} 
-            </p>
-          )}
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Query</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trends.map((trend, index) => 
+                <tr key={index}>
+                  <td>{trend.rank}</td>
+                  <td>{trend.name}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         }
       </div>

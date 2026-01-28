@@ -1,6 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import SelectFilter from './SelectFilter';
-import LineChart from './LineChart';
+// import LineChart from './LineChart';
+import './View3.css';
+
+/** References for Code Splitting techniques:
+ * React.lazy: https://react.dev/reference/react/lazy
+ * Suspense: https://react.dev/reference/react/Suspense
+ */
+
+// Lazy-load the MapChart component
+const LineChart = LazyLineChart();
+
+function LazyLineChart() {
+  return lazy(() => import('./LineChart'));
+}
 
 /**
  * View 3 — Genre/Platform time series selector
@@ -70,48 +83,52 @@ function View3() {
   }, [type, value]);
 
   return (
-    <div className="view-div">
-      <div className="left-column">
-        <h2>Genre &amp; Platform Trend Chart</h2>
+    <div className="view-div view3-container">
+      <div className="view3-left-column">
+        {/* error */}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        <h2>Genre &amp; Platform Trends</h2>
         {/* Chart*/}
-        <LineChart
-          rows={rows}
-          label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
-        />
+        <Suspense fallback={<div>Loading line chart…</div>}>
+          <LineChart
+            rows={rows}
+            label={`${type === 'genre' ? 'Genre' : 'Platform'}: ${value}`}
+          />
+        </Suspense>
       </div>
 
-      <div className="right-column">
+      <div className="view3-right-column">
         {/*context for user */}
         <p style={{ maxWidth: '820px'}}
-          className="description-text">
+          className="description-text view3-description">
           This chart shows, for each year, what percentage of all released games
           belong to the selected {type}.
         </p>
         <p style={{ maxWidth: '820px'}}
-          className="description-text">
+          className="description-text view3-description">
           Hover over a point to see the exact percentage and how many games that is out of the total
           number of games released that year.
         </p>
 
-        <label style={{ marginRight: '10px' }}>
-          Filter by:&nbsp;
-          <select value={type} onChange={handleTypeChange}>
-            <option value="genre">Genre</option>
-            <option value="platform">Platform</option>
-          </select>
-        </label>
+        <div>
+          <label className="select-filter">
+            Filter by:&nbsp;
+            <select value={type} onChange={handleTypeChange}>
+              <option value="genre">Genre</option>
+              <option value="platform">Platform</option>
+            </select>
+          </label>
 
-        {/*reset dropdown when type changes*/}
-        <SelectFilter
-          key={type}
-          fetchURL={`/api/sales/${type}`}
-          label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
-          value={value}
-          onChange={setValue}
-        />
-
-        {/* erro */}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+          {/*reset dropdown when type changes*/}
+          <SelectFilter
+            key={type}
+            fetchURL={`/api/sales/${type}`}
+            label={type === 'genre' ? 'Choose a Genre: ' : 'Choose a Platform: '}
+            value={value}
+            onChange={setValue}
+          />
+        </div>
       </div>
     </div>
   );

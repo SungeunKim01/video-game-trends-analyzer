@@ -1,4 +1,96 @@
-.global-trends-list{
-    text-align: left;
+.view1-container {
+    flex-direction: column;
 }
 
+.view1-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2.5em;
+}
+
+.view1-header > * {
+    margin-top: 0;
+}
+
+.view1-description {
+    width: 28vw;
+}
+
+/*** Year Dropdown ***/
+
+.view1-header div{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10%;
+  align-items: flex-end;
+}
+
+.view1-header div label{
+  margin-right: 1em;
+}
+
+/*** View 1 Body ***/
+
+.view1-body {
+  display: flex;
+}
+
+.view1-left-column, .view1-right-column {
+  background: #37373757;
+  border-radius: 20px;
+  padding: 2em;
+}
+
+.view1-left-column {
+  flex: 2;
+  margin-right: 5%;
+}
+
+.view1-right-column {
+  width: 24vw;
+}
+
+.view1-right-column label{
+  display: none;
+}
+
+.global-trends-table{
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
+  margin-top: 8%;
+  border-collapse: collapse;
+}
+
+.global-trends-table th {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  /* color: #a077ff; */
+  border-bottom: 2px solid #4a4a4a;
+  padding: 0.5em 0.4em;
+  text-align: left;
+}
+
+.global-trends-table td {
+  padding: 12px 8px;
+}
+
+.global-trends-table th:first-child,
+.global-trends-table td:first-child {
+  width: 4em;
+  text-align: center;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 700px) {
+  .view1-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .view1-left-column, .view1-right-column {
+    width: 90%;
+  }
+}
