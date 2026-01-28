@@ -10,6 +10,34 @@
 - This web app aims to display data taken from two large datasets — one of global video game sales and another of Google search interest trends — we transform and load the data into MongoDB, then serve it through a Node/Express REST API and visualize it with React through data charts and forms. 
 - Our goal with this project is to explore the connection between pop culture search trends and video game sales performances for a given year from 2001 - 2006 and see if there is a correlation, perhaps related to global events or something that happened in a specific region/country. 
 
+---
+
+## My Contributions
+
+### View3 – Line Chart (Primary Responsibility)
+
+- Designed and implemented the line chart view to visualize trends over time
+- Managed dynamic state changes when switching between filters (genre vs platform)
+- Implemented percentage-based calculations and ensured values were clearly explained to users
+- Added custom tooltips showing:
+  - number of matching games
+  - total games for the selected year
+  - clear X out of Y raw values
+- Improved UX where percentage values were initially unclear
+
+### Performance and Loading Improvements
+
+- Implemented lazy loading for heavy chart components using React.lazy and Suspense
+- Added loading fallbacks to prevent crashes during asynchronous rendering
+
+### Frontend Architecture and UX
+
+- Built reusable React components focused on logic and data flow
+- Ensured predictable re-renders based on user input and API responses
+- Kept logic separate from styling responsibilities
+
+---
+
 ## Introduction UI
 ![UI screenshot 1](./screenshots/ui%20screenshot%201.png)
 ## View 1 (Bar Chart) UI
